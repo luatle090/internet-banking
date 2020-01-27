@@ -1,11 +1,11 @@
 const express = require('express');
 const createError = require('http-errors');
-const categoryModel = require('../models/category.model');
+const taikhoannganhangModel = require('../models/taikhoannganhang.model');
 
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
-  const rows = await categoryModel.all();
+  const rows = await taikhoannganhangModel.all();
   res.json(rows);
 })
 
@@ -16,7 +16,7 @@ router.get('/:id', async (req, res) => {
 
   const id = req.params.id || -1;
   try {
-    const rows = await categoryModel.loadById(id);
+    const rows = await taikhoannganhangModel.loadById(id);
     if (rows.length === 0) {
       res.status(204).end();
     } else {
@@ -30,7 +30,7 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  const results = await categoryModel.add(req.body);
+  const results = await taikhoannganhangModel.add(req.body);
   const ret = {
     CatID: results.insertId,
     ...req.body
@@ -43,7 +43,7 @@ router.delete('/:id', async (req, res) => {
     throw createError(400, 'Invalid id.');
   }
 
-  const rs = await categoryModel.del(req.params.id);
+  const rs = await taikhoannganhangModel.del(req.params.id);
   res.json(rs);
 })
 
@@ -52,7 +52,7 @@ router.patch('/:id', async (req, res) => {
     throw createError(400, 'Invalid id.');
   }
 
-  const rs = await categoryModel.patch(req.params.id, req.body);
+  const rs = await taikhoannganhangModel.patch(req.params.id, req.body);
   res.json(rs);
 })
 

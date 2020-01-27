@@ -13,6 +13,7 @@ router.post('/', async (req, res) => {
   // 	user: 'test',
   // 	pwd: 'test'
   // }
+  console.log(req.body)
 
   const ret = await authModel.login(req.body);
   if (ret === null) {

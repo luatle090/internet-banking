@@ -11,10 +11,10 @@ module.exports = {
     //   f_DOB: "2000-09-01",
     //   f_Permission: 0
     // }
-    const hash = bcrypt.hashSync(entity.f_Password, 8);
-    entity.f_Password = hash;
-    return db.add(entity, 'users')
+    const hash = bcrypt.hashSync(entity.password, 8);
+    entity.password = hash;
+    return db.add(entity, 'taikhoan')
   },
 
-  singleByUserName: userName => db.load(`select * from users where f_UserName = '${userName}'`),
+  singleByUserName: userName => db.load(`select * from taikhoan where username = '${userName}'`),
 };
