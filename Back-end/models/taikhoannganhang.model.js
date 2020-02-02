@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const db = require('../utils/db');
 
 module.exports = {
@@ -11,7 +12,11 @@ module.exports = {
     return db.load(sql);
   },
 
-  add: entity => db.add(entity, 'taikhoannganhang'),
+  add: entity => {
+    const hash = bcrypt.hashSync(entity.password, 8);
+    entity.password = hash;
+    return db.add(entity, 'taikhoannganhang')
+  },
   del: id => db.del({ id: id }, 'taikhoannganhang'),
   patch: (id, entity) => {
     delete entity.id;

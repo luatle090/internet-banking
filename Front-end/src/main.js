@@ -15,8 +15,13 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from "vue";
+import "./plugins/bootstrap-vue";
+import VueSweetalert2 from 'vue-sweetalert2'
 import VueRouter from "vue-router";
 import App from "./App";
+
+
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 // router setup
 import routes from "./routes/routes";
@@ -44,6 +49,7 @@ Vue.use(MaterialDashboard);
 Vue.use(GlobalComponents);
 Vue.use(GlobalDirectives);
 Vue.use(Notifications);
+Vue.use(VueSweetalert2);
 
 /* eslint-disable no-new */
 new Vue({

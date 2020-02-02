@@ -4,8 +4,8 @@ const userModel = require('./user.model');
 module.exports = {
   login: async entity => {
     // entity = {
-    //   user: 'test',
-    //   pwd: 'test'
+    //   username: 'test',
+    //   password: 'test'
     // }
 
     const rows = await userModel.singleByUserName(entity.username);

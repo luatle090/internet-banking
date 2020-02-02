@@ -57,6 +57,16 @@ const routes = [
         path: "upgrade",
         name: "Upgrade to PRO",
         component: UpgradeToPRO
+      },
+      {
+        path: "taikhoannganhang",
+        name: "taikhoanhanghang",
+        component: () => import("./../pages/customer/taikhoannganhang")
+      },
+      {
+        path: "danhsachkhachhang",
+        name: "danhsachkhachhang",
+        component: () => import("./../pages/employee/dskhachhang")
       }
     ]
   }

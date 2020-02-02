@@ -23,7 +23,7 @@ router.post('/', async (req, res) => {
   }
 
   const payload = {
-    userId: ret.f_ID
+    userId: ret.idKhachHang
   }
   const token = jwt.sign(payload, 'shhhhh', {
     expiresIn: 10 * 60 * 1000 // 10 mins

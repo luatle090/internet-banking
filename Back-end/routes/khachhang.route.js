@@ -9,6 +9,15 @@ router.get('/', async (req, res, next) => {
   res.json(rows);
 })
 
+router.get('/getlist/:page', async (req, res, next) => {
+  const curPage = req.params.page || 1;
+  const Email = req.query.Email || "";
+  const Phone = req.query.Phone || "";
+  console.log(Phone)
+  const rows = await khachhangModel.getlist(Email,Phone,curPage);
+  res.json(rows);
+})
+
 router.get('/:id', async (req, res) => {
   if (isNaN(req.params.id)) {
     throw createError(400, 'Invalid id.');
@@ -32,7 +41,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   const results = await khachhangModel.add(req.body);
   const ret = {
-    CatID: results.insertId,
+    id: results.insertId,
     ...req.body
   }
   res.status(201).json(ret);

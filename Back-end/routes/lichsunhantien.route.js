@@ -32,7 +32,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   const results = await lichsunhantienModel.add(req.body);
   const ret = {
-    CatID: results.insertId,
+    id: results.insertId,
     ...req.body
   }
   res.status(201).json(ret);

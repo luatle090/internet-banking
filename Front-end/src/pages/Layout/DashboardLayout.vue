@@ -12,9 +12,13 @@
         <md-icon>person</md-icon>
         <p>User Profile</p>
       </sidebar-link>
-      <sidebar-link to="/table">
+      <sidebar-link to="/taikhoannganhang">
         <md-icon>content_paste</md-icon>
-        <p>Table list</p>
+        <p>tai khoan ngan hang</p>
+      </sidebar-link>
+      <sidebar-link to="/danhsachkhachhang">
+        <md-icon>content_paste</md-icon>
+        <p>danh sach khach hang</p>
       </sidebar-link>
       <sidebar-link to="/typography">
         <md-icon>library_books</md-icon>
@@ -31,10 +35,6 @@
       <sidebar-link to="/notifications">
         <md-icon>notifications</md-icon>
         <p>Notifications</p>
-      </sidebar-link>
-      <sidebar-link to="/upgrade" class="active-pro">
-        <md-icon>unarchive</md-icon>
-        <p>Upgrade to PRO</p>
       </sidebar-link>
     </side-bar>
 
