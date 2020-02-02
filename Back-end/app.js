@@ -2,11 +2,13 @@ const express = require('express');
 const morgan = require('morgan');
 const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
 require('express-async-errors');
 
 const app = express();
 
 app.use(morgan('dev'));
+app.use(cors);
 app.use(express.json());
 
 app.get('/', (req, res) => {
