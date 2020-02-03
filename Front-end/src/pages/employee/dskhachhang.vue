@@ -265,7 +265,6 @@ export default {
       this.CusInfo = {...this.CusInfo, tenDangKy, tenGoiNho, username,soTK,idTK };
     },
     Submit(){
-      console.log(this.isEdit)
       if(this.isEdit)
         this.EditSubmit();
       else
@@ -316,7 +315,8 @@ export default {
         }
         else{
           this.showDialog = false;
-          this.dskhachhang.push(this.CusInfo);
+          console.log(this.CusInfo)
+          this.dskhachhang.push({...this.CusInfo});
           this.$swal({
             icon: 'success',
             text: "thêm thành công"
@@ -328,6 +328,7 @@ export default {
       });
     },
     EditSubmit(){
+      console.log(this.CusInfo)
       const khachHang = {
         hoTen: this.CusInfo.hoTen,
         email: this.CusInfo.email,
@@ -344,7 +345,7 @@ export default {
       });
       let request = [submitKH];
       if(this.CusInfo.idTK){
-        const method = this.CusInfo.idTK ? "patch" : "post"
+        const method = this.CusInfo.idTK != -1 ? "patch" : "post"
         const tkNganHang = {
           idKhachHang: this.CusInfo.id,
           tenDangKy: this.CusInfo.tenDangKy,
@@ -368,7 +369,6 @@ export default {
         const resKH = responses[0];
         if(responses.length>1 && this.CusInfo.idTK == -1){
           const resTKKH = responses[1];
-          console.log(resTKKH)
           this.CusInfo.idTK = resTKKH.data.id;
           this.CusInfo.soTK = resTKKH.data.soTK;
           this.dskhachhang.forEach(element => {
