@@ -24,13 +24,29 @@
             >
               <label>Search...</label>
             </md-autocomplete>
-          </div> -->
+          </div>-->
           <md-list>
             <md-list-item href="#/">
               <i class="material-icons">dashboard</i>
               <p class="hidden-lg hidden-md">Dashboard</p>
             </md-list-item>
-
+            <template v-if="!isLogin">
+              <md-list-item href="#/login">
+                <p>login</p>
+                <!-- <i class="material-icons">open_in_browser</i> -->
+                <!-- <p class="hidden-lg hidden-md">login</p> -->
+              </md-list-item>
+            </template>
+            <template v-else>
+              <md-list-item href="#/user">
+                <i class="material-icons">person</i>
+                <!-- <p class="hidden-lg hidden-md">Profile</p> -->
+              </md-list-item>
+              <md-list-item href="#/logout">
+                <i class="material-icons">logout</i>
+                <!-- <p class="hidden-lg hidden-md">Profile</p> -->
+              </md-list-item>
+            </template>
             <li class="md-list-item">
               <a
                 href="#/notifications"
@@ -48,21 +64,26 @@
                       <p class="hidden-lg hidden-md">Notifications</p>
                     </md-button>
                     <ul class="dropdown-menu dropdown-menu-right">
-                      <li><a href="#">Mike John responded to your email</a></li>
-                      <li><a href="#">You have 5 new tasks</a></li>
-                      <li><a href="#">You're now friend with Andrew</a></li>
-                      <li><a href="#">Another Notification</a></li>
-                      <li><a href="#">Another One</a></li>
+                      <li>
+                        <a href="#">Mike John responded to your email</a>
+                      </li>
+                      <li>
+                        <a href="#">You have 5 new tasks</a>
+                      </li>
+                      <li>
+                        <a href="#">You're now friend with Andrew</a>
+                      </li>
+                      <li>
+                        <a href="#">Another Notification</a>
+                      </li>
+                      <li>
+                        <a href="#">Another One</a>
+                      </li>
                     </ul>
                   </drop-down>
                 </div>
               </a>
             </li>
-
-            <md-list-item href="#/user">
-              <i class="material-icons">person</i>
-              <p class="hidden-lg hidden-md">Profile</p>
-            </md-list-item>
           </md-list>
         </div>
       </div>
@@ -72,8 +93,10 @@
 
 <script>
 export default {
+  el: "islogin",
   data() {
     return {
+      isLogin: false,
       selectedEmployee: null,
       employees: [
         "Jim Halpert",
@@ -87,12 +110,25 @@ export default {
       ]
     };
   },
+  updated() {
+    this.checkLogin();
+  },
   methods: {
+    checkLogin() {
+      //goi api truy van accesstoken
+      if (localStorage.accessToken) {
+        this.isLogin = true;
+      } else this.isLogin = false;
+    },
     toggleSidebar() {
       this.$sidebar.displaySidebar(!this.$sidebar.showSidebar);
+    }
+  },
+  watch: {
+    isLogin(to) {
+      this.checkLogin();
     }
   }
 };
 </script>
-
 <style lang="css"></style>

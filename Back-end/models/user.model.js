@@ -13,8 +13,9 @@ module.exports = {
     // }
     const hash = bcrypt.hashSync(entity.password, 8);
     entity.password = hash;
-    return db.add(entity, 'taikhoannganhang')
+    return db.add(entity, 'user')
   },
 
-  singleByUserName: userName => db.load(`select * from taikhoannganhang where username = '${userName}'`),
+  singleByUserName: userName => db.load(`select * from users where f_Username = '${userName}'`),
+  
 };

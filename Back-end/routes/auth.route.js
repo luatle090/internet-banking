@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
     userId: ret.idKhachHang
   }
   const token = jwt.sign(payload, 'shhhhh', {
-    expiresIn: 10 * 60 * 1000 // 10 mins
+    expiresIn: 1 * 60 * 1000 // 10 mins
   });
   const rfToken = rndToken.generate(80);
   res.json({
@@ -34,6 +34,8 @@ router.post('/', async (req, res) => {
     accessToken: token,
     refreshToken: rfToken
   })
+  // thêm token vào db addToken()
+
 })
 
 module.exports = router;

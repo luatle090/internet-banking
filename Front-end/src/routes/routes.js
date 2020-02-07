@@ -8,7 +8,8 @@ import Icons from "@/pages/Icons.vue";
 import Maps from "@/pages/Maps.vue";
 import Notifications from "@/pages/Notifications.vue";
 import UpgradeToPRO from "@/pages/UpgradeToPRO.vue";
-
+import Login from "@/pages/Login/Login.vue";
+import Logout from "@/pages/Logout.vue"
 const routes = [
   {
     path: "/",
@@ -67,9 +68,20 @@ const routes = [
         path: "danhsachkhachhang",
         name: "danhsachkhachhang",
         component: () => import("./../pages/employee/dskhachhang")
-      }
-    ]
-  }
+      },
+      {
+        path: "/login",
+        name: "Login",
+        component: Login
+        },
+           {
+        path: "/logout",
+        name: "Logout",
+        component: Logout
+        }
+        ],
+     }
+     
 ];
 
 export default routes;
