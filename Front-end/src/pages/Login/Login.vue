@@ -14,7 +14,7 @@
           </md-card-header>
           <md-card-content>
             <!-- form đăng nhập -->
-            <form class="form-signin" @submit.prevent="login">
+            <form class="form-signin" @submit.prevent="submit">
               <h3>Login</h3>
               <b-input-group size="lg" class="mb-3 mt-5">
                 <b-input-group-prepend>
@@ -48,7 +48,11 @@
                   required
                 />
               </b-input-group>
-              <button class="btn btn-lg btn-primary btn-block btnSubmit" type="submit">Login</button>
+              <button
+                :disabled="status==='submitting'"
+                class="btn btn-lg btn-primary btn-block btnSubmit"
+                type="submit"
+              >Login</button>
             </form>
             <!-- capcha -->
 
@@ -65,18 +69,28 @@
         </md-card>
       </div>
     </div>
+    <vue-recaptcha
+      ref="recaptcha"
+      @verify="onCaptchaVerified"
+      @expired="onCaptchaExpired"
+      size="invisible"
+      sitekey="6Lca6tgUAAAAAFNKnT7nhWdiRp9Vb1AjidAGeiXW"
+    ></vue-recaptcha>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import Router from "vue-router";
+import VueRecaptcha from "vue-recaptcha";
 export default {
+  components: { VueRecaptcha },
   data() {
     return {
       username: "",
       password: "",
-      error: false
+      error: false,
+      status: ""
     };
   },
   created() {
@@ -86,17 +100,26 @@ export default {
     this.checkCurrentLogin();
   },
   methods: {
+    submit: function() {
+      // this.status = "submitting";
+       this.$refs.recaptcha.execute();
+    },
     checkCurrentLogin() {
       //goi api truy van accesstoken
       if (localStorage.accessToken) {
         this.$router.replace(this.$route.query.redirect || "/user");
       }
     },
-    login() {
+    onCaptchaVerified(recaptchaToken) {
+      const self = this;
+           //self.status = "submitting";
+           console.log(recaptchaToken);
+      self.$refs.recaptcha.reset();
       axios
         .post("http://localhost:3000/api/auth", {
-          user: this.username,
-          pwd: this.password
+          username: this.username,
+          password: this.password,
+          recaptchaToken: recaptchaToken
         })
         .then(resp => {
           var token = resp.data.accessToken;
@@ -111,6 +134,9 @@ export default {
           this.loginFailed();
           return;
         });
+    },
+    onCaptchaExpired: function() {
+      this.$refs.recaptcha.reset();
     },
     loginFailed() {
       this.error = "Login failed!";
@@ -141,10 +167,9 @@ h3 {
 .login-wrapper {
   background: rgb(41, 175, 209);
 }
-.layout-item
-{
-    max-width: 650px;
-    margin: auto;
+.layout-item {
+  max-width: 650px;
+  margin: auto;
 }
 .form-sigin {
   max-width: 500px;
