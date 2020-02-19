@@ -5,7 +5,7 @@ module.exports = {
   login: async entity => {
     // entity = {
     //   username: 'test',
-    //   pwd: 'test'
+    //   password: '123'
     // }
 
     const rows = await userModel.singleByUserName(entity.username);
@@ -14,7 +14,7 @@ module.exports = {
 
     console.log(rows)
 
-    const hashPwd = rows[0].f_Password;
+    const hashPwd = rows[0].password;
     if (bcrypt.compareSync(entity.password, hashPwd)) {
       return rows[0];
     }
