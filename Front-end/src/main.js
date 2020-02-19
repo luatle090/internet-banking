@@ -19,6 +19,7 @@ import "./plugins/bootstrap-vue";
 import VueSweetalert2 from 'vue-sweetalert2'
 import VueRouter from "vue-router";
 import App from "./App";
+import money from 'v-money';
 
 
 import 'sweetalert2/dist/sweetalert2.min.css';
@@ -50,6 +51,7 @@ Vue.use(GlobalComponents);
 Vue.use(GlobalDirectives);
 Vue.use(Notifications);
 Vue.use(VueSweetalert2);
+Vue.use(money, {precision: 4});
 
 /* eslint-disable no-new */
 new Vue({

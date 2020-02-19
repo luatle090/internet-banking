@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ message: "recaptchaToken is required" });
   }
   if (!req.body.username || !req.body.password) {
-    return res.status(400).json({ message: "email and password are required" });
+    return res.status(400).json({ message: "username or password are required" });
   }
 
 
@@ -48,10 +48,11 @@ router.post('/', async (req, res) => {
     }
     console.log(response.body);
     const payload = {
-      userId: ret.idKhachHang
+      userId: ret.id,
+      khachHangId: ret.idKhachHang
     }
     const token = jwt.sign(payload, 'shhhhh', {
-      expiresIn: 1 * 60 * 1000 // 10 mins
+      expiresIn: 10 * 60 * 1000 // 10 mins
     });
     const rfToken = rndToken.generate(80);
     res.status(201).json({

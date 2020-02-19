@@ -9,7 +9,7 @@ router.post('/', async (req, res) => {
     f_ID: results.insertId,
     ...req.body
   }
-  delete ret.f_Password;
+  delete ret.password;
   res.status(201).json(ret);
 })
 

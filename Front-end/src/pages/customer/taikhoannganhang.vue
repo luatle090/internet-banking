@@ -19,9 +19,10 @@
                   <md-table-cell md-label="Name">{{
                     taikhoanthanhtoan.soTK
                   }}</md-table-cell>
-                  <md-table-cell md-label="Country">{{
-                    taikhoanthanhtoan.soDu
-                  }}</md-table-cell>
+                  <md-table-cell md-label="Country">
+                    <input type="hidden" v-model.lazy="taikhoanthanhtoan.soDu" v-money="money" />
+                    {{taikhoanthanhtoan.soDu}} 
+                  </md-table-cell>
                 </md-table-row>
               </md-table>
             </div>
@@ -47,9 +48,10 @@
                   <md-table-cell md-label="Số tài khoản">{{
                     item.id
                   }}</md-table-cell>
-                  <md-table-cell md-label="Số dư">{{
-                    item.soDu
-                  }}</md-table-cell>
+                  <md-table-cell md-label="Số dư">
+                    <input type="hidden" v-model.lazy="item.soDu" v-money="money" />
+                    {{ item.soDu }}
+                  </md-table-cell>
                 </md-table-row>
               </md-table>
             </div>
@@ -64,6 +66,7 @@
 <script>
 // import { SimpleTable, OrderedTable } from "@/components";
 import axios from "axios";
+import {VMoney} from 'v-money';
 
 export default {
   components: {
@@ -79,15 +82,23 @@ export default {
   data() {
     return {
       taikhoanthanhtoan: {},
-      taikhoantietkiem: []
+      taikhoantietkiem: [],
+      price: 12345,
+      money: {
+        thousands: ',',
+        precision: 0,
+        masked: false
+      }
     };
+  },
+  directives: {
+    money: VMoney
   },
   mounted() {
     axios
       .get("http://localhost:3000/api/taikhoannganhang/danhsachtaikhoan", {
         headers: {
-          "x-access-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTU4MDMxMzQxNywiZXhwIjoxNTgwOTEzNDE3fQ.sxzU6q8NH1dIAA2UllsYEdenSSYxYhJV8jMwxEEpgtY"
+          "x-access-token": localStorage.getItem('accessToken')
         }
       })
       .then(res => {
