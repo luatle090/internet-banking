@@ -21,6 +21,10 @@
         <md-icon>content_paste</md-icon>
         <p>tai khoan ngan hang</p>
       </sidebar-link>
+      <sidebar-link to="/lichsuchuyenkhoan">
+        <md-icon>content_paste</md-icon>
+        <p>lịch sử chuyển khoản</p>
+      </sidebar-link>
       <sidebar-link to="/danhsachkhachhang">
         <md-icon>content_paste</md-icon>
         <p>danh sach khach hang</p>

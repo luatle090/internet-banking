@@ -6,8 +6,16 @@ module.exports = {
     return db.load(sql);
   },
 
-  loadById: id => {
-    const sql = `select * from lichsuchuyenkhoan where id = ${id}`;
+  loadByIdTaiKhoanGuiWithOutNhacNo: id => {
+    const sql = `select DATE_FORMAT(ngay, "%d/%m/%Y") as ngay, idTaiKhoanNHGui, soTaiKhoanNhan,  
+                  giaoDich, noiDungChuyen, nganHangNhan
+                  from lichsuchuyenkhoan 
+                  where idTaiKhoanNHGui = ${id} and idNhacNo IS NULL`;
+    return db.load(sql);
+  },
+
+  loadByIdTaiKhoanGuiWithNhacNo: id => {
+    const sql = `select * from lichsuchuyenkhoan where idTaiKhoanNHGui = ${id} and idNhacNo IS NOT NULL`;
     return db.load(sql);
   },
 

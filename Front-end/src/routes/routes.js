@@ -70,6 +70,11 @@ const routes = [
         component: () => import("./../pages/employee/dskhachhang")
       },
       {
+        path: "lichsuchuyenkhoan",
+        name: "lichsuchuyenkhoan",
+        component: () => import("./../pages/customer/lichsuchuyenkhoan")
+      },
+      {
         path: "/login",
         name: "Login",
         component: Login
