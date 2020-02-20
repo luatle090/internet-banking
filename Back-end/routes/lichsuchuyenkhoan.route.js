@@ -9,7 +9,7 @@ const router = express.Router();
 //   res.json(rows);
 // })
 
-router.get('/chuyenkhoan', async (req, res) => {
+router.get('/', async (req, res) => {
   const userId = res.locals.token.userId;
   if (isNaN(userId)) {
     throw createError(400, 'Invalid id.');

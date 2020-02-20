@@ -6,8 +6,12 @@ module.exports = {
     return db.load(sql);
   },
 
-  loadById: id => {
-    const sql = `select * from lichsunhantien where id = ${id}`;
+  loadByIdTaiKhoanNhan: id => {
+    const sql = `select id, DATE_FORMAT(ngay, "%d/%m/%Y") as ngay, soTaiKhoanGui, giaoDich,
+                nganHangGui, noiDungNhan
+                from lichsunhantien
+                where idTaiKhoanNHNhan = ${id}
+                order by ngay desc`;
     return db.load(sql);
   },
 

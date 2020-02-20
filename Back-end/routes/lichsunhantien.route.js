@@ -4,23 +4,24 @@ const lichsunhantienModel = require('../models/lichsunhantien.model');
 
 const router = express.Router();
 
-router.get('/', async (req, res, next) => {
-  const rows = await lichsunhantienModel.all();
-  res.json(rows);
-})
+// router.get('/', async (req, res, next) => {
+//   const rows = await lichsunhantienModel.all();
+//   res.json(rows);
+// })
 
-router.get('/:id', async (req, res) => {
-  if (isNaN(req.params.id)) {
+router.get('/', async (req, res) => {
+  const userId = res.locals.token.userId;
+  if (isNaN(userId)) {
     throw createError(400, 'Invalid id.');
   }
 
-  const id = req.params.id || -1;
+  const id = userId || -1;
   try {
-    const rows = await lichsunhantienModel.loadById(id);
-    if (rows.length === 0) {
+    const lichSuNhanTienList = await lichsunhantienModel.loadByIdTaiKhoanNhan(id);
+    if (lichSuNhanTienList.length === 0) {
       res.status(204).end();
     } else {
-      res.json(rows[0]);
+      res.json(lichSuNhanTienList);
     }
   } catch (err) {
     console.log(err);
@@ -38,22 +39,22 @@ router.post('/', async (req, res) => {
   res.status(201).json(ret);
 })
 
-router.delete('/:id', async (req, res) => {
-  if (isNaN(req.params.id)) {
-    throw createError(400, 'Invalid id.');
-  }
+// router.delete('/:id', async (req, res) => {
+//   if (isNaN(req.params.id)) {
+//     throw createError(400, 'Invalid id.');
+//   }
 
-  const rs = await lichsunhantienModel.del(req.params.id);
-  res.json(rs);
-})
+//   const rs = await lichsunhantienModel.del(req.params.id);
+//   res.json(rs);
+// })
 
-router.patch('/:id', async (req, res) => {
-  if (isNaN(req.params.id)) {
-    throw createError(400, 'Invalid id.');
-  }
+// router.patch('/:id', async (req, res) => {
+//   if (isNaN(req.params.id)) {
+//     throw createError(400, 'Invalid id.');
+//   }
 
-  const rs = await lichsunhantienModel.patch(req.params.id, req.body);
-  res.json(rs);
-})
+//   const rs = await lichsunhantienModel.patch(req.params.id, req.body);
+//   res.json(rs);
+// })
 
 module.exports = router;

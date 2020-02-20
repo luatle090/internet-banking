@@ -83,7 +83,6 @@ export default {
     return {
       taikhoanthanhtoan: {},
       taikhoantietkiem: [],
-      price: 12345,
       money: {
         thousands: ',',
         precision: 0,

@@ -10,7 +10,8 @@ module.exports = {
     const sql = `select DATE_FORMAT(ngay, "%d/%m/%Y") as ngay, idTaiKhoanNHGui, soTaiKhoanNhan,  
                   giaoDich, noiDungChuyen, nganHangNhan
                   from lichsuchuyenkhoan 
-                  where idTaiKhoanNHGui = ${id} and idNhacNo IS NULL`;
+                  where idTaiKhoanNHGui = ${id} and idNhacNo IS NULL
+                  order by ngay desc`;
     return db.load(sql);
   },
 
