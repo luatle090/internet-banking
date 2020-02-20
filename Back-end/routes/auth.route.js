@@ -2,6 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const rndToken = require('rand-token');
 const authModel = require('../models/auth.model');
+const opts = require('../utils/opts');
 const request = require('request');
 const router = express.Router();
 
@@ -21,13 +22,12 @@ router.post('/', async (req, res) => {
   }
 
 
-  var secretKey = "6Lca6tgUAAAAALu-FiNSIz34De4EA59U-jlB5Flc";
   //verify google
   const verifyCaptchaOptions = {
     uri: "https://www.google.com/recaptcha/api/siteverify",
     json: true,
     form: {
-      secret: secretKey,
+      secret: opts.CAPTCHA.SECRET_KEY,
       response: req.body.recaptchaToken
     }
   };
@@ -49,12 +49,14 @@ router.post('/', async (req, res) => {
     console.log(response.body);
     const payload = {
       userId: ret.id,
-      khachHangId: ret.idKhachHang
+      username: ret.username,
+      email: ret.email,
+      hoTen: ret.hoTen
     }
-    const token = jwt.sign(payload, 'shhhhh', {
-      expiresIn: 10 * 60 * 1000 // 10 mins
+    const token = jwt.sign(payload, opts.ACCESS_TOKEN.SECRET_KEY, {
+      expiresIn:  opts.ACCESS_TOKEN.LIFETIME // 10 mins
     });
-    const rfToken = rndToken.generate(80);
+    const rfToken = rndToken.generate(opts.REFRESH_TOKEN.SIZE);
     res.status(201).json({
       // authenticated: true,
       accessToken: token,

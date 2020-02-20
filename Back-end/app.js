@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
 const cors = require('cors')
+const otps = require('./utils/opts')
 require('express-async-errors');
 
 const app = express();
@@ -24,7 +25,7 @@ function verifyAccessToken(req, res, next) {
   // console.log(req.headers);
   const token = req.headers['x-access-token'];
   if (token) {
-    jwt.verify(token, 'shhhhh', function (err, payload) {
+    jwt.verify(token, otps.ACCESS_TOKEN.SECRET_KEY, function (err, payload) {
       if (err) throw createError(403, err);
       
       res.locals.token = payload;
