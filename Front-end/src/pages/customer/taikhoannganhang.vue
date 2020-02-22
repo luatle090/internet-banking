@@ -21,7 +21,7 @@
                   }}</md-table-cell>
                   <md-table-cell md-label="Country">
                     <input type="hidden" v-model.lazy="taikhoanthanhtoan.soDu" v-money="money" />
-                    {{taikhoanthanhtoan.soDu}} 
+                    {{ taikhoanthanhtoan.soDu }} 
                   </md-table-cell>
                 </md-table-row>
               </md-table>
@@ -66,7 +66,7 @@
 <script>
 // import { SimpleTable, OrderedTable } from "@/components";
 import axios from "axios";
-import {VMoney} from 'v-money';
+import { VMoney } from "v-money";
 
 export default {
   components: {
@@ -84,7 +84,7 @@ export default {
       taikhoanthanhtoan: {},
       taikhoantietkiem: [],
       money: {
-        thousands: ',',
+        thousands: ",",
         precision: 0,
         masked: false
       }
@@ -97,7 +97,7 @@ export default {
     axios
       .get("http://localhost:3000/api/taikhoannganhang/danhsachtaikhoan", {
         headers: {
-          "x-access-token": localStorage.getItem('accessToken')
+          "x-access-token": localStorage.getItem("accessToken")
         }
       })
       .then(res => {
@@ -106,7 +106,7 @@ export default {
         this.taikhoantietkiem = res.data.tktk;
       })
       .catch(err => {
-        console.error(err);
+        console.log(err);
       });
   }
 };
