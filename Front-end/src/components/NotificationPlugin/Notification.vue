@@ -85,12 +85,12 @@ export default {
       this.$emit("on-close", this.timestamp);
     }
   },
-  mounted() {
-    this.elmHeight = this.$el.clientHeight;
-    if (this.timeout) {
-      setTimeout(this.close, this.timeout);
-    }
-  }
+  // mounted() {
+  //   this.elmHeight = this.$el.clientHeight;
+  //   if (this.timeout) {
+  //     setTimeout(this.close, this.timeout);
+  //   }
+  // }
 };
 </script>
 <style lang="scss" scoped>

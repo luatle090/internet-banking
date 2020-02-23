@@ -1,6 +1,5 @@
 <template>
   <div class="wrapper" :class="{ 'nav-open': $sidebar.showSidebar }">
-    <notifications></notifications>
 
     <side-bar>
       <mobile-menu slot="content"></mobile-menu>
@@ -9,10 +8,6 @@
         <p>Dashboard</p>
       </sidebar-link>
 
-      <sidebar-link to="/Login">
-        <md-icon>person</md-icon>
-        <p>Login</p>
-      </sidebar-link>
       <sidebar-link to="/user">
         <md-icon>person</md-icon>
         <p>User Profile</p>
@@ -29,26 +24,14 @@
         <md-icon>content_paste</md-icon>
         <p>lịch sử nhận tiền</p>
       </sidebar-link>
-      <sidebar-link to="/danhsachkhachhang">
-        <md-icon>content_paste</md-icon>
-        <p>danh sach khach hang</p>
-      </sidebar-link>
-      <sidebar-link to="/typography">
+      <!-- <sidebar-link to="/typography">
         <md-icon>library_books</md-icon>
         <p>Typography</p>
       </sidebar-link>
       <sidebar-link to="/icons">
         <md-icon>bubble_chart</md-icon>
         <p>Icons</p>
-      </sidebar-link>
-      <sidebar-link to="/maps">
-        <md-icon>location_on</md-icon>
-        <p>Maps</p>
-      </sidebar-link>
-      <sidebar-link to="/notifications">
-        <md-icon>notifications</md-icon>
-        <p>Notifications</p>
-      </sidebar-link>
+      </sidebar-link> -->
     </side-bar>
 
     <div class="main-panel">

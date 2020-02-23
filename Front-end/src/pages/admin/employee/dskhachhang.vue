@@ -122,29 +122,19 @@
               <md-table v-model="dskhachhang" :table-header-color="tableHeaderColor">
                 <md-table-row slot="md-table-row" slot-scope="{ item }">
                   <md-table-cell md-label="STT">
-                    {{
-                    item.RowIndex
-                    }}
+                    {{ item.RowIndex }}
                   </md-table-cell>
                   <md-table-cell md-label="họ tên">
-                    {{
-                    item.hoTen
-                    }}
+                    {{ item.hoTen }}
                   </md-table-cell>
                   <md-table-cell md-label="email">
-                    {{
-                    item.email
-                    }}
+                    {{ item.email }}
                   </md-table-cell>
                   <md-table-cell md-label="phone">
-                    {{
-                    item.phone
-                    }}
+                    {{ item.phone }}
                   </md-table-cell>
                   <md-table-cell md-label="Số tài khoản">
-                    {{
-                    item.soTK
-                    }}
+                    {{ item.soTK }}
                   </md-table-cell>
                   
                   <md-table-cell>
@@ -220,11 +210,10 @@ export default {
     fetchDSKhachHang() {
       axios
         .get(
-          `http://localhost:3000/api/khachhang/getlist/${this.currentPage}?Email=${this.filter.Email}&Phone=${this.filter.Phone}`,
+          `/khachhang/getlist/${this.currentPage}?Email=${this.filter.Email}&Phone=${this.filter.Phone}`,
           {
             headers: {
-              "x-access-token":
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTU4MDMxMzQxNywiZXhwIjoxNTgwOTEzNDE3fQ.sxzU6q8NH1dIAA2UllsYEdenSSYxYhJV8jMwxEEpgtY"
+              "x-access-token": localStorage.getItem("accessToken")
             }
           }
         )
@@ -278,10 +267,10 @@ export default {
       };
       const submitKH = axios({
         method: 'post',
-        url: `http://localhost:3000/api/khachhang`,
+        url: `/khachhang`,
         headers:{
           "Content-Type": "application/json",
-          "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTU4MDMxMzQxNywiZXhwIjoxNTgwOTEzNDE3fQ.sxzU6q8NH1dIAA2UllsYEdenSSYxYhJV8jMwxEEpgtY"
+          "x-access-token": localStorage.getItem("accessToken")
         },
         data: khachHang
       }).then(res => {
@@ -295,11 +284,11 @@ export default {
             password: '123456'
           };
           const submitTkNganHang = axios({
-            method: 'post',
-            url: `http://localhost:3000/api/taikhoannganhang`,
+            method: "post",
+            url: `/taikhoannganhang`,
             headers:{
               "Content-Type": "application/json",
-              "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTU4MDMxMzQxNywiZXhwIjoxNTgwOTEzNDE3fQ.sxzU6q8NH1dIAA2UllsYEdenSSYxYhJV8jMwxEEpgtY"
+              "x-access-token": localStorage.getItem("accessToken")
             },
             data: tkNganHang
           })
@@ -308,7 +297,7 @@ export default {
             this.dskhachhang.push(this.CusInfo);
             this.showDialog = false;
             this.$swal({
-              icon: 'success',
+              icon: "success",
               text: "thêm thành công"
             })
           });
@@ -318,7 +307,7 @@ export default {
           console.log(this.CusInfo)
           this.dskhachhang.push({...this.CusInfo});
           this.$swal({
-            icon: 'success',
+            icon: "success",
             text: "thêm thành công"
           })
         }
@@ -336,10 +325,10 @@ export default {
       };
       const submitKH = axios({
         method: 'patch',
-        url: `http://localhost:3000/api/khachhang/${this.CusInfo.id}`,
+        url: `/khachhang/${this.CusInfo.id}`,
         headers:{
           "Content-Type": "application/json",
-          "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTU4MDMxMzQxNywiZXhwIjoxNTgwOTEzNDE3fQ.sxzU6q8NH1dIAA2UllsYEdenSSYxYhJV8jMwxEEpgtY"
+          "x-access-token": localStorage.getItem("accessToken")
         },
         data: khachHang
       });
@@ -355,10 +344,10 @@ export default {
         };
         const submitTkNganHang = axios({
           method: method,
-          url: `http://localhost:3000/api/taikhoannganhang/${this.CusInfo.idTK != -1 ? this.CusInfo.idTK : ""}`,
+          url: `/taikhoannganhang/${this.CusInfo.idTK != -1 ? this.CusInfo.idTK : ""}`,
           headers:{
             "Content-Type": "application/json",
-            "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTU4MDMxMzQxNywiZXhwIjoxNTgwOTEzNDE3fQ.sxzU6q8NH1dIAA2UllsYEdenSSYxYhJV8jMwxEEpgtY"
+            "x-access-token": localStorage.getItem("accessToken")
           },
           data: tkNganHang
         });
@@ -382,7 +371,7 @@ export default {
           });
         }
         this.$swal({
-          icon: 'success',
+          icon: "success",
           text: "lưu thành công"
         })
       })).catch(errors => {

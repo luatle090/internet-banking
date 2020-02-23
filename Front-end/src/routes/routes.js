@@ -5,11 +5,11 @@ import UserProfile from "@/pages/UserProfile.vue";
 import TableList from "@/pages/TableList.vue";
 import Typography from "@/pages/Typography.vue";
 import Icons from "@/pages/Icons.vue";
-import Maps from "@/pages/Maps.vue";
-import Notifications from "@/pages/Notifications.vue";
-import UpgradeToPRO from "@/pages/UpgradeToPRO.vue";
 import Login from "@/pages/Login/Login.vue";
 import Logout from "@/pages/Logout.vue"
+import Admin from "@/pages/admin/layout/layout.vue"
+import adminLogin from "@/pages/admin/adminLogin.vue"
+import NotFoundComponent from "@/pages/NotFound.vue"
 const routes = [
   {
     path: "/",
@@ -42,55 +42,59 @@ const routes = [
         component: Icons
       },
       {
-        path: "maps",
-        name: "Maps",
-        meta: {
-          hideFooter: true
-        },
-        component: Maps
-      },
-      {
-        path: "notifications",
-        name: "Notifications",
-        component: Notifications
-      },
-      {
-        path: "upgrade",
-        name: "Upgrade to PRO",
-        component: UpgradeToPRO
-      },
-      {
         path: "taikhoannganhang",
         name: "Tài Khoản Ngân Hàng",
         component: () => import("./../pages/customer/taikhoannganhang")
       },
-      {
-        path: "danhsachkhachhang",
-        name: "Danh Sách Khách Hàng",
-        component: () => import("./../pages/employee/dskhachhang")
-      },
+     
       {
         path: "lichsuchuyenkhoan",
         name: "Lịch Sử Chuyển Khoản",
-        component: () => import("./../pages/customer/lichSuChuyenKhoan")
+        component: () => import("../pages/customer/lichSuChuyenKhoan")
       },
       {
         path: "lichsunhantien",
         name: "Lịch Sử Nhận Tiền",
-        component: () => import("./../pages/customer/lichSuNhanTien")
+        component: () => import("../pages/customer/lichSuNhanTien")
       },
       {
-        path: "/login",
-        name: "Login",
-        component: Login
-        },
-           {
         path: "/logout",
         name: "Logout",
         component: Logout
-        }
-        ],
-     }
+      }
+    ],
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login
+  },
+  {
+    path: "/admin/login",
+    name: "Admin Login",
+    component: adminLogin
+  },
+  {
+    path: "/admin",
+    component: Admin,
+    meta: { requiresAuth:true },
+    children: [
+      {
+        path: "danhsachkhachhang",
+        name: "Danh Sách Khách Hàng",
+        component: () => import("../pages/admin/employee/dskhachhang")
+      },
+      {
+        path: "dashboard",
+        name: "Dashboard",
+        component: () => import("../pages/admin/DashboardAdmin")
+      }
+    ]
+  },
+  { 
+    path: '*', 
+    component: NotFoundComponent 
+  }
      
 ];
 

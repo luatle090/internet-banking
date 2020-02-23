@@ -26,20 +26,23 @@
             </md-autocomplete>
           </div>-->
           <md-list>
-            <md-list-item to="/">
+            <md-list-item href="#/">
               <i class="material-icons">dashboard</i>
               <p class="hidden-lg hidden-md">Dashboard</p>
             </md-list-item>
             <template>
-              <md-list-item to="/user">
-                <i class="material-icons">person</i>
-                <!-- <p class="hidden-lg hidden-md">Profile</p> -->
-              </md-list-item>
               <md-list-item href="#/logout">
                 <i class="material-icons">logout</i>
                 <!-- <p class="hidden-lg hidden-md">Profile</p> -->
               </md-list-item>
             </template>
+            <li class="md-list-item">
+              <a
+                href="#/notifications"
+                class="md-list-item-router md-list-item-container md-button-clean dropdown"
+              >
+              </a>
+            </li>
           </md-list>
         </div>
       </div>

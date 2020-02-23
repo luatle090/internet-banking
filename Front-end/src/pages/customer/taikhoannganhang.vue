@@ -10,18 +10,16 @@
           </md-card-header>
           <md-card-content>
             <div>
-              <md-table :table-header-color="tableHeaderColor">
+              <md-table >
                 <md-table-row slot="md-table-row">
                   <md-table-head>Số tài khoản</md-table-head>
                   <md-table-head>Số dư</md-table-head>
                 </md-table-row>
                 <md-table-row slot="md-table-row">
-                  <md-table-cell md-label="Name">{{
-                    taikhoanthanhtoan.soTK
-                  }}</md-table-cell>
+                  <md-table-cell md-label="Name">{{ taikhoanthanhtoan.soTK }}</md-table-cell>
                   <md-table-cell md-label="Country">
                     <input type="hidden" v-model.lazy="taikhoanthanhtoan.soDu" v-money="money" />
-                    {{ taikhoanthanhtoan.soDu }} 
+                    {{ taikhoanthanhtoan.soDu }}
                   </md-table-cell>
                 </md-table-row>
               </md-table>
@@ -95,7 +93,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost:3000/api/taikhoannganhang/danhsachtaikhoan", {
+      .get("/taikhoannganhang/danhsachtaikhoan", {
         headers: {
           "x-access-token": localStorage.getItem("accessToken")
         }

@@ -8,7 +8,7 @@
                     </md-card-header>
                     <md-card-content>
                         <div>
-                            <md-table :table-header-color="tableHeaderColor">
+                            <md-table>
                                 <md-table-row slot="md-table-row">
                                     <md-table-head>Ngày</md-table-head>
                                     <md-table-head>TK Nhận</md-table-head>
@@ -17,17 +17,17 @@
                                     <md-table-head>Ngân Hàng Nhận</md-table-head>
                                 </md-table-row>
                                 <md-table-row slot="md-table-row" :key="item.id" v-for="item in lichSuList">
-                                    <md-table-cell md-label="Name">{{item.ngay}}</md-table-cell>
-                                    <md-table-cell md-label="Name">{{item.soTaiKhoanNhan}}</md-table-cell>
+                                    <md-table-cell md-label="Name">{{ item.ngay }}</md-table-cell>
+                                    <md-table-cell md-label="Name">{{ item.soTaiKhoanNhan }}</md-table-cell>
                                     <md-table-cell md-label="Name">
                                         <input type="hidden" v-model.lazy="item.giaoDich" v-money="money" />
-                                        {{item.giaoDich}} 
+                                        {{ item.giaoDich }} 
                                     </md-table-cell>
                                     <md-table-cell md-label="Name">
-                                        {{item.noiDungChuyen}}
+                                        {{ item.noiDungChuyen }}
                                     </md-table-cell>
                                     <md-table-cell md-label="Name">
-                                        {{item.nganHangNhan}}
+                                        {{ item.nganHangNhan }}
                                     </md-table-cell>
                                 </md-table-row>
                             </md-table>
@@ -41,14 +41,14 @@
 </template>
 
 <script>
-import axios from 'axios';
-import {VMoney} from 'v-money';
+import axios from "axios";
+import { VMoney } from "v-money";
 export default {
     data() {
         return {
             lichSuList: [],
             money: {
-                thousands: ',',
+                thousands: ",",
                 precision: 0,
                 masked: false
             }
@@ -57,9 +57,9 @@ export default {
 
     mounted() {
         axios
-            .get('http://localhost:3000/api/lichsuchuyenkhoan', {
+            .get("/lichsuchuyenkhoan", {
                 headers: {
-                "x-access-token": localStorage.getItem('accessToken')
+                "x-access-token": localStorage.getItem("accessToken")
                 }
             })
             .then(res => {
@@ -72,5 +72,5 @@ export default {
     directives: {
         money: VMoney
     }
-}
+};
 </script>
