@@ -94,26 +94,26 @@ var isAuthenticated = true
 // });
 
 //redirect page
-router.beforeEach((to, from, next) => {
-  if (to.path.includes("admin") && to.matched.some(record => record.meta.requiresAuth)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
+// router.beforeEach((to, from, next) => {
+//   if (to.path.includes("admin") && to.matched.some(record => record.meta.requiresAuth)) {
+//     // this route requires auth, check if logged in
+//     // if not, redirect to login page.
     
-    if (!isAuthenticated && to.path !== "/admin/login") {
-      next({
-        path: '/admin/login'
-      })
-    } else {
-      next()
-    }
-  } else {
-    if(!isAuthenticated && to.path !== "/login" && !to.path.includes("admin"))
-      next('/login')
-    else{
-      next();
-    }
-  }
-});
+//     if (!isAuthenticated && to.path !== "/admin/login") {
+//       next({
+//         path: '/admin/login'
+//       })
+//     } else {
+//       next()
+//     }
+//   } else {
+//     if(!isAuthenticated && to.path !== "/login" && !to.path.includes("admin"))
+//       next('/login')
+//     else{
+//       next();
+//     }
+//   }
+// });
 
 /* eslint-disable no-new */
 new Vue({

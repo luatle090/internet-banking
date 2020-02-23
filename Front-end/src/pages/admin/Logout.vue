@@ -13,7 +13,7 @@ export default {
     }).then(res => {
       delete localStorage.accessToken;
       delete localStorage.refreshToken;
-      this.$router.push('/login');
+      this.$router.push('/admin/login');
     }).catch(err => {
       console.log(err);
     });

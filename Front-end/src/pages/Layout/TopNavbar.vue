@@ -35,7 +35,7 @@
                 <i class="material-icons">person</i>
                 <!-- <p class="hidden-lg hidden-md">Profile</p> -->
               </md-list-item>
-              <md-list-item href="#/logout">
+              <md-list-item to="/logout">
                 <i class="material-icons">logout</i>
                 <!-- <p class="hidden-lg hidden-md">Profile</p> -->
               </md-list-item>

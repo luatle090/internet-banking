@@ -26,12 +26,12 @@
             </md-autocomplete>
           </div>-->
           <md-list>
-            <md-list-item href="#/">
+            <md-list-item to="/admin">
               <i class="material-icons">dashboard</i>
               <p class="hidden-lg hidden-md">Dashboard</p>
             </md-list-item>
             <template>
-              <md-list-item href="#/logout">
+              <md-list-item to="/admin/logout">
                 <i class="material-icons">logout</i>
                 <!-- <p class="hidden-lg hidden-md">Profile</p> -->
               </md-list-item>
