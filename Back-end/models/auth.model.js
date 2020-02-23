@@ -31,6 +31,29 @@ module.exports = {
 
     return null;
   },
+  loginAdmin: async entity => {
+    // entity = {
+    //   username: 'kh1',
+    //   password: '123'
+    // }
+
+
+    sql = `select nv.*, vt.moTa from nhanvien nv inner join vaitro vt on nv.idVaiTro = vt.id 
+            where nv.username = '${entity.username}'`;
+
+    
+    const rows = await db.load(sql);
+    if (rows.length === 0)
+      return null;
+
+
+    const hashPwd = rows[0].password;
+    if (bcrypt.compareSync(entity.password, hashPwd)) {
+      return rows[0];
+    }
+
+    return null;
+  },
   
   //RefreshToken
 

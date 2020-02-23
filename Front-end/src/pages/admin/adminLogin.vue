@@ -15,7 +15,7 @@
           <md-card-content>
             <!-- form đăng nhập -->
             <form class="form-signin" @submit.prevent="submit">
-              <h3>Login</h3>
+              <h3> {{ title }}</h3>
               <b-alert show dismissible v-if="error">{{ message }}</b-alert>
               <b-input-group size="lg" class="mb-3 mt-5">
                 <b-input-group-prepend>
@@ -56,16 +56,6 @@
               >Login</button>
             </form>
             <!-- capcha -->
-
-            <div class="mt-4">
-              <div class="d-flex justify-content-center links">
-                Don't have an account?
-                <a href="#" class="ml-2">Sign Up</a>
-              </div>
-              <div class="d-flex justify-content-center links">
-                <a href="#">Forgot your password?</a>
-              </div>
-            </div>
           </md-card-content>
         </md-card>
       </div>
@@ -92,7 +82,8 @@ export default {
       password: "",
       message: "",
       error: false,
-      status: ""
+      status: "",
+      title: "Đăng nhập Hệ thống Admin"
     };
   },
   created() {
@@ -109,7 +100,7 @@ export default {
     checkCurrentLogin() {
       //goi api truy van accesstoken
       if (localStorage.accessToken) {
-        this.$router.replace(this.$route.query.redirect || "/user");
+        this.$router.replace(this.$route.query.redirect || "/admin");
       }
     },
     onCaptchaVerified(recaptchaToken) {
@@ -118,7 +109,7 @@ export default {
           // console.log(recaptchaToken);
       self.$refs.recaptcha.reset();
       axios
-        .post("/auth", {
+        .post("/auth/admin", {
           username: this.username,
           password: this.password,
           recaptchaToken: recaptchaToken
@@ -133,7 +124,7 @@ export default {
           }
           localStorage.setItem("accessToken", accesstoken);
           localStorage.setItem("refreshToken", rftoken);
-          this.$router.push(this.$route.query.redirect || "/");
+          this.$router.push(this.$route.query.redirect || "/admin");
         })
         .catch(() => {
           this.loginFailed();

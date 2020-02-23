@@ -88,7 +88,12 @@ const routes = [
         path: "dashboard",
         name: "Dashboard",
         component: () => import("../pages/admin/DashboardAdmin")
-      }
+      },
+      {
+        path: "logout",
+        name: "Admin Logout",
+        component: () => import("../pages/admin/adminLogout")
+      },
     ]
   },
   { 

@@ -3,7 +3,6 @@
 import axios from "axios";
 
 export default {
-  name: 'Logout',
   created () {
    
     axios.get('/auth/logout', {
