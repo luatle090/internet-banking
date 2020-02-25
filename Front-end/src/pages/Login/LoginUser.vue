@@ -5,7 +5,7 @@
       <div class="title">
         <img src="@/assets/img/logo.png">
         <div class="md-title">Internet Banking</div>
-        <div class="md-body-2">Đăng nhập Hệ thống Admin</div>
+        <div class="md-body-2">Đăng nhập</div>
       </div>
 
       <form @submit.prevent="submit">
@@ -23,7 +23,8 @@
       </div>
 
       <div class="actions md-layout md-alignment-center-space-between">
-        <b-link to="/forgot"></b-link>
+        
+        <b-link to="/forgot">Quên mật khẩu</b-link>
         <md-button class="md-raised md-primary" type="submit">Log in</md-button>
       </div>
       </form>
@@ -69,9 +70,9 @@ export default {
     },
     checkCurrentLogin() {
       //goi api truy van accesstoken
-      if (localStorage.accessToken) {
-        this.$router.replace(this.$route.query.redirect || "/admin");
-      }
+      // if (localStorage.accessToken) {
+      //   this.$router.replace(this.$route.query.redirect || "/user");
+      // }
     },
     onCaptchaVerified(recaptchaToken) {
       const self = this;
@@ -79,7 +80,7 @@ export default {
           // console.log(recaptchaToken);
       self.$refs.recaptcha.reset();
       axios
-        .post("/auth/admin", {
+        .post("/auth", {
           username: this.username,
           password: this.password,
           recaptchaToken: recaptchaToken
@@ -94,7 +95,7 @@ export default {
           }
           localStorage.setItem("accessToken", accesstoken);
           localStorage.setItem("refreshToken", rftoken);
-          this.$router.push(this.$route.query.redirect || "/admin");
+          this.$router.push(this.$route.query.redirect || "/");
         })
         .catch(() => {
           this.loginFailed();

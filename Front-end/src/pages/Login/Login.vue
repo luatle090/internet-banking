@@ -56,6 +56,11 @@
               >Login</button>
             </form>
             <!-- capcha -->
+            <div class="mt-4">
+              <div class="d-flex justify-content-center links">
+                <b-link to="/forgot">Quên mật khẩu?</b-link>
+              </div>
+            </div>
           </md-card-content>
         </md-card>
       </div>
@@ -98,9 +103,9 @@ export default {
     },
     checkCurrentLogin() {
       //goi api truy van accesstoken
-      if (localStorage.accessToken) {
-        this.$router.replace(this.$route.query.redirect || "/user");
-      }
+      // if (localStorage.accessToken) {
+      //   this.$router.replace(this.$route.query.redirect || "/user");
+      // }
     },
     onCaptchaVerified(recaptchaToken) {
       const self = this;

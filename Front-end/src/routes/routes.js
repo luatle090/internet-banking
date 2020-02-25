@@ -5,7 +5,7 @@ import UserProfile from "@/pages/UserProfile/UserProfile.vue";
 import TableList from "@/pages/TableList.vue";
 import Typography from "@/pages/Typography.vue";
 import Icons from "@/pages/Icons.vue";
-import Login from "@/pages/Login/Login.vue";
+import Login from "@/pages/Login/LoginUser.vue";
 import Logout from "@/pages/Logout.vue"
 import Admin from "@/pages/admin/layout/layout.vue"
 import adminLogin from "@/pages/admin/adminLogin.vue"
@@ -68,6 +68,11 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login
+  },
+  {
+    path: "/forgot",
+    name: "Forgot Password",
+    component: () => import("../pages/Login/ForgotPassword")
   },
   {
     path: "/admin/login",
