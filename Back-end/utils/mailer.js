@@ -5,7 +5,7 @@ const nodemailer = require('nodemailer');
 const totp = otps.totp;
 
 
-async function sendEmailOTP(username, name) {
+async function sendEmailOTP(toMail, username, name) {
     //cau hinh otp
     totp.options = {
         digits: 6,   //mã là số và 6 chữ số

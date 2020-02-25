@@ -6,6 +6,7 @@ const nhanVienModel = require('../models/nhanvien.model');
 const opts = require('../utils/opts');
 const request = require('request');
 const router = express.Router();
+const mailer = require('../utils/mailer');
 
 //
 // login
@@ -71,10 +72,19 @@ router.post('/', async (req, res) => {
 });
 
 
+/**
+ * body: {
+ *    "user": "",
+ *    "password": "",
+ *    "recaptchaToken": ""
+ * }
+ * 
+ * 
+ */
 router.post('/admin', async (req, res) => {
   // req.body = {
   // 	user: 'test',
-  // 	pwd: 'test'
+  // 	password: 'test'
   // }
   if (!req.body.recaptchaToken) {
     return res.status(400).json({ message: "recaptchaToken is required" });
@@ -147,12 +157,18 @@ function generateAccessToken(ret){
   return token;
 }
 
+/**
+ * body: {
+ *      "refreshToken": ""
+ * }
+ * 
+ */
 router.post('/renew-token', async (req, res) => {
   // req.body = {
     // 	refreshToken: '2kjwAhv7OBWW',
   // }
   if (!req.body.refreshToken) {
-    throw createError(400, 'Invalid id.');
+    throw createError(400, 'Invalid refreshToken.');
   }
 
   try{ 
@@ -206,6 +222,81 @@ router.get('/logout', authModel.verifyAccessToken, async (req, res) => {
     }
     else{
       res.status(204).end();
+    }
+  }
+  catch(err){
+    console.log(err);
+    res.statusCode = 500;
+    res.end('View error log on console.');
+  }
+
+});
+
+/**
+ *  body: {
+ *          "username": ""
+ *      }
+ */
+router.post('/forgot',  async (req, res) => {
+  if (!req.body.username) {
+    return res.status(400).json({ message: "username is required" });
+  }
+
+  try{
+    const rs = await authModel.findUserByUsername(req.body);
+    if(rs.length === 0){
+      res.status(204).end();
+    }
+    else{
+      //sẽ gửi mã OTP về email
+      const info = await mailer.sendEmailOTP(rs[0].email, req.body.username, rs[0].hoTen);
+      console.log('forgot password: '+ info.accepted);
+      console.log('response: ' + info.response);
+      console.log('messageId: ' + info.messageId);
+      res.status(201).json({
+        message: info.accepted
+      });
+    }
+  }catch(err){
+    console.log(err);
+    res.statusCode = 500;
+    res.end('View error log on console.');
+  }
+});
+
+/**
+ * body:
+ *      "username": "",
+ *      "password": "",
+ *      "token": ""
+ */
+router.patch('/changepassword', async (req, res) => {
+  if (!req.body.username) {
+    return res.status(400).json({ message: "username is required" });
+  }
+  if (!req.body.password) {
+    return res.status(400).json({ message: "password is required" });
+  }
+  if (!req.body.token) {
+    return res.status(400).json({ message: "token OTP is required" });
+  }
+
+  try{
+    const username = req.body.username;
+    const token = req.body.token;
+    delete req.body.username;
+    delete req.body.token;
+    
+    if(mailer.checkOTP(username, token)){
+      const result = await authModel.forgotPassword(username, req.body);
+      console.log("username: " + username + " has change password affected rows ", result.affectedRows);
+      res.status(200).json({
+        message: "successed"
+      })
+    } else{
+      res.status(200).json({
+        message: "wrong token"
+      })
     }
   }
   catch(err){

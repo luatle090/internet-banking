@@ -5,7 +5,8 @@ var opts = {
 
     ACCESS_TOKEN: {
         SECRET_KEY: 'secret',
-        LIFETIME: 600 // in seconds
+        LIFETIME: 1000, // in seconds
+        HEADER: 'x-access-token'
     },
 
     REFRESH_TOKEN: {
@@ -20,7 +21,7 @@ var opts = {
         HOST: '127.0.0.1',
         PORT: '3306',
         USER: 'root',
-        PWD: '123456',
+        PWD: '',
         DB_NAME: 'qlnganhang'
     },
 
@@ -34,6 +35,13 @@ var opts = {
         PORT: '465',
         USER: 'luattestmail@gmail.com',
         PWD: '12345678@X'
+    },
+
+    STATUS_PASSWORD: {
+        SUCCESS: 0,
+        NEW_PWD_IS_LIKE_OLD_PWD: 1,
+        WRONG_PWD: -1,
+        FAILED: -2
     }
 }
 
