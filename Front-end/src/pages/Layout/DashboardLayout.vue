@@ -10,7 +10,7 @@
 
       <sidebar-link to="/user">
         <md-icon>person</md-icon>
-        <p>User Profile</p>
+        <p>Thay Đổi Password</p>
       </sidebar-link>
       <sidebar-link to="/taikhoannganhang">
         <md-icon>content_paste</md-icon>
