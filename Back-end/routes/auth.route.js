@@ -291,7 +291,7 @@ router.patch('/changepassword', async (req, res) => {
       const result = await authModel.forgotPassword(username, req.body);
       console.log("username: " + username + " has change password affected rows ", result.affectedRows);
       res.status(200).json({
-        message: "successed"
+        message: "success"
       })
     } else{
       res.status(200).json({

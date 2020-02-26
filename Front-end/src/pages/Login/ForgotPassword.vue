@@ -3,57 +3,125 @@
     <md-content class="md-elevation-3">
 
       <div class="title">
-        <img src="https://vuematerial.io/assets/logo-color.png">
-        <div class="md-title">Vue Material</div>
-        <div class="md-body-1">Build beautiful apps with Material Design and Vue.js</div>
+        <img src="@/assets/img/logo.png">
+        <div class="md-title">Internet Banking</div>
+        <div class="md-body-2">Đăng nhập</div>
       </div>
 
+      <form v-on:submit.prevent>
       <div class="form">
-        <md-field>
-          <label>E-mail</label>
-          <md-input v-model="login.email" autofocus></md-input>
+        <span class="help-block" ><h3>{{ message }}</h3></span>
+        <md-field v-if="!show">
+          <label>Nhập Username để gửi mã OTP</label>
+          <md-input v-model="username" required autofocus></md-input>
         </md-field>
 
-        <md-field md-has-password>
-          <label>Password</label>
-          <md-input v-model="login.password" type="password"></md-input>
-        </md-field>
+        <div v-else>
+          <md-field md-has-password>
+            <label>Password</label>
+            <md-input v-model="password" required type="password"></md-input>
+          </md-field>
+          <md-field>
+            <label>OTP</label>
+            <md-input v-model="token" required type="text"></md-input>
+          </md-field>
+        </div>
       </div>
 
       <div class="actions md-layout md-alignment-center-space-between">
-        <a href="/resetpassword">Reset password</a>
-        <md-button class="md-raised md-primary" @click="auth">Log in</md-button>
+        
+        <b-link to="/forgot"></b-link>
+        <md-button v-if="!show" class="md-raised md-primary" v-on:click="findUser" type="submit">Gửi mã OTP</md-button>
+        <md-button v-else class="md-raised md-primary" v-on:click="changePassword" type="submit">Thay đổi mật khẩu</md-button>
       </div>
+      </form>
 
       <div class="loading-overlay" v-if="loading">
         <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
       </div>
-
     </md-content>
     <div class="background" />
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import Router from "vue-router";
+
 export default {
+  components: {  },
   data() {
     return {
+      username: "",
+      password: "",
+      token: "",
+      message: "",
+      error: false,
       loading: false,
-      login: {
-        email: "",
-        password: ""
-      }
+      show: false,
+      status: ""
     };
   },
   methods: {
-    auth() {
-      // your code to login user
-      // this is only for example of loading
-      this.loading = true;
-      setTimeout(() => {
-        this.loading = false;
-      }, 5000);
-    }
+    findUser(){
+      this.message = "";
+      if(this.username !== ""){
+        this.loading = true;
+        axios({
+          method: "post",
+          url: "/auth/forgot",
+          data: {
+            username: this.username
+          }
+        }).then(res => {
+          if(res.status === 204){
+            this.message = "Không tìm thấy username"
+          }
+          else{
+            this.show = true;
+          }
+          this.loading = false;
+        }).catch(err => {
+          this.message = "Đã có lỗi xảy ra vui lòng liên hệ Admin";
+          this.error = true;
+          this.username = "";
+          this.loading = false;
+          //console.log(err);
+        })        
+      }
+    },
+    changePassword(){
+      this.message = "";
+      if(this.password !== "" && this.token !== ""){
+        axios({
+          method: "patch",
+          url: "/auth/changepassword",
+          data: {
+            username: this.username,
+            password: this.password,
+            token: this.token
+          }
+        }).then(res => {
+          if(res.data.message === "success"){
+            this.message = "Đổi mật khẩu thành công.\n Hệ thống sẽ tự chuyển trang login trong 2s";
+            this.password = "";
+            setTimeout(function() {
+              this.$router.push(this.$route.query.redirect || "/login");
+            }.bind(this), 2000);
+          }
+          else{
+            this.message = "Nhập sai mã OTP";
+            this.error = true;
+          }
+        }).catch(err => {
+          this.message = "Đã có lỗi xảy ra vui lòng liên hệ Admin";
+          this.error = true;
+          this.password = "";
+          //console.log(err);
+        })
+        
+      }
+    } 
   }
 };
 </script>
@@ -83,6 +151,7 @@ export default {
   }
 
   .background {
+    background: url("../../assets/img/bg-1.jpg");
     position: absolute;
     height: 100%;
     width: 100%;
@@ -91,6 +160,7 @@ export default {
     right: 0;
     left: 0;
     z-index: 0;
+    background-size: cover;
   }
 
   .md-content {

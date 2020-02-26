@@ -91,7 +91,7 @@ const routes = [
       },
       {
         path: "dashboard",
-        name: "Dashboard",
+        name: "Dashboard Admin",
         component: () => import("../pages/admin/DashboardAdmin")
       },
       {
