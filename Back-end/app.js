@@ -2,8 +2,10 @@ const express = require('express');
 const morgan = require('morgan');
 const createError = require('http-errors');
 const cors = require('cors')
+const logger = require('log4js').getLogger();
 require('express-async-errors');
 
+logger.level = "info";
 const app = express();
 
 app.use(cors())

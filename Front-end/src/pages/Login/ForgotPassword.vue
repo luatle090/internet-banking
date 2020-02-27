@@ -5,7 +5,7 @@
       <div class="title">
         <img src="@/assets/img/logo.png">
         <div class="md-title">Internet Banking</div>
-        <div class="md-body-2">Đăng nhập</div>
+        <div class="md-body-2">Quên mật khẩu</div>
       </div>
 
       <form v-on:submit.prevent>
@@ -30,7 +30,7 @@
 
       <div class="actions md-layout md-alignment-center-space-between">
         
-        <b-link to="/forgot"></b-link>
+        <b-link to="/login">Quay lại</b-link>
         <md-button v-if="!show" class="md-raised md-primary" v-on:click="findUser" type="submit">Gửi mã OTP</md-button>
         <md-button v-else class="md-raised md-primary" v-on:click="changePassword" type="submit">Thay đổi mật khẩu</md-button>
       </div>
@@ -56,10 +56,8 @@ export default {
       password: "",
       token: "",
       message: "",
-      error: false,
       loading: false,
       show: false,
-      status: ""
     };
   },
   methods: {
@@ -83,7 +81,6 @@ export default {
           this.loading = false;
         }).catch(err => {
           this.message = "Đã có lỗi xảy ra vui lòng liên hệ Admin";
-          this.error = true;
           this.username = "";
           this.loading = false;
           //console.log(err);
@@ -111,11 +108,9 @@ export default {
           }
           else{
             this.message = "Nhập sai mã OTP";
-            this.error = true;
           }
         }).catch(err => {
           this.message = "Đã có lỗi xảy ra vui lòng liên hệ Admin";
-          this.error = true;
           this.password = "";
           //console.log(err);
         })

@@ -4,6 +4,7 @@ const taikhoannganhangModel = require('../models/taikhoannganhang.model');
 const taikhoantietkiemModel = require('../models/taikhoantietkiem.model');
 const auth = require('../models/auth.model');
 const opts = require('../utils/opts');
+const logger = require('log4js').getLogger();
 
 const router = express.Router();
 
@@ -93,6 +94,7 @@ router.patch('/security', async (req, res) => {
   try{
     const rs = await auth.patchPassword(userId, req.body);
     if(rs == opts.STATUS_PASSWORD.SUCCESS){
+      logger.info("userId has changed password: ", userId);
       res.status(200).json({
         message: "success"
       }).end();
@@ -114,7 +116,7 @@ router.patch('/security', async (req, res) => {
     }
   
   }catch(err) {
-    console.log(err);
+    logger.error(err);
     res.status(500);
     res.end('View error log on console.');
   }

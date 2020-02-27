@@ -7,6 +7,7 @@ const opts = require('../utils/opts');
 const request = require('request');
 const router = express.Router();
 const mailer = require('../utils/mailer');
+const logger = require('log4js').getLogger();
 
 //
 // login
@@ -134,7 +135,7 @@ router.post('/admin', async (req, res) => {
         authenticated: false
       });
     }
-    console.log('Username login: ', ret.username);
+    logger.info('Username login: ', ret.username);
       // thêm token vào db addToken()
     // Save the user to the database. At this point they have been verified.
     // });
@@ -176,9 +177,7 @@ router.post('/renew-token', async (req, res) => {
     //verify refresh token có lưu ở DB
     const rows = await authModel.verifyRefreshToken(rToken);
     if(rows.length === 0){
-      res.status(204).json({
-        msg: 'invalid refresh-token'
-      }).end();
+      res.status(204).end();
     }
     
     //sau đó lấy userID để truy vấn thông tin và cấp lại access token
@@ -197,13 +196,13 @@ router.post('/renew-token', async (req, res) => {
     }
     var userObj = rowTaiKhoan[0];
     const token = generateAccessToken(userObj);
-    console.log('refreshToken of username: ', userObj.username);
+    logger.info('refreshToken of username: ', userObj.username);
     res.status(201).json({
       access_token: token
     });
   }
   catch(err){
-    console.log(err);
+    logger.error(err);
     res.statusCode = 500;
     res.end('View error log on console.');
   }
@@ -214,7 +213,7 @@ router.get('/logout', authModel.verifyAccessToken, async (req, res) => {
   var userId = res.locals.token.userId;
   try{
     const result = await authModel.deleteRefreshToken(userId);
-    console.log('del refesh token affectedRows: ' + result.affectedRows)
+    logger.info('del refesh token affectedRows: ' + result.affectedRows)
     if(result.affectedRows > 0){
       res.status(201).json({
         msg: 'success'
@@ -225,7 +224,7 @@ router.get('/logout', authModel.verifyAccessToken, async (req, res) => {
     }
   }
   catch(err){
-    console.log(err);
+    logger.error(err);
     res.statusCode = 500;
     res.end('View error log on console.');
   }
@@ -250,15 +249,14 @@ router.post('/forgot',  async (req, res) => {
     else{
       //sẽ gửi mã OTP về email
       const info = await mailer.sendEmailOTP(rs[0].email, req.body.username, rs[0].hoTen);
-      console.log('forgot password: '+ info.accepted);
-      console.log('response: ' + info.response);
-      console.log('messageId: ' + info.messageId);
+      logger.info('mail has sent: ', info.accepted);
+      logger.info('response from gmail: ', info.response);
       res.status(201).json({
         message: info.accepted
       });
     }
   }catch(err){
-    console.log(err);
+    logger.error(err);
     res.statusCode = 500;
     res.end('View error log on console.');
   }
@@ -289,7 +287,7 @@ router.patch('/changepassword', async (req, res) => {
     
     if(mailer.checkOTP(username, token)){
       const result = await authModel.forgotPassword(username, req.body);
-      console.log("username: " + username + " has change password affected rows ", result.affectedRows);
+      logger.info("username: " + username + " has change password affected rows ", result.affectedRows);
       res.status(200).json({
         message: "success"
       })
@@ -300,7 +298,7 @@ router.patch('/changepassword', async (req, res) => {
     }
   }
   catch(err){
-    console.log(err);
+    logger.error(err);
     res.statusCode = 500;
     res.end('View error log on console.');
   }

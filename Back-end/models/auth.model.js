@@ -4,6 +4,7 @@ const moment = require('moment');
 const createError = require('http-errors');
 const otps = require('../utils/opts')
 const jwt = require('jsonwebtoken');
+const logger = require('log4js').getLogger();
 
 module.exports = {
   login: async entity => {
@@ -118,7 +119,7 @@ module.exports = {
           entity.password = hash;
           delete entity.passwordOld;
           result = db.patch(entity, { id: id }, 'taikhoannganhang')
-          console.log('userId: '+ id + ' has updated password affected rows ' + result.changedRows)
+          logger.info('userId: '+ id + ' has updated password affected rows ' + result.changedRows)
           return otps.STATUS_PASSWORD.SUCCESS;
         }
         else{
