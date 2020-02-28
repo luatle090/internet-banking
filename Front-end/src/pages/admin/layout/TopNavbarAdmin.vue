@@ -31,8 +31,10 @@
               <p class="hidden-lg hidden-md">Dashboard</p>
             </md-list-item>
             <template>
-              <md-list-item to="/admin/logout">
-                <i class="material-icons">logout</i>
+              <md-list-item>
+                <b-link @click="signOutUser">
+                  <i class="material-icons">logout</i>
+                </b-link>
                 <!-- <p class="hidden-lg hidden-md">Profile</p> -->
               </md-list-item>
             </template>
@@ -51,40 +53,33 @@
 </template>
 
 <script>
+import axios from "axios";
+import { mapActions } from "vuex";
+
 export default {
   data() {
     return {
-      isLogin: false,
-      selectedEmployee: null,
-      employees: [
-        "Jim Halpert",
-        "Dwight Schrute",
-        "Michael Scott",
-        "Pam Beesly",
-        "Angela Martin",
-        "Kelly Kapoor",
-        "Ryan Howard",
-        "Kevin Malone"
-      ]
+      isLogin: false
     };
   },
-  updated() {
-    this.checkLogin();
-  },
   methods: {
-    checkLogin() {
-      //goi api truy van accesstoken
-      if (localStorage.accessToken) {
-        this.isLogin = true;
-      } else this.isLogin = false;
-    },
+    ...mapActions(["signOut"]),
     toggleSidebar() {
       this.$sidebar.displaySidebar(!this.$sidebar.showSidebar);
-    }
-  },
-  watch: {
-    isLogin(to) {
-      this.checkLogin();
+    },
+    signOutUser(){
+      axios.get('/auth/logout', {
+      headers: {
+        "x-access-token": localStorage.getItem("accessToken")
+      }
+      }).then(res => {
+        delete localStorage.accessToken;
+        delete localStorage.refreshToken;
+        this.signOut(localStorage.accessToken);
+        this.$router.push('/admin/login');
+      }).catch(err => {
+        console.log(err);
+      });
     }
   }
 };

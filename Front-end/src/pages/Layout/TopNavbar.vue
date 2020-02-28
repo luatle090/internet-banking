@@ -33,10 +33,12 @@
             <template>
               <md-list-item to="/user">
                 <i class="material-icons">person</i>
-                <!-- <p class="hidden-lg hidden-md">Profile</p> -->
+                <p class="hidden-lg hidden-md">Profile</p>
               </md-list-item>
-              <md-list-item to="/logout">
-                <i class="material-icons">logout</i>
+              <md-list-item >
+                <b-link @click="signOutUser">
+                  <i class="material-icons">logout</i>
+                </b-link>
                 <!-- <p class="hidden-lg hidden-md">Profile</p> -->
               </md-list-item>
             </template>
@@ -48,42 +50,48 @@
 </template>
 
 <script>
+import axios from "axios";
+import { mapActions } from "vuex";
+
 export default {
   data() {
     return {
-      isLogin: false,
-      selectedEmployee: null,
-      employees: [
-        "Jim Halpert",
-        "Dwight Schrute",
-        "Michael Scott",
-        "Pam Beesly",
-        "Angela Martin",
-        "Kelly Kapoor",
-        "Ryan Howard",
-        "Kevin Malone"
-      ]
+      isLogin: false
     };
   },
-  updated() {
-    this.checkLogin();
-  },
   methods: {
-    checkLogin() {
-      //goi api truy van accesstoken
-      if (localStorage.accessToken) {
-        this.isLogin = true;
-      } else this.isLogin = false;
-    },
+    ...mapActions(["signOut", "autoRefresh"]),
     toggleSidebar() {
       this.$sidebar.displaySidebar(!this.$sidebar.showSidebar);
-    }
-  },
-  watch: {
-    isLogin(to) {
-      this.checkLogin();
+    },
+    async signOutUser(){
+      var accessToken = localStorage.getItem("accessToken");
+      var rfToken = localStorage.getItem("refreshToken");
+      //set token
+      const token = {
+        accessToken, 
+        rfToken 
+      }
+      const res = await this.autoRefresh(token);
+      if(res !== null && res.data.accessToken){
+        accessToken = res.data.accessToken;
+      }
+      axios.get('/auth/logout', {
+      headers: {
+        "x-access-token": accessToken
+      }
+      }).then(res => {
+        delete localStorage.accessToken;
+        delete localStorage.refreshToken;
+        this.signOut(localStorage.accessToken);
+        this.$router.push('/login');
+      }).catch(err => {
+        console.log(err);
+      });
     }
   }
 };
 </script>
-<style lang="css"></style>
+<style scoped>
+
+</style>>

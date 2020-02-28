@@ -19,6 +19,7 @@ import "./plugins/bootstrap-vue";
 import VueSweetalert2 from 'vue-sweetalert2'
 import VueRouter from "vue-router";
 import App from "./App";
+import store from "./store";
 import axios from "axios";
 
 
@@ -52,72 +53,38 @@ Vue.use(GlobalDirectives);
 Vue.use(VueSweetalert2);
 
 axios.defaults.baseURL = "http://localhost:3000/api";
-var isAuthenticated = true
+store.dispatch("isLogin", localStorage.getItem("accessToken"));
 
-//check expire token
-// axios.interceptors.response.use(response => {
-//     return response;
-// },
-// error => {
-//   const { config, response: { status } } = error
-//   const originalRequest = config
-
-//   if(status === 401){
-//     //router.push({ name: "login" });
-//     return Promise.reject(false);
-//   }
-
-//   if (status === 403) {
-//     if (!isAuthenticated) {
-//       isAuthenticated = true
-//       //call new token  
-//       axios.post("/renew-token", {
-//         refreshToken: localStorage.getItem("refreshToken")
-//       }).then(response => {
-//         var accessToken = response.data.accessToken;
-//         console.log("access", accessToken);
-//         isAuthenticated = false;
-//         localStorage.setItem("accessToken", accessToken)
-//       })
-//       .catch(error => {
-//         console.log(error)
-//       });
-//     }
-
-//     console.log(originalRequest);
-//     const retryOriginalRequest = new Promise((resolve) => {
-//         resolve(axios(originalRequest))
-//     })
-//     return retryOriginalRequest
-//   }
-//   return Promise.reject(error);
-// });
-
-//redirect page
-// router.beforeEach((to, from, next) => {
-//   if (to.path.includes("admin") && to.matched.some(record => record.meta.requiresAuth)) {
-//     // this route requires auth, check if logged in
-//     // if not, redirect to login page.
+/**
+ * 
+ * Redirect page: If the user is not logged in, redirect to the login page
+ * 
+ */
+router.beforeEach((to, from, next) => {
+  if (to.path.includes("admin") && to.matched.some(record => record.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
     
-//     if (!isAuthenticated && to.path !== "/admin/login") {
-//       next({
-//         path: '/admin/login'
-//       })
-//     } else {
-//       next()
-//     }
-//   } else {
-//     if(!isAuthenticated && to.path !== "/login" && !to.path.includes("admin"))
-//       next('/login')
-//     else{
-//       next();
-//     }
-//   }
-// });
+    if (!store.getters.getAuthenicated && to.path !== "/admin/login") {
+      next({
+        path: '/admin/login'
+      })
+    } else {
+      next()
+    }
+  } else {
+    if(!store.getters.getAuthenicated && to.path !== "/login" && !to.path.includes("admin"))
+      next('/login')
+    else{
+      next();
+    }
+  }
+});
 
 /* eslint-disable no-new */
 new Vue({
   el: "#app",
+  store,
   render: h => h(App),
   router,
   data: {

@@ -5,8 +5,7 @@ import UserProfile from "@/pages/UserProfile/UserProfile.vue";
 import TableList from "@/pages/TableList.vue";
 import Typography from "@/pages/Typography.vue";
 import Icons from "@/pages/Icons.vue";
-import Login from "@/pages/Login/LoginUser.vue";
-import Logout from "@/pages/Logout.vue"
+import Login from "@/pages/Auth/LoginUser.vue";
 import Admin from "@/pages/admin/layout/layout.vue"
 import adminLogin from "@/pages/admin/adminLogin.vue"
 import NotFoundComponent from "@/pages/NotFound.vue"
@@ -56,11 +55,6 @@ const routes = [
         path: "lichsunhantien",
         name: "Lịch Sử Nhận Tiền",
         component: () => import("../pages/customer/lichSuNhanTien")
-      },
-      {
-        path: "/logout",
-        name: "Logout",
-        component: Logout
       }
     ],
   },
@@ -72,7 +66,7 @@ const routes = [
   {
     path: "/forgot",
     name: "Forgot Password",
-    component: () => import("../pages/Login/ForgotPassword")
+    component: () => import("../pages/Auth/ForgotPassword")
   },
   {
     path: "/admin/login",

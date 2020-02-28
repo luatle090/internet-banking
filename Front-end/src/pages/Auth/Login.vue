@@ -79,6 +79,7 @@
 import axios from "axios";
 import Router from "vue-router";
 import VueRecaptcha from "vue-recaptcha";
+import { mapActions } from "vuex";
 export default {
   components: { VueRecaptcha },
   data() {
@@ -90,26 +91,14 @@ export default {
       status: ""
     };
   },
-  created() {
-    this.checkCurrentLogin();
-  },
-  updated() {
-    this.checkCurrentLogin();
-  },
   methods: {
     submit: function() {
       // this.status = "submitting";
        this.$refs.recaptcha.execute();
     },
-    checkCurrentLogin() {
-      //goi api truy van accesstoken
-      // if (localStorage.accessToken) {
-      //   this.$router.replace(this.$route.query.redirect || "/user");
-      // }
-    },
     onCaptchaVerified(recaptchaToken) {
       const self = this;
-           //self.status = "submitting";
+      self.status = "submitting";
           // console.log(recaptchaToken);
       self.$refs.recaptcha.reset();
       axios

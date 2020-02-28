@@ -25,7 +25,7 @@
       <div class="actions md-layout md-alignment-center-space-between">
         
         <b-link to="/forgot">Quên mật khẩu</b-link>
-        <md-button class="md-raised md-primary" type="submit">Log in</md-button>
+        <md-button :disabled="status" class="md-raised md-primary" type="submit">Log in</md-button>
       </div>
       </form>
 
@@ -45,6 +45,7 @@
 import axios from "axios";
 import Router from "vue-router";
 import VueRecaptcha from "vue-recaptcha";
+import { mapActions } from 'vuex';
 
 export default {
   components: { VueRecaptcha },
@@ -54,29 +55,18 @@ export default {
       password: "",
       message: "",
       error: false,
-      status: ""
+      status: false
     };
   },
-  created() {
-    this.checkCurrentLogin();
-  },
-  updated() {
-    this.checkCurrentLogin();
-  },
   methods: {
+    ...mapActions(["isLogin"]),
     submit: function() {
       // this.status = "submitting";
        this.$refs.recaptcha.execute();
     },
-    checkCurrentLogin() {
-      //goi api truy van accesstoken
-      // if (localStorage.accessToken) {
-      //   this.$router.replace(this.$route.query.redirect || "/user");
-      // }
-    },
     onCaptchaVerified(recaptchaToken) {
       const self = this;
-           //self.status = "submitting";
+      self.status = true;
           // console.log(recaptchaToken);
       self.$refs.recaptcha.reset();
       axios
@@ -89,12 +79,14 @@ export default {
           //console.log(resp.data);
           var accesstoken = resp.data.accessToken;
           var rftoken = resp.data.refreshToken;
-          if (!accesstoken) {
+          if (!accesstoken && !rftoken) {
             this.loginFailed();
             return;
           }
+          this.isLogin(accesstoken);
           localStorage.setItem("accessToken", accesstoken);
           localStorage.setItem("refreshToken", rftoken);
+
           this.$router.push(this.$route.query.redirect || "/");
         })
         .catch(() => {
@@ -108,6 +100,7 @@ export default {
     loginFailed() {
       this.error = true;
       this.message = "Đăng nhập thất bại";
+      this.status = false;
       //this.$store.dispatch("logout"); // <=
       delete localStorage.accessToken;
     }

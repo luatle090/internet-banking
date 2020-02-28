@@ -135,7 +135,7 @@ router.post('/admin', async (req, res) => {
         authenticated: false
       });
     }
-    logger.info('Username login: ', ret.username);
+    logger.info('Username login:', ret.username);
       // thêm token vào db addToken()
     // Save the user to the database. At this point they have been verified.
     // });
@@ -198,7 +198,7 @@ router.post('/renew-token', async (req, res) => {
     const token = generateAccessToken(userObj);
     logger.info('refreshToken of username: ', userObj.username);
     res.status(201).json({
-      access_token: token
+      accessToken: token
     });
   }
   catch(err){
