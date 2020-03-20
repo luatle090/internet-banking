@@ -65,6 +65,7 @@
 // import { SimpleTable, OrderedTable } from "@/components";
 import axios from "axios";
 import { VMoney } from "v-money";
+import { mapActions } from 'vuex';
 
 export default {
   components: {
@@ -91,11 +92,23 @@ export default {
   directives: {
     money: VMoney
   },
-  mounted() {
-    axios
-      .get("/taikhoannganhang/danhsachtaikhoan", {
+  methods: {
+    ...mapActions(["autoRefresh"]),
+    async getDanhSachTaiKhoan(){
+      var accessToken = localStorage.getItem("accessToken");
+      var rfToken = localStorage.getItem("refreshToken");
+
+      const token = {
+          accessToken,
+          rfToken
+      };
+      const res = await this.autoRefresh(token);
+      if(res !== null && res.data.accessToken){
+          accessToken = localStorage.getItem("accessToken");
+      }
+      axios.get("/taikhoannganhang/danhsachtaikhoan", {
         headers: {
-          "x-access-token": localStorage.getItem("accessToken")
+          "x-access-token": accessToken
         }
       })
       .then(res => {
@@ -106,6 +119,10 @@ export default {
       .catch(err => {
         console.log(err);
       });
+    }
+  },
+  mounted() {
+    this.getDanhSachTaiKhoan();
   }
 };
 </script>

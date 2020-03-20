@@ -17,7 +17,7 @@
                                     <md-table-head>Ngân Hàng Nhận</md-table-head>
                                 </md-table-row>
                                 <md-table-row slot="md-table-row" :key="item.id" v-for="item in lichSuList">
-                                    <md-table-cell md-label="Name">{{ item.ngay }}</md-table-cell>
+                                    <md-table-cell md-label="Name">{{ item.ngayCK }}</md-table-cell>
                                     <md-table-cell md-label="Name">{{ item.soTaiKhoanNhan }}</md-table-cell>
                                     <md-table-cell md-label="Name">
                                         <input type="hidden" v-model.lazy="item.giaoDich" v-money="money" />
@@ -43,6 +43,7 @@
 <script>
 import axios from "axios";
 import { VMoney } from "v-money";
+import { mapActions } from 'vuex';
 export default {
     data() {
         return {
@@ -54,12 +55,24 @@ export default {
             }
         };
     },
+    methods: {
+        ...mapActions(["autoRefresh"]),
+        async getHistory() {
+            var accessToken = localStorage.getItem("accessToken");
+            var rfToken = localStorage.getItem("refreshToken");
 
-    mounted() {
-        axios
-            .get("/lichsuchuyenkhoan", {
+            const token = {
+                accessToken,
+                rfToken
+            };
+            const res = await this.autoRefresh(token);
+            if(res !== null && res.data.accessToken){
+                accessToken = localStorage.getItem("accessToken");
+            }
+
+            axios.get("/lichsuchuyenkhoan", {
                 headers: {
-                "x-access-token": localStorage.getItem("accessToken")
+                "x-access-token": accessToken
                 }
             })
             .then(res => {
@@ -67,7 +80,11 @@ export default {
             })
             .catch(err => {
                 console.log(err);
-            });
+            });    
+        }
+    },
+    mounted() {
+        this.getHistory();
     },
     directives: {
         money: VMoney

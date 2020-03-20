@@ -30,12 +30,15 @@ const actions = {
       const now = Date.now() / 1000 // exp is represented in seconds since epoch
       let timeUntilRefresh = decoded.exp - now;
       const limitTime = 2 * 60;
+
+      //vượt quá thời gian thì gọi api renew
       if(timeUntilRefresh <= limitTime) {
         const res = await axios.post("/auth/renew-token", {
           refreshToken: token.rfToken
         });
         if(res.status >= 200 && res.status < 300){
           commit("setAuthenticate", true);
+          localStorage.setItem("accessToken", res.data.accessToken);
           return res;
         }
       }
