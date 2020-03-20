@@ -7,7 +7,7 @@ module.exports = {
   },
 
   loadByIdTaiKhoanGuiWithOutNhacNo: id => {
-    const sql = `select DATE_FORMAT(ngay, "%d/%m/%Y") as ngay, idTaiKhoanNHGui, soTaiKhoanNhan,  
+    const sql = `select DATE_FORMAT(ngay, "%d/%m/%Y") as ngayCK, idTaiKhoanNHGui, soTaiKhoanNhan,  
                   giaoDich, noiDungChuyen, nganHangNhan
                   from lichsuchuyenkhoan 
                   where idTaiKhoanNHGui = ${id} and idNhacNo IS NULL
