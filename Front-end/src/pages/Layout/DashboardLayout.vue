@@ -16,14 +16,33 @@
         <md-icon>content_paste</md-icon>
         <p>tai khoan ngan hang</p>
       </sidebar-link>
-      <sidebar-link to="/lichsuchuyenkhoan">
-        <md-icon>content_paste</md-icon>
-        <p>lịch sử chuyển khoản</p>
-      </sidebar-link>
-       <sidebar-link to="/lichsunhantien">
-        <md-icon>content_paste</md-icon>
-        <p>lịch sử nhận tiền</p>
-      </sidebar-link>
+      <li to="/">
+        <a href="#" v-b-toggle.collapse-lichsu class="nav-link sidebar-menu-item">
+          <md-icon>content_paste</md-icon>
+          <p>Lịch sử giao dịch <b class="caret"></b></p></a>
+          <b-collapse id="collapse-lichsu" accordion="my-accordion" style="animation-fill-mode: both; animation-timing-function: ease-out;">
+            <sidebar-link to="/lichsuchuyenkhoan">
+              <p>lịch sử chuyển khoản</p>
+            </sidebar-link>
+            <sidebar-link to="/lichsunhantien">
+              <p>lịch sử nhận tiền</p>
+            </sidebar-link>
+          </b-collapse>
+      </li>
+
+      <li to="/">
+        <a href="#" v-b-toggle.collapse-chuyenkhoan class="nav-link sidebar-menu-item">
+          <md-icon>content_paste</md-icon>
+          <p>Chuyển khoản <b class="caret"></b></p></a>
+          <b-collapse id="collapse-chuyenkhoan" accordion="my-accordion" style="animation-fill-mode: both; animation-timing-function: ease-out;">
+            <sidebar-link to="/chuyenkhoannoibo">
+              <p>chuyển khoản nội bộ</p>
+            </sidebar-link>
+            <sidebar-link to="/">
+              <p>chuyển khoản liên ngân hàng</p>
+            </sidebar-link>
+          </b-collapse>
+      </li>
       <!-- <sidebar-link to="/typography">
         <md-icon>library_books</md-icon>
         <p>Typography</p>

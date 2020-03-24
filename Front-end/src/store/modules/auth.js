@@ -44,6 +44,20 @@ const actions = {
       }
     }
     return null;
+  },
+
+  async getToken({ dispatch }){
+    var accessToken = localStorage.getItem("accessToken");
+    var rfToken = localStorage.getItem("refreshToken");
+
+    const token = {
+        accessToken,
+        rfToken
+    };
+
+    await dispatch('autoRefresh', token);
+    accessToken = localStorage.getItem("accessToken");
+    return accessToken;
   }
 };
 

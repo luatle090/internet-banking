@@ -55,6 +55,16 @@ const routes = [
         path: "lichsunhantien",
         name: "Lịch Sử Nhận Tiền",
         component: () => import("../pages/customer/lichSuNhanTien")
+      },
+      {
+        path: "chuyenkhoannoibo",
+        name: "Chuyển khoản",
+        component: () => import("../pages/chuyenKhoan/chuyenKhoanNoiBo")
+      },
+      {
+        path: "xacnhanchuyenkhoan",
+        name: "Xác nhận Chuyển khoản",
+        component: () => import("../pages/chuyenKhoan/xacNhanChuyenKhoanNoiBo")
       }
     ],
   },
