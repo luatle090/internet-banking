@@ -74,6 +74,7 @@ router.post('/', async (req, res) => {
 
 
 /**
+ * login admin
  * body: {
  *    "user": "",
  *    "password": "",

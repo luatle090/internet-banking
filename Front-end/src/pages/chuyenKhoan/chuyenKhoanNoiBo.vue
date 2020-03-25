@@ -19,11 +19,12 @@
                 <div v-if="showDS" class="md-layout-item md-small-size-100 md-size-100">
                   <md-field>
                     <label>Số tài khoản</label>
-                    <md-input required list="my-list-id"></md-input>
-                    <datalist id="my-list-id">
-                      <option :key="thietLap.soTK" v-for="thietLap in dsThietLap">{{ thietLap.soTK }} - {{ thietLap.hoTen }}</option>
+                    <md-input @change="getSoTK" required list="ds-thietLap"></md-input>
+                    <datalist id="ds-thietLap">
+                      <option v-for="thietLap in dsThietLap" :value="thietLap.soTK" :key="thietLap.soTK" ></option>
                     </datalist>
                     </md-field>
+                    <span class="help-block" ><h3>{{ messageSoTK }}</h3></span>
                 </div>
                 <div v-else class="md-layout-item md-small-size-100 md-size-100">
                   <md-field>
@@ -85,9 +86,9 @@ export default {
 
   watch: {
     selected: function(){
-       if(this.selected == "1"){
+      this.messageSoTK = "";
+      if(this.selected == "1"){
         this.showDS = true;
-        this.fetchThietLap();
       }
       else if (this.selected == "2"){
         this.showDS = false;
@@ -109,7 +110,9 @@ export default {
           "x-access-token" : accessToken
         }
       }).then(res => {
+       
         if(res.status === 204){
+           console.log(res.status);
           this.messageSoTK = "Không tồn tại tài khoản nhận này";
         }
         else if (res.status === 200) {
@@ -117,7 +120,7 @@ export default {
         }
         
       }).catch(err => {
-        if(err.response.status){
+        if(err.response.status === 409){
           this.messageSoTK = "Tài khoản nhận là tài khoản của bạn";
         }
         else {
@@ -152,30 +155,35 @@ export default {
       this.$router.push({path: 'xacnhanchuyenkhoan'});
     },
 
+    getSoTK(e){
+      let val = e.target.value;
+      if(val){
+        this.soTK = val;
+      }
+    },
 
-    fetchThietLap(){
-      this.dsThietLap = [
-        {soTK: "NH1000", hoTen: "Nguyễn Văn A"},
-        {soTK: "NH1001", hoTen: "Nguyễn Văn C"},
-        {soTK: "NH1002", hoTen: "Nguyễn Văn B"}
-      ]
+    async fetchThietLap(){
+      // this.dsThietLap = [
+      //   {soTK: "NH1000", hoTen: "Nguyễn Văn A"},
+      //   {soTK: "NH1001", hoTen: "Nguyễn Văn C"},
+      //   {soTK: "NH1002", hoTen: "Nguyễn Văn B"}
+      // ]
 
-      // const accessToken = getToken();
+      const accessToken = await this.getToken();
 
-      // axios({
-      //   method: "get",
-      //   url: "/thietlapnguoinhan/",
-      //   headers:{
-      //     "x-access-token" : accessToken
-      //   },
-      //   data: data
-      // }).then(res => {
-      //   this.dsThietLap = res.data
-      // }).catch(err => {
-      //   // this.message = "Có lỗi xảy ra. Vui lòng thử lại sau";
-      //   // this.erro = true;
+      axios({
+        method: "get",
+        url: "/thietlapnguoinhan/",
+        headers:{
+          "x-access-token" : accessToken
+        }
+      }).then(res => {
+        this.dsThietLap = res.data
+      }).catch(err => {
+        // this.message = "Có lỗi xảy ra. Vui lòng thử lại sau";
+        // this.erro = true;
 
-      // });
+      });
     },
 
     // chuyenKhoan(){
