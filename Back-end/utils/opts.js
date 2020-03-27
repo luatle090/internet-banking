@@ -42,6 +42,11 @@ var opts = {
         NEW_PWD_IS_LIKE_OLD_PWD: 1,
         WRONG_PWD: -1,
         FAILED: -2
+    },
+
+    PGP: {
+        SECRET_KEY: 'Stay strong',
+        PASSPHRASE: '123456'
     }
 }
 

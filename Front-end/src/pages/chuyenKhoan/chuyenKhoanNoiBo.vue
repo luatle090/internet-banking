@@ -109,8 +109,7 @@ export default {
         headers:{
           "x-access-token" : accessToken
         }
-      }).then(res => {
-       
+      }).then(res => {     
         if(res.status === 204){
            console.log(res.status);
           this.messageSoTK = "Không tồn tại tài khoản nhận này";

@@ -4,10 +4,14 @@ const chuyenKhoanModel = require('../models/chuyenkhoan.model');
 const taiKhoanModel = require('../models/taikhoannganhang.model');
 const logger = require('log4js').getLogger();
 const mailer = require('../utils/mailer');
+const pgpApi = require('../utils/pgpApi');
+const rsaApi = require('../utils/rsaApi');
 
 const router = express.Router();
 
-router.post('/noibo', async (req, res, next) => {
+var verifyAccessToken = require('../models/auth.model').verifyAccessToken;
+
+router.post('/noibo', verifyAccessToken, async (req, res, next) => {
   const userId = res.locals.token.userId;
   const username = res.locals.token.username;
   if (!req.body.userIdNhan) {
@@ -58,7 +62,7 @@ router.post('/noibo', async (req, res, next) => {
 })
 
 
-router.get('/getotp', async (req, res) => {
+router.get('/getotp', verifyAccessToken, async (req, res) => {
   const userId = res.locals.token.userId;
 
   const row = await taiKhoanModel.getInfoById(userId);
@@ -84,6 +88,43 @@ router.get('/getotp', async (req, res) => {
     res.end('View error log on console.');
   }
 });
+
+
+router.post('/', async (req, res, next) => {
+    let date = Date.now();
+    var checkSum = await pgpApi.sign('HHH', date, req.body);
+    //await new Promise(resolve => setTimeout(resolve, 3000));
+    //date = Date.now();
+    const valid  = await pgpApi.verify(checkSum, "HHH", date, req.body);
+    if (valid){
+      res.status(200).json({
+        message: "success"
+      }).end();
+    }
+    else{
+      res.status(403).end();
+    }
+
+});
+
+
+router.post('/rsa', async (req, res, next) => {
+  let date = Date.now();
+  var checkSum = await rsaApi.sign('HHH', date, req.body);
+  //await new Promise(resolve => setTimeout(resolve, 3000));
+  //date = Date.now();
+  const valid = await rsaApi.verifyChecksum(checkSum, "HHH", date, req.body);
+  if (valid){
+    res.status(200).json({
+      message: "success"
+    }).end();
+  }
+  else{
+    res.status(403).end();
+  }
+
+});
+
 
 
 // router.get('/:id', async (req, res) => {
