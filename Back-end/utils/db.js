@@ -33,8 +33,9 @@ const pool_query = promisify(pool.query).bind(pool);
 
 module.exports = {
   load: sql => pool_query(sql),
+  select: (sql, params) => pool_query(sql, params),
   add: (entity, tableName) => pool_query(`insert into ${tableName} set ?`, entity),
   del: (condition, tableName) => pool_query(`delete from ${tableName} where ?`, condition),
   patch: (entity, condition, tableName) => pool_query(`update ${tableName} set ? where ?`, [entity, condition]),
-  store: (sql, param) => pool_query(sql, param),
+  store: (sql, params) => pool_query(sql, params),
 };

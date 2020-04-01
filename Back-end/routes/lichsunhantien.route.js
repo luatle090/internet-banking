@@ -14,14 +14,28 @@ router.get('/', async (req, res) => {
   if (isNaN(userId)) {
     throw createError(400, 'Invalid id.');
   }
+  if (isNaN(req.query.limit)) {
+    throw createError(400, 'Invalid limit.');
+  }
+  if (isNaN(req.query.offset)) {
+    throw createError(400, 'Invalid offset.');
+  }
 
+  const limit = req.query.limit || 10;
+  const offset = req.query.limit * req.query.offset || 0;
   const id = userId || -1;
+
   try {
-    const lichSuNhanTienList = await lichsunhantienModel.loadByIdTaiKhoanNhan(id);
-    if (lichSuNhanTienList.length === 0) {
+    const lichSuNhanTienList = await lichsunhantienModel.loadByIdTaiKhoanNhan(id, limit, offset);
+    const totalItems = await lichsunhantienModel.countByIdTaiKhoanNhan(id);
+    if (lichSuNhanTienList.length === 0 || totalItems.length === 0) {
       res.status(204).end();
     } else {
-      res.json(lichSuNhanTienList);
+      const result = {
+        totalItems: totalItems[0].total,
+        listResult: lichSuNhanTienList
+      }
+      res.json(result);
     }
   } catch (err) {
     console.log(err);

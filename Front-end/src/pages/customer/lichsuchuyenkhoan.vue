@@ -8,29 +8,24 @@
                     </md-card-header>
                     <md-card-content>
                         <div>
-                            <md-table>
-                                <md-table-row slot="md-table-row">
-                                    <md-table-head>Ngày</md-table-head>
-                                    <md-table-head>TK Nhận</md-table-head>
-                                    <md-table-head>Giao Dịch</md-table-head>
-                                    <md-table-head>Nội dung</md-table-head>
-                                    <md-table-head>Ngân Hàng Nhận</md-table-head>
-                                </md-table-row>
-                                <md-table-row slot="md-table-row" :key="item.id" v-for="item in lichSuList">
-                                    <md-table-cell md-label="Name">{{ item.ngayCK }}</md-table-cell>
-                                    <md-table-cell md-label="Name">{{ item.soTaiKhoanNhan }}</md-table-cell>
-                                    <md-table-cell md-label="Name">
-                                        <input type="hidden" v-model.lazy="item.giaoDich" v-money="money" />
-                                        {{ item.giaoDich }} 
-                                    </md-table-cell>
-                                    <md-table-cell md-label="Name">
-                                        {{ item.noiDungChuyen }}
-                                    </md-table-cell>
-                                    <md-table-cell md-label="Name">
-                                        {{ item.nganHangNhan }}
-                                    </md-table-cell>
-                                </md-table-row>
-                            </md-table>
+                            <b-table id="my-table" striped hover 
+                                :items="getHistory" 
+                                :fields="headers"
+                                :per-page="perPage"
+                                :current-page="currentPage"
+                            ></b-table>
+                            <div class="paging-right md-card-actions md-alignment-space-between">
+                                <div></div>
+                                <b-pagination class="pagination-success "
+                                    v-model="currentPage"
+                                    :total-rows="rows"
+                                    :per-page="perPage"
+                                    aria-controls="my-table"
+                                ></b-pagination>
+                            </div>
+                            <div style="display: none;" :key="item.id" v-for="item in lichSuList">
+                                <input type="hidden" v-model.lazy="item.giaoDich" v-money="money" /> 
+                            </div>
                         </div>
                         <!-- <simple-table table-header-color="green"></simple-table> -->
                     </md-card-content>
@@ -47,6 +42,16 @@ import { mapActions } from 'vuex';
 export default {
     data() {
         return {
+            currentPage: 1,
+            perPage: 10,
+            rows: 0,
+            headers: [
+                { key: 'ngayCK', label: 'Ngày' },
+                { key: 'soTaiKhoanNhan', label: 'TK nhận' },
+                { key: 'giaoDich', label: 'Giao dịch' },
+                { key: 'noiDungChuyen', label: 'Nội dung' },
+                { key: 'nganHangNhan', label: 'Ngân hàng nhận' }
+            ],
             lichSuList: [],
             money: {
                 thousands: ",",
@@ -70,13 +75,19 @@ export default {
                 accessToken = localStorage.getItem("accessToken");
             }
 
-            axios.get("/lichsuchuyenkhoan", {
+            return axios.get("/lichsuchuyenkhoan", {
                 headers: {
                 "x-access-token": accessToken
+                },
+                params:{
+                    limit: this.perPage,
+                    offset: this.currentPage - 1
                 }
             })
             .then(res => {
-                this.lichSuList = res.data;
+                this.rows = res.data.totalItems;
+                this.lichSuList = res.data.listResult;
+                return this.lichSuList;
             })
             .catch(err => {
                 console.log(err);
@@ -91,3 +102,8 @@ export default {
     }
 };
 </script>
+<style scoped>
+    .paging-right{
+        margin-right: 0px!important;
+    }
+</style>

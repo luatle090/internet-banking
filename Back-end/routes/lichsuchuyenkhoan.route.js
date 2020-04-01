@@ -1,6 +1,6 @@
 const express = require('express');
 const createError = require('http-errors');
-const lichsuchuyenkhoanModel = require('../models/lichsuchuyenkhoan.model');
+const chuyenKhoanModel = require('../models/lichsuchuyenkhoan.model');
 
 const router = express.Router();
 
@@ -14,14 +14,28 @@ router.get('/', async (req, res) => {
   if (isNaN(userId)) {
     throw createError(400, 'Invalid id.');
   }
+  if(isNaN(req.query.limit)){
+    throw createError(400, 'Invalid limit.');
+  }
+  if(isNaN(req.query.offset)){
+    throw createError(400, 'Invalid offset.');
+  }
 
-  const id = userId || -1;
+  const limit = req.query.limit || 10;
+  const offset = req.query.limit * req.query.offset || 0;
+
   try {
-    const lichSuChuyenList = await lichsuchuyenkhoanModel.loadByIdTaiKhoanGuiWithOutNhacNo(userId);
-    if (lichSuChuyenList.length === 0) {
+    const lichSuChuyenList = await chuyenKhoanModel.loadByIdTaiKhoanGuiWithOutNhacNo(userId, limit, offset);
+    const totalItems = await chuyenKhoanModel.countByIdTaiKhoanGuiWithOutNhacNo(userId);
+    if (lichSuChuyenList.length === 0 || totalItems.length === 0) {
       res.status(204).end();
     } else {
-      res.json(lichSuChuyenList);
+      const result ={
+        totalItems: totalItems[0].total,
+        listResult: lichSuChuyenList,
+      }
+     
+      res.json(result);
     }
   } catch (err) {
     console.log(err);

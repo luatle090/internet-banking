@@ -34,8 +34,8 @@ proc_exit:BEGIN
 	-- kiểm tra tài khoản nhận có tồn tại
 	IF NOT EXISTS (SELECT 1 FROM taikhoannganhang where id = idTaiKhoanNhan)
 	THEN
-		LEAVE proc_exit;
 		SET status = -1;
+		LEAVE proc_exit;
 	END IF;
 
  	-- kiểm tra số tiền trong tài khoản A

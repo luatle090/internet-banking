@@ -6,12 +6,20 @@ module.exports = {
     return db.load(sql);
   },
 
-  loadByIdTaiKhoanGuiWithOutNhacNo: id => {
+  loadByIdTaiKhoanGuiWithOutNhacNo: (idTaiKhoan, limit, offset) => {
     const sql = `select DATE_FORMAT(ngay, "%d/%m/%Y") as ngayCK, idTaiKhoanNHGui, soTaiKhoanNhan,  
                   giaoDich, noiDungChuyen, nganHangNhan
                   from lichsuchuyenkhoan 
-                  where idTaiKhoanNHGui = ${id} and idNhacNo IS NULL
-                  order by ngay desc`;
+                  where idTaiKhoanNHGui = ${idTaiKhoan} and idNhacNo IS NULL
+                  order by ngay desc
+                  limit ${limit} offset ${offset}`;
+    return db.load(sql);
+  },
+
+  countByIdTaiKhoanGuiWithOutNhacNo: (idTaiKhoan) => {
+    const sql = `select count(id) as total
+                  from lichsuchuyenkhoan 
+                  where idTaiKhoanNHGui = ${idTaiKhoan} and idNhacNo IS NULL`;
     return db.load(sql);
   },
 
