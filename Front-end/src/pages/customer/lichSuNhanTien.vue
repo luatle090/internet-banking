@@ -94,10 +94,6 @@ export default {
             });    
         }
     },
-
-    mounted() {
-        this.getHistory()
-    },
     directives: {
         money: VMoney
     }
