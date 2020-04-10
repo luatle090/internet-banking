@@ -6,6 +6,9 @@ const logger = require('log4js').getLogger();
 const mailer = require('../utils/mailer');
 const pgpApi = require('../utils/pgpApi');
 const rsaApi = require('../utils/rsaApi');
+const doiTacModel = require('../models/doitac.model');
+const otps = require('../utils/opts');
+const axios = require('axios');
 
 const router = express.Router();
 
@@ -68,7 +71,7 @@ router.get('/getotp', verifyAccessToken, async (req, res) => {
   const row = await taiKhoanModel.getInfoById(userId);
 
   if(row.length === 0){
-    res.status(204).end();
+    return res.status(204).end();
   }
 
   const username = res.locals.token.username;
@@ -90,39 +93,199 @@ router.get('/getotp', verifyAccessToken, async (req, res) => {
 });
 
 
-router.post('/', async (req, res, next) => {
-    let date = Date.now();
-    var checkSum = await pgpApi.sign('HHH', date, req.body);
-    //await new Promise(resolve => setTimeout(resolve, 3000));
-    //date = Date.now();
-    const valid  = await pgpApi.verify(checkSum, "HHH", date, req.body);
+router.post('/noptien', async (req, res, next) => {
+  //header
+  if (!req.headers[otps.API.HEADER_PARTNERCODE]) {
+    throw createError(400, 'Invalid partnerCode.');
+  }
+  if (!req.headers[otps.API.HEADER_CHECKSUM]) {
+    throw createError(400, 'Invalid checksum.');
+  }
+  if (!req.headers[otps.API.HEADER_NGAY_CHUYEN_KHOAN] 
+        || isNaN(req.headers[otps.API.HEADER_NGAY_CHUYEN_KHOAN])) {
+    throw createError(400, 'Invalid ngayCK.');
+  }
+  
+  //body
+  if (!req.body.soTKGui) {
+    throw createError(400, 'Invalid soTKGui.');
+  }
+  if (!req.body.soTKNhan) {
+    throw createError(400, 'Invalid soTKNhan.');
+  }
+  if (!req.body.giaoDich) {
+    throw createError(400, 'Invalid giaoDich.');
+  }
+  if (!req.body.noiDung) {
+    throw createError(400, 'Invalid noiDung.');
+  }
+
+  const partnerCode = req.headers[otps.API.HEADER_PARTNERCODE];
+  let checksum = req.headers[otps.API.HEADER_CHECKSUM];
+  const ngayCK = req.headers[otps.API.HEADER_NGAY_CHUYEN_KHOAN];
+
+  //check timesamp
+  let date = new Date();
+  date.setMinutes(date.getMinutes() - otps.API.MINUTES);
+  if(ngayCK > Date.now() || ngayCK < date.getTime()){
+    throw createError(403, 'Thoi gian het han');
+  }
+
+  //let date = Date.now();
+  //var checksum = await pgpApi.sign(obj);
+  //await new Promise(resolve => setTimeout(resolve, 3000));
+  //date = Date.now();
+
+  const rowsDoiTac = await doiTacModel.loadByCode(partnerCode);
+  if(rowsDoiTac.length === 0){
+    throw createError(404, 'Ngan hang doi tac not found');  
+  }
+
+  const obj = {
+    partnerCode: partnerCode,
+    timesamp: ngayCK,
+    ...req.body
+  }
+
+  try{
+    //check checksum
+    logger.info('check checksum');
+    //checksum = await pgpApi.sign(obj);
+    const valid = await pgpApi.verify(checksum, obj);
     if (valid){
-      res.status(200).json({
-        message: "success"
-      }).end();
+      //save checksum
+      obj.checksum = checksum;
+      
+      //chuyen khoan
+      const rows = await chuyenKhoanModel.NopTienVaoTaiKhoan(obj, new Date());
+      
+      var status = rows[1][0].status;
+      if(status === 0){
+        logger.info("Giao dich thanh cong");
+        res.status(201).json({
+            message: "success"
+        }).end();
+      }
+      else if (status === -1){
+        logger.info("Khong ton tai nguoi nhan");
+        res.status(204).end();
+      }
+      else {
+        logger.error("Giao dich that bai");
+        res.status(500).end('rollback transaction');
+      }
     }
     else{
-      res.status(403).end();
+      res.status(403).json({
+        message: "Goi tin bi sua doi"
+      }).end();
     }
-
+  } catch(err){
+    logger.error(err);
+    res.status(500);
+    res.end('View error log on console.');
+  }
 });
 
 
-router.post('/rsa', async (req, res, next) => {
-  let date = Date.now();
-  var checkSum = await rsaApi.sign('HHH', date, req.body);
+router.post('/trutien', verifyAccessToken, async (req, res, next) => {
   //await new Promise(resolve => setTimeout(resolve, 3000));
-  //date = Date.now();
-  const valid = await rsaApi.verifyChecksum(checkSum, "HHH", date, req.body);
-  if (valid){
-    res.status(200).json({
-      message: "success"
-    }).end();
+  
+  const userId = res.locals.token.userId;
+
+  if (!req.body.soTKNhan) {
+    throw createError(400, 'Invalid soTKNhan.');
   }
-  else{
-    res.status(403).end();
+  if (!req.body.giaoDich) {
+    throw createError(400, 'Invalid giaoDich.');
+  }
+  if (!req.body.noiDung) {
+    throw createError(400, 'Invalid noiDung.');
+  }
+  if (!req.body.partnerCode) {
+    throw createError(400, 'Invalid partnerCode.');
   }
 
+  //kiểm tra giao dịch
+  const rowsTaiKhoan = await taiKhoanModel.loadById(userId);
+  if(rowsTaiKhoan.length === 0){
+    throw createError(204, '');
+  }
+  else if(rowsTaiKhoan[0].soDu <= req.body.giaoDich){
+    throw createError(406, 'So du khong du thuc hien');
+  }
+
+  //lấy uri cua doi tac
+  const rowsDoiTac = await doiTacModel.loadByCode(req.body.partnerCode);
+  if(rowsDoiTac.length === 0) {
+    throw createError(404, 'Ngan hang doi tac not found');
+  }
+
+  const entity = {
+    partnerCode: req.body.partnerCode,
+    ngayCK: Date.now(),
+    soTKGui: rowsTaiKhoan[0].soTK,
+    soTKNhan: req.body.soTKNhan,
+    giaoDich: req.body.giaoDich,
+    noiDung: req.body.noiDung
+  }
+
+  try{
+    const url = rowsDoiTac[0].api;
+    let checkSum = "";
+    var data;
+    if(rowsDoiTac[0].chuanChuKy.toUpperCase() == otps.SIGNATURE.PGP.toUpperCase()){
+      checkSum = await pgpApi.sign(entity);
+      data = {
+
+      }
+    }
+    else{
+      checkSum = await rsaApi.sign(entity);
+      data = {
+
+      }
+    }
+
+    //call API
+    // const resAPI = await axios({
+    //   method: 'post',
+    //   url: url,
+    //   data: data,
+    //   validateStatus: function (status) {
+    //     return status >= 200 && status < 500;
+    //   }
+    // });
+
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    let resAPI = {};
+
+    resAPI.status = 200;
+    if (resAPI.status === 201){
+      entity.checksum = checkSum;
+      const rows = await chuyenKhoanModel.chuyenKhoanLienNH(userId, entity, new Date());
+      var status = rows[1][0].status;
+
+      if(status === 0){
+        logger.info("giao dich thanh cong");
+        res.status(201).json({
+          message: "success"
+        }).end();
+      }
+      else{
+        logger.info("giao dich that bai");
+        res.status(204).end();
+      }
+    }
+    else{
+      logger.info("ngan hang doi tac truc trac");
+      res.status(403).end();
+    }
+  } catch(err){
+    logger.error(err);
+    res.status(500);
+    res.end('View error log on console.');
+  }
 });
 
 

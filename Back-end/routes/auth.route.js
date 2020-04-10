@@ -148,7 +148,6 @@ function generateAccessToken(ret){
   const payload = {
       userId: ret.id,
       username: ret.username,
-      email: ret.email,
       hoTen: ret.hoTen,
       vaiTro: ret.idVaiTro,
       vaiTroMT: ret.moTa

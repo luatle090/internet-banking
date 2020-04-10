@@ -13,7 +13,8 @@ module.exports = {
   },
 
   getInfoById: id => {
-    const sql = `select kh.email as email from taikhoannganhang tk inner join khachhang kh 
+    const sql = `select kh.email as email, kh.hoTen as hoTen
+                  from taikhoannganhang tk inner join khachhang kh 
                   on tk.idKhachHang = kh.id where tk.id = ${id}`;
     return db.load(sql);
   },

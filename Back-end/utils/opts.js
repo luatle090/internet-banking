@@ -3,6 +3,13 @@ var opts = {
         PRODUCTS_PER_PAGE: 6
     },
 
+    API:{
+        HEADER_PARTNERCODE: 'partnercode',
+        HEADER_CHECKSUM: 'checksum',
+        HEADER_NGAY_CHUYEN_KHOAN: 'ngayck',
+        MINUTES: 3
+    },
+
     ACCESS_TOKEN: {
         SECRET_KEY: 'secret',
         LIFETIME: 1000, // in seconds
@@ -44,9 +51,16 @@ var opts = {
         FAILED: -2
     },
 
-    PGP: {
+    SIGNATURE: {
         SECRET_KEY: 'Stay strong',
-        PASSPHRASE: '123456'
+        PASSPHRASE: '123456',
+        RSA: "RSA",
+        PGP: "PGP",
+    },
+
+    STATUS:{
+        CHUA_THANH_TOAN: 0,
+        DA_THANH_TOAN: 1
     }
 }
 

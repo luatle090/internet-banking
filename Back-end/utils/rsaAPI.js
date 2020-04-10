@@ -1,16 +1,10 @@
 const NodeRSA  = require('node-rsa');
 const fs = require('fs').promises;
 
-async function sign(partnerCode, timesamp, reqBody){
+async function sign(checksum){
     const privateKey = await fs.readFile("../Database/private-rsa.pem");
     const key = new NodeRSA();
     key.importKey(privateKey, "private");
-    
-    const checksum = {
-        partnerCode,
-        timesamp,
-        reqBody
-    }
 
     //Object to JSON
     const text = JSON.stringify(checksum);
