@@ -24,8 +24,28 @@ const actions = {
         commit("setAuthenticate", false);
     }
   },
-  async autoRefresh ({ commit }, token){
-    if(token.accessToken && token.rfToken){
+  async renewToken({ commit }, token){
+    const res = await axios.post("/auth/renew-token", {
+      refreshToken: token.rfToken
+    });
+    if(res.status === 201){
+      commit("setAuthenticate", true);
+      localStorage.setItem("accessToken", res.data.accessToken);
+      return res;
+    }
+    else{
+      delete localStorage.accessToken;
+      delete localStorage.refreshToken;
+      commit("setAuthenticate", false);
+      //router.push('/login');
+    }
+  },
+  async autoRefresh ({ dispatch }, token){
+    if(typeof token.accessToken === 'undefined' && token.rfToken){
+      const res = await dispatch('renewToken', token);
+      return res;
+    }
+    else if(token.accessToken && token.rfToken){
       var decoded = jwt.decode(token.accessToken);
       const now = Date.now() / 1000 // exp is represented in seconds since epoch
       let timeUntilRefresh = decoded.exp - now;
@@ -33,14 +53,8 @@ const actions = {
 
       //vượt quá thời gian thì gọi api renew
       if(timeUntilRefresh <= limitTime) {
-        const res = await axios.post("/auth/renew-token", {
-          refreshToken: token.rfToken
-        });
-        if(res.status >= 200 && res.status < 300){
-          commit("setAuthenticate", true);
-          localStorage.setItem("accessToken", res.data.accessToken);
-          return res;
-        }
+        const res = await dispatch('renewToken', token);
+        return res;
       }
     }
     return null;

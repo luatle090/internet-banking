@@ -20,7 +20,7 @@ const actions = {
         const accessToken = await dispatch('getToken', null, { root: true });
         let data = getters['infoChuyenKhoan'];
         data.token = otp;
-        console.log(data);
+        //console.log(data);
         const res = await axios({
             method: "post",
             url: "/chuyenkhoan/noibo",

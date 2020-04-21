@@ -61,19 +61,9 @@ export default {
         };
     },
     methods: {
-        ...mapActions(["autoRefresh"]),
+        ...mapActions(["getToken"]),
         async getHistory(){
-            var accessToken = localStorage.getItem("accessToken");
-            var rfToken = localStorage.getItem("refreshToken");
-
-            const token = {
-                accessToken,
-                rfToken
-            };
-            const res = await this.autoRefresh(token);
-            if(res !== null && res.data.accessToken){
-                accessToken = res.data.accessToken;
-            }
+            const accessToken = await this.getToken();
 
             return axios.get("/lichsunhantien", {
                 headers: {
