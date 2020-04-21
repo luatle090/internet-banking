@@ -31,12 +31,16 @@ router.get('/danhsachtaikhoan', async (req, res) => {
 })
 
 router.get('/:soTK', async (req, res) => {
+  const userId = res.locals.token.userId;
+  if (isNaN(userId)) {
+    throw createError(400, 'Invalid id.');
+  }
   if (isNaN(req.params.soTK)) {
     throw createError(400, 'Invalid soTK.');
   }
 
   try {
-    const rows = await taikhoannganhangModel.loadBySoTK(req.params.soTK);
+    const rows = await taikhoannganhangModel.getInfoNotMeBySoTK(userId, req.params.soTK);
     if (rows.length === 0) {
       res.status(204).end();
     }

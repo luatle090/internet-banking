@@ -116,7 +116,7 @@ router.post('/noptien', async (req, res, next) => {
   if (!req.body.giaoDich) {
     throw createError(400, 'Invalid giaoDich.');
   }
-  if (!req.body.noiDung) {
+  if (!req.body.hasOwnProperty('noiDung')) {
     throw createError(400, 'Invalid noiDung.');
   }
 
@@ -199,7 +199,7 @@ router.post('/trutien', verifyAccessToken, async (req, res, next) => {
   if (!req.body.giaoDich) {
     throw createError(400, 'Invalid giaoDich.');
   }
-  if (!req.body.noiDung) {
+  if (!req.body.hasOwnProperty('noiDung')) {
     throw createError(400, 'Invalid noiDung.');
   }
   if (!req.body.partnerCode) {

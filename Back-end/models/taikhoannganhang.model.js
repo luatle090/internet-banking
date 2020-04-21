@@ -13,7 +13,7 @@ module.exports = {
   },
 
   getInfoById: id => {
-    const sql = `select kh.email as email, kh.hoTen as hoTen
+    const sql = `select tk.soTK as soTK, kh.email as email, kh.hoTen as hoTen
                   from taikhoannganhang tk inner join khachhang kh 
                   on tk.idKhachHang = kh.id where tk.id = ${id}`;
     return db.load(sql);
@@ -23,6 +23,16 @@ module.exports = {
     const sql = `select tk.id, kh.hoTen from taikhoannganhang tk
                 inner join khachhang kh on tk.idKhachHang = kh.id
                 where soTK = ${soTK}`;
+    return db.load(sql);
+  },
+
+  getInfoNotMeBySoTK: (idTaiKhoan, soTKTruyVan) => {
+    const sql = `select tk.id, kh.hoTen from taikhoannganhang tk
+                  inner join khachhang kh on tk.idKhachHang = kh.id
+                  where tk.soTK = ${soTKTruyVan}
+                  and not exists 
+                  (select id from taikhoannganhang
+                    where id = tk.id and id = ${idTaiKhoan})`;
     return db.load(sql);
   },
 

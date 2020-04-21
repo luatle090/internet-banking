@@ -177,7 +177,7 @@ router.post('/renew-token', async (req, res) => {
     //verify refresh token có lưu ở DB
     const rows = await authModel.verifyRefreshToken(rToken);
     if(rows.length === 0){
-      res.status(204).end();
+      return res.status(204).end();
     }
     
     //sau đó lấy userID để truy vấn thông tin và cấp lại access token
@@ -192,7 +192,7 @@ router.post('/renew-token', async (req, res) => {
     }
 
     if(rowTaiKhoan.length === 0){
-      res.status(204).end();
+      return res.status(204).end();
     }
     var userObj = rowTaiKhoan[0];
     const token = generateAccessToken(userObj);

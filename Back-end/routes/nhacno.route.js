@@ -63,8 +63,11 @@ router.post('/', async (req, res) => {
   if(isNaN(req.body.tienNo)){
     throw createError(400, 'Invalid tienNo.');
   }
-  if(!req.body.noiDung){
+  if(!req.body.hasOwnProperty('noiDung')){
     throw createError(400, 'Invalid noiDung.');
+  }
+  if(idTaiKhoanTao === req.body.idTaiKhoanNo){
+    throw createError(409, 'trung nguoi tao.');
   }
 
   const ngayTao = new Date();
@@ -84,11 +87,18 @@ router.post('/', async (req, res) => {
   try{
     const result = await nhacNoModel.add(entity);
     if(result.insertId > 0){
-      entity.hoten = res.locals.token.hoTen;
+      
+      //format entity
+      var options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+      entity.ngayTao = ngayTao.toLocaleDateString("vi-VI", options);
+      entity.tinhTrang = 'Chưa trả nợ';
+      entity.nguoiNo = res.locals.token.hoTen;
       entity.idNhacNo = result.insertId;
-      delete entity.idTaiKhoanNo;
-      delete entity.idTaiKhoanTao;
-      console.log(entity);
+      entity.soTK = rowsTaiKhoanNo[0].soTK;
+      // delete entity.idTaiKhoanNo;
+      // delete entity.idTaiKhoanTao;
+      
+      //console.log(entity);
       events.publishNhacNoAdded(entity);
       res.status(201).json({
         message: "success"
@@ -111,9 +121,14 @@ router.delete('/:id', async (req, res) => {
   }
   try{
     const rs = await nhacNoModel.del(req.params.id);
-    res.json({
-      affectedRows: rs.affectedRows
-    });
+    console.log(rs);
+    if(rs.affectedRows > 0){
+      res.json({
+        affectedRows: rs.affectedRows
+      }).end();
+    } else{
+      res.status(204).end();
+    }
   } catch(err){
     logger.error(err);
     res.status(500);

@@ -61,7 +61,7 @@ module.exports = {
   updateRefreshToken: async (userId, refreshToken, isNhanVien) => {
     var rdt = moment().format('YYYY-MM-DD HH:mm:ss');
     var resultInsert = 0;
-    const results = await db.del(userId, 'refreshtoken');
+    const results = await db.del({ userId }, 'refreshtoken');
     const entity = {
       userId: userId,
       refreshToken: refreshToken,

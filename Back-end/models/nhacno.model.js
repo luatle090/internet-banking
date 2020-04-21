@@ -13,12 +13,16 @@ module.exports = {
 
   getNoTaoByIdTaiKhoan: async (idTaiKhoan, tinhTrang, limit, offset) => {
     let sql = `SELECT nn.id, nn.noiDung, nn.tienNo, DATE_FORMAT(ngayTao, "%d/%m/%Y") as ngayTao ,
-                    kh.hoTen as nguoiNo, nn.tinhTrang
+                    kh.hoTen as nguoiNo, tk.soTK,
+                  CASE
+                    WHEN nn.tinhTrang = 0 THEN 'Chưa trả nợ'
+                    ELSE 'Đã trả nợ'
+                  END as tinhTrang
                   FROM nhacno nn INNER JOIN taikhoannganhang tk
                   ON tk.id = nn.idTaiKhoanNo
                   INNER JOIN khachhang kh ON tk.idKhachHang = kh.id
                   WHERE nn.idTaiKhoanTao = ${idTaiKhoan}`;
-    if(!tinhTrang){
+    if(tinhTrang){
       sql += ` AND nn.tinhTrang = ${tinhTrang} `;
     }
     sql += ` ORDER by nn.ngayTao DESC

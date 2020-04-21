@@ -28,9 +28,11 @@ app.use('/api/khachhang', verifyAccessToken, require('./routes/khachhang.route')
 app.use('/api/lichsuchuyenkhoan', verifyAccessToken, require('./routes/lichsuchuyenkhoan.route'));
 app.use('/api/lichsunhantien', verifyAccessToken, require('./routes/lichsunhantien.route'));
 app.use('/api/nhacno', verifyAccessToken, require('./routes/nhacno.route'));
+app.use('/api/nhacnotest', require('./routes/nhacno.route'));
 app.use('/api/taikhoannganhang', verifyAccessToken, require('./routes/taikhoannganhang.route'));
 app.use('/api/thietlapnguoinhan', verifyAccessToken, require('./routes/thietlapnguoinhan.route'));
 app.use('/api/chuyenkhoan', require('./routes/chuyenkhoan.route'));
+app.use('/api/nhacNoAddedEvent', verifyAccessToken, require('./routes/eventNhacNo').subscribeNhacNoAdded);
 
 app.use((req, res, next) => {
   throw createError(404, 'Resource not found.');
