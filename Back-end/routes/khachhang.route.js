@@ -13,8 +13,10 @@ router.get('/getlist/:page', async (req, res, next) => {
   const curPage = req.params.page || 1;
   const Email = req.query.Email || "";
   const Phone = req.query.Phone || "";
+  const Username = req.query.Username || "";
+  const SoTK = req.query.SoTK || "";
   console.log(Phone)
-  const rows = await khachhangModel.getlist(Email,Phone,curPage);
+  const rows = await khachhangModel.getlist(Email,Phone,Username,SoTK,curPage);
   res.json(rows);
 })
 

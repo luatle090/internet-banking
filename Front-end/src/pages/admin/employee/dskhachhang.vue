@@ -1,78 +1,102 @@
 <template>
   <div class="content">
-      <md-dialog :md-active.sync="showDialog">
-        <md-dialog-title>Thông tin khách hàng</md-dialog-title>
+    <md-dialog :md-active.sync="showDialog">
+      <md-dialog-title>Thông tin khách hàng</md-dialog-title>
 
-        <md-card-content>
-          <div class="md-layout primary">
-            <div :class="`md-layout-item md-size-${this.CusInfo.idTK ? '45' : '90'}`">
-              <div class="md-layout">
-                <div class="md-layout-item md-small-size-100 md-size-100">
-                  <md-field>
-                    <label>Họ tên*</label>
-                    <md-input v-model="CusInfo.hoTen" type="text"></md-input>
-                  </md-field>
-                </div>
-                <div class="md-layout-item md-small-size-100 md-size-100">
-                  <md-field>
-                    <label>Email*</label>
-                    <md-input v-model="CusInfo.email"></md-input>
-                  </md-field>
-                </div>
-                <div class="md-layout-item md-small-size-100 md-size-100">
-                  <md-field>
-                    <label>Số điện thoại*</label>
-                    <md-input v-model="CusInfo.phone" type="number"></md-input>
-                  </md-field>
-                </div>
+      <md-card-content>
+        <div class="md-layout primary">
+          <div :class="`md-layout-item md-size-${this.CusInfo.idTK ? '45' : '90'}`">
+            <div class="md-layout">
+              <div class="md-layout-item md-small-size-100 md-size-100">
+                <md-field>
+                  <label>Họ tên*</label>
+                  <md-input v-model="CusInfo.hoTen" type="text"></md-input>
+                </md-field>
               </div>
-            </div>
-            <div class="md-layout-item md-size-10">
-              <table style="height:100%">
-                <td class="align-middle">
-                <md-button class="md-just-icon md-warning" :disabled="this.CusInfo.idTK ? true : false" @click="GenerateInfo">
-                  <md-icon>keyboard_arrow_right</md-icon>
-                  <md-tooltip md-direction="top">Generate thông tin thanh toán</md-tooltip>
-                </md-button>
-                </td>
-              </table>
-            </div>
-            <div class="md-layout-item md-size-45" v-if="this.CusInfo.idTK ? true : false">
-              <div class="md-layout">
-                <div class="md-layout-item md-small-size-100 md-size-100">
-                  <md-field>
-                    <label>Số tài khoản</label>
-                    <md-input v-model="CusInfo.soTK" disabled type="text"></md-input>
-                  </md-field>
-                </div>
-                <div class="md-layout-item md-small-size-100 md-size-100">
-                  <md-field>
-                    <label>Tên đăng ký</label>
-                    <md-input v-model="CusInfo.tenDangKy" type="text"></md-input>
-                  </md-field>
-                </div>
-                <div class="md-layout-item md-small-size-100 md-size-100">
-                  <md-field>
-                    <label>Tên gợi nhớ</label>
-                    <md-input v-model="CusInfo.tenGoiNho" type="text"></md-input>
-                  </md-field>
-                </div>
-                <div class="md-layout-item md-small-size-100 md-size-100">
-                  <md-field>
-                    <label>username</label>
-                    <md-input v-model="CusInfo.username" :disabled="this.isEdit" type="text"></md-input>
-                  </md-field>
-                </div>
+              <div class="md-layout-item md-small-size-100 md-size-100">
+                <md-field>
+                  <label>Email*</label>
+                  <md-input v-model="CusInfo.email"></md-input>
+                </md-field>
+              </div>
+              <div class="md-layout-item md-small-size-100 md-size-100">
+                <md-field>
+                  <label>Số điện thoại*</label>
+                  <md-input v-model="CusInfo.phone" type="number"></md-input>
+                </md-field>
               </div>
             </div>
           </div>
-        </md-card-content>
+          <div class="md-layout-item md-size-10">
+            <table style="height:100%">
+              <td class="align-middle">
+              <md-button class="md-just-icon md-warning" :disabled="this.CusInfo.idTK ? true : false" @click="GenerateInfo">
+                <md-icon>keyboard_arrow_right</md-icon>
+                <md-tooltip md-direction="top">Generate thông tin thanh toán</md-tooltip>
+              </md-button>
+              </td>
+            </table>
+          </div>
+          <div class="md-layout-item md-size-45" v-if="this.CusInfo.idTK ? true : false">
+            <div class="md-layout">
+              <div class="md-layout-item md-small-size-100 md-size-100">
+                <md-field>
+                  <label>Số tài khoản</label>
+                  <md-input v-model="CusInfo.soTK" disabled type="text"></md-input>
+                </md-field>
+              </div>
+              <div class="md-layout-item md-small-size-100 md-size-100">
+                <md-field>
+                  <label>Tên đăng ký</label>
+                  <md-input v-model="CusInfo.tenDangKy" type="text"></md-input>
+                </md-field>
+              </div>
+              <div class="md-layout-item md-small-size-100 md-size-100">
+                <md-field>
+                  <label>Tên gợi nhớ</label>
+                  <md-input v-model="CusInfo.tenGoiNho" type="text"></md-input>
+                </md-field>
+              </div>
+              <div class="md-layout-item md-small-size-100 md-size-100">
+                <md-field>
+                  <label>username</label>
+                  <md-input v-model="CusInfo.username" :disabled="this.CusInfo.idTK > 0 ? true : false" type="text"></md-input>
+                </md-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </md-card-content>
 
-        <md-dialog-actions>
-          <md-button class="md-primary" @click="showDialog = false">Close</md-button>
-          <md-button class="md-primary" @click="Submit">Save</md-button>
-        </md-dialog-actions>
-      </md-dialog>
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="showDialog = false">Close</md-button>
+        <md-button class="md-primary" @click="Submit">Save</md-button>
+      </md-dialog-actions>
+    </md-dialog>
+
+    <md-dialog :md-active.sync="showRechargeDialog">
+      <md-dialog-title>Thông tin khách hàng</md-dialog-title>
+
+      <md-card-content>
+        <div class="md-layout primary">
+          <div class="md-layout-item md-small-size-100 md-size-100">
+            <md-field>
+              <label>số tiên nạp*</label>
+              <md-input v-model="rechargeValue" type="number"></md-input>
+            </md-field>
+            <md-field>
+              <label>tài khoản sau khi nạp tiền*</label>
+              <md-input :value="calrecharge" type="text" disabled></md-input>
+            </md-field>
+          </div>
+        </div>
+      </md-card-content>
+
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="showRechargeDialog = false">Close</md-button>
+        <md-button class="md-primary" @click="SaveRecharge">Xán nhận</md-button>
+      </md-dialog-actions>
+    </md-dialog>
 
     <div class="md-layout">
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
@@ -92,6 +116,18 @@
                 <md-field>
                   <label>Phone</label>
                   <md-input v-model="filter.Phone" type="text"></md-input>
+                </md-field>
+              </div>
+              <div class="md-layout-item md-small-size-100 md-size-25">
+                <md-field>
+                  <label>tên đăng nhập</label>
+                  <md-input v-model="filter.Username" type="text"></md-input>
+                </md-field>
+              </div>
+              <div class="md-layout-item md-small-size-100 md-size-25">
+                <md-field>
+                  <label>số tài khoản</label>
+                  <md-input v-model="filter.SoTK" type="text"></md-input>
                 </md-field>
               </div>
             </div>
@@ -142,6 +178,10 @@
                       <md-icon>edit</md-icon>
                       <md-tooltip md-direction="top">Edit</md-tooltip>
                     </md-button>
+                    <md-button class="md-just-icon md-simple md-primary" @click="showrecharge(item)" v-if="item.soTK">
+                      <md-icon>attach_money</md-icon>
+                      <md-tooltip md-direction="top">Nạp tiền</md-tooltip>
+                    </md-button>
                     <md-button class="md-just-icon md-simple md-danger">
                       <md-icon>close</md-icon>
                       <md-tooltip md-direction="top">Close</md-tooltip>
@@ -188,7 +228,9 @@ export default {
       dskhachhang: [],
       filter: {
         Email: "",
-        Phone: ""
+        Phone: "",
+        Username: "",
+        SoTK: "",
       },
       rows: 100,
       perPage: 50,
@@ -200,8 +242,15 @@ export default {
         hoTen: "",
         email: "",
         phone: ""
-      }
+      },
+      showRechargeDialog: false,
+      rechargeValue: 0,
     };
+  },
+  computed: {
+    calrecharge() {
+      return parseFloat(this.CusInfo.soDu || 0) + parseFloat(this.rechargeValue || 0);
+    }
   },
   mounted() {
     this.fetchDSKhachHang();
@@ -210,7 +259,7 @@ export default {
     fetchDSKhachHang() {
       axios
         .get(
-          `/khachhang/getlist/${this.currentPage}?Email=${this.filter.Email}&Phone=${this.filter.Phone}`,
+          `/khachhang/getlist/${this.currentPage}?Email=${this.filter.Email}&Phone=${this.filter.Phone}&Username=${this.filter.Username}&SoTK=${this.filter.SoTK}`,
           {
             headers: {
               "x-access-token": localStorage.getItem("accessToken")
@@ -237,6 +286,31 @@ export default {
       this.CusInfo = Customer;
       this.showDialog = true;
       this.isEdit = true;
+    },
+    showrecharge(item){
+      this.rechargeValue = 0;
+      this.showRechargeDialog = true;
+      this.CusInfo = item;
+    },
+    async SaveRecharge(){
+      this.CusInfo.soDu = parseFloat(this.CusInfo.soDu || 0) + parseFloat(this.rechargeValue || 0);
+      const info = {
+        Id : this.CusInfo.idTK,
+        SoDu : this.CusInfo.soDu,
+      }
+      const res = await axios.patch(`/taikhoannganhang/${info.Id}`,info,{
+        headers:{
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("accessToken")
+        }
+      });
+      if(res){
+        await this.$swal({
+          icon: "success",
+          text: "nạp tiền thành công"
+        })
+        this.showRechargeDialog = false;
+      }
     },
     GenerateInfo(){
       if(!this.CusInfo.hoTen || !this.CusInfo.phone){
