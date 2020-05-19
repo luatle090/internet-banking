@@ -11,7 +11,7 @@ module.exports = {
     (
       SELECT ROW_NUMBER() OVER (
           ORDER BY k.id
-      ) RowIndex, k.*,t.id as idTK,t.soTK,t.tenDangKy,t.tenGoiNho,t.username,t.password,t.soDu
+      ) RowIndex, k.*,t.id as idTK,t.soTK,t.tenDangKy,t.username,t.password,t.soDu
     FROM khachhang AS k
     LEFT JOIN taikhoannganhang AS t ON k.id = t.idKhachHang
       WHERE ('${email}' = '' OR k.email = '${email}')
@@ -19,14 +19,14 @@ module.exports = {
       AND ('${username}' = '' OR t.username = '${username}')
       AND ('${sotk}' = '' OR t.soTK = '${sotk}')
     );
-    
+
     SELECT t.*
     FROM temp t
     WHERE t.RowIndex > ((${PageIndex} - 1) * 50)
     AND t.RowIndex <= ${PageIndex} * 50
     ORDER BY t.RowIndex;
-    
     DROP TABLE temp;`
+    
     return db.load(sql);
   },
 

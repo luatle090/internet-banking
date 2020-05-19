@@ -53,12 +53,6 @@
               </div>
               <div class="md-layout-item md-small-size-100 md-size-100">
                 <md-field>
-                  <label>Tên gợi nhớ</label>
-                  <md-input v-model="CusInfo.tenGoiNho" type="text"></md-input>
-                </md-field>
-              </div>
-              <div class="md-layout-item md-small-size-100 md-size-100">
-                <md-field>
                   <label>username</label>
                   <md-input v-model="CusInfo.username" :disabled="this.CusInfo.idTK > 0 ? true : false" type="text"></md-input>
                 </md-field>
@@ -173,7 +167,7 @@
                     {{ item.soTK }}
                   </md-table-cell>
                   
-                  <md-table-cell>
+                  <md-table-cell md-label="Thao tác">
                     <md-button class="md-just-icon md-simple md-primary" @click="Edit(item)">
                       <md-icon>edit</md-icon>
                       <md-tooltip md-direction="top">Edit</md-tooltip>
@@ -182,10 +176,10 @@
                       <md-icon>attach_money</md-icon>
                       <md-tooltip md-direction="top">Nạp tiền</md-tooltip>
                     </md-button>
-                    <md-button class="md-just-icon md-simple md-danger">
+                    <!-- <md-button class="md-just-icon md-simple md-danger">
                       <md-icon>close</md-icon>
                       <md-tooltip md-direction="top">Close</md-tooltip>
-                    </md-button>
+                    </md-button> -->
                   </md-table-cell>
                 </md-table-row>
               </md-table>
@@ -211,6 +205,7 @@
 <script>
 // import { SimpleTable, OrderedTable } from "@/components";
 import axios from "axios";
+import { mapActions} from "vuex";
 
 export default {
   components: {
@@ -256,13 +251,15 @@ export default {
     this.fetchDSKhachHang();
   },
   methods: {
-    fetchDSKhachHang() {
+    ...mapActions(["getToken"]),
+    async fetchDSKhachHang() {
+      const accessToken = await this.getToken();
       axios
         .get(
           `/khachhang/getlist/${this.currentPage}?Email=${this.filter.Email}&Phone=${this.filter.Phone}&Username=${this.filter.Username}&SoTK=${this.filter.SoTK}`,
           {
             headers: {
-              "x-access-token": localStorage.getItem("accessToken")
+              "x-access-token": accessToken
             }
           }
         )
@@ -321,11 +318,10 @@ export default {
         return;
       }
       const tenDangKy = this.CusInfo.hoTen;
-      const tenGoiNho = this.CusInfo.hoTen;
       const username = this.CusInfo.phone;
       const soTK = "hiển thị khi hoàn tất";
       const idTK = -1;
-      this.CusInfo = {...this.CusInfo, tenDangKy, tenGoiNho, username,soTK,idTK };
+      this.CusInfo = {...this.CusInfo, tenDangKy, username,soTK,idTK };
     },
     Submit(){
       if(this.isEdit)
@@ -333,18 +329,19 @@ export default {
       else
         this.CreateSubmit();
     },
-    CreateSubmit(){
+    async CreateSubmit(){
       const khachHang = {
         hoTen: this.CusInfo.hoTen,
         email: this.CusInfo.email,
         phone: this.CusInfo.phone
       };
+      const accessToken = await this.getToken();
       const submitKH = axios({
         method: 'post',
         url: `/khachhang`,
         headers:{
           "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("accessToken")
+          "x-access-token": accessToken
         },
         data: khachHang
       }).then(res => {
@@ -353,7 +350,6 @@ export default {
           const tkNganHang = {
             idKhachHang: res.data.id,
             tenDangKy: this.CusInfo.tenDangKy,
-            tenGoiNho: this.CusInfo.tenGoiNho,
             username: this.CusInfo.username,
             password: '123456'
           };
@@ -362,7 +358,7 @@ export default {
             url: `/taikhoannganhang`,
             headers:{
               "Content-Type": "application/json",
-              "x-access-token": localStorage.getItem("accessToken")
+              "x-access-token": accessToken
             },
             data: tkNganHang
           })
@@ -390,19 +386,20 @@ export default {
         console.error(err); 
       });
     },
-    EditSubmit(){
+    async EditSubmit(){
       console.log(this.CusInfo)
       const khachHang = {
         hoTen: this.CusInfo.hoTen,
         email: this.CusInfo.email,
         phone: this.CusInfo.phone
       };
+      const accessToken = await this.getToken();
       const submitKH = axios({
         method: 'patch',
         url: `/khachhang/${this.CusInfo.id}`,
         headers:{
           "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("accessToken")
+          "x-access-token": accessToken
         },
         data: khachHang
       });
@@ -412,7 +409,6 @@ export default {
         const tkNganHang = {
           idKhachHang: this.CusInfo.id,
           tenDangKy: this.CusInfo.tenDangKy,
-          tenGoiNho: this.CusInfo.tenGoiNho,
           username: this.CusInfo.username,
           password: '123456'
         };
@@ -421,7 +417,7 @@ export default {
           url: `/taikhoannganhang/${this.CusInfo.idTK != -1 ? this.CusInfo.idTK : ""}`,
           headers:{
             "Content-Type": "application/json",
-            "x-access-token": localStorage.getItem("accessToken")
+            "x-access-token": accessToken
           },
           data: tkNganHang
         });
@@ -439,7 +435,6 @@ export default {
               element.idTK = this.CusInfo.idTK;
               element.soTK = this.CusInfo.soTK;
               element.tenDangKy = this.CusInfo.tenDangKy;
-              element.tenGoiNho = this.CusInfo.tenGoiNho;
               element.username = this.CusInfo.username;
             }
           });

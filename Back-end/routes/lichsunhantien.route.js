@@ -1,6 +1,7 @@
 const express = require('express');
 const createError = require('http-errors');
 const lichsunhantienModel = require('../models/lichsunhantien.model');
+const taiKhoanModel = require('../models/taikhoannganhang.model');
 
 const router = express.Router();
 
@@ -28,6 +29,44 @@ router.get('/', async (req, res) => {
   try {
     const lichSuNhanTienList = await lichsunhantienModel.loadByIdTaiKhoanNhan(id, limit, offset);
     const totalItems = await lichsunhantienModel.countByIdTaiKhoanNhan(id);
+    if (lichSuNhanTienList.length === 0 || totalItems.length === 0) {
+      res.status(204).end();
+    } else {
+      const result = {
+        totalItems: totalItems[0].total,
+        listResult: lichSuNhanTienList
+      }
+      res.json(result);
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500);
+    res.end('View error log on console.');
+  }
+})
+
+router.post('/nhanvien', async (req, res) => {
+  if (!req.body.soTK) {
+    throw createError(400, 'Invalid soTK.');
+  }
+  if (isNaN(req.query.limit)) {
+    throw createError(400, 'Invalid limit.');
+  }
+  if (isNaN(req.query.offset)) {
+    throw createError(400, 'Invalid offset.');
+  }
+
+  const taiKhoanRS = await taiKhoanModel.loadBySoTK(req.body.userId);
+  if(taiKhoanRS.length === 0){
+    throw createError(204, 'Not found');
+  }
+  const userId = taiKhoanRS[0].id;
+  const limit = req.query.limit || 10;
+  const offset = req.query.limit * req.query.offset || 0;
+
+  try {
+    const lichSuNhanTienList = await lichsunhantienModel.loadByIdTaiKhoanNhan(userId, limit, offset);
+    const totalItems = await lichsunhantienModel.countByIdTaiKhoanNhan(userId);
     if (lichSuNhanTienList.length === 0 || totalItems.length === 0) {
       res.status(204).end();
     } else {
