@@ -44,6 +44,7 @@
 import axios from "axios";
 import Router from "vue-router";
 import VueRecaptcha from "vue-recaptcha";
+import { mapActions } from 'vuex';
 
 export default {
   components: { VueRecaptcha },
@@ -52,8 +53,7 @@ export default {
       username: "",
       password: "",
       message: "",
-      error: false,
-      status: ""
+      error: false
     };
   },
   created() {
@@ -63,6 +63,7 @@ export default {
     this.checkCurrentLogin();
   },
   methods: {
+     ...mapActions(["isLogin"]),
     submit: function() {
       // this.status = "submitting";
        this.$refs.recaptcha.execute();
@@ -94,7 +95,8 @@ export default {
           }
           localStorage.setItem("accessToken", accesstoken);
           localStorage.setItem("refreshToken", rftoken);
-          this.$router.push(this.$route.query.redirect || "/admin");
+          this.isLogin(accesstoken);
+          this.$router.replace(this.$route.query.redirect || "/admin");
         })
         .catch(() => {
           this.loginFailed();
@@ -139,7 +141,7 @@ export default {
   }
 
   .background {
-    background: url("../../assets/img/bg-1.jpg");
+    //background: url("../../assets/img/bg-1.jpg");
     position: absolute;
     height: 100%;
     width: 100%;
