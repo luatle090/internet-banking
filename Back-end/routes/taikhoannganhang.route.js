@@ -74,19 +74,19 @@ router.get('/:soTK', async (req, res) => {
 //   }
 // })
 
-// router.post('/', async (req, res) => {
-//   req.body.soTK = 0;
-//   console.log(req.body)
-//   const results = await taikhoannganhangModel.add(req.body);
-//   const tknh = await taikhoannganhangModel.patch(results.insertId,{soTK: results.insertId});
-//   const ret = {
-//     id: results.insertId,
-//     ...req.body,
-//     soTK: results.insertId
-//   }
-//   delete ret.password;
-//   res.status(201).json(ret);
-// })
+router.post('/', async (req, res) => {
+  req.body.soTK = 0;
+  console.log(req.body)
+  const results = await taikhoannganhangModel.add(req.body);
+  const tknh = await taikhoannganhangModel.patch(results.insertId,{soTK: results.insertId});
+  const ret = {
+    id: results.insertId,
+    ...req.body,
+    soTK: results.insertId
+  }
+  delete ret.password;
+  res.status(201).json(ret);
+})
 
 // router.delete('/:id', async (req, res) => {
 //   if (isNaN(req.params.id)) {
@@ -118,6 +118,7 @@ router.patch('/security', async (req, res) => {
 
   try{
     const rs = await auth.patchPassword(userId, req.body);
+    console.log(rs);
     if(rs == opts.STATUS_PASSWORD.SUCCESS){
       logger.info("userId has changed password: ", userId);
       res.status(200).json({
@@ -148,14 +149,14 @@ router.patch('/security', async (req, res) => {
 });
 
 
-// router.patch('/:id', async (req, res) => {
-//   if (isNaN(req.params.id)) {
-//     throw createError(400, 'Invalid id.');
-//   }
+router.patch('/:id', async (req, res) => {
+  if (isNaN(req.params.id)) {
+    throw createError(400, 'Invalid id.');
+  }
 
-//   const rs = await taikhoannganhangModel.patch(req.params.id, req.body);
-//   res.json(rs);
-// })
+  const rs = await taikhoannganhangModel.patch(req.params.id, req.body);
+  res.json(rs);
+})
 
 
 module.exports = router;

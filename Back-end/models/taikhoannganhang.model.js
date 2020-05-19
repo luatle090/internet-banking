@@ -43,6 +43,10 @@ module.exports = {
   },
   del: id => db.del({ id: id }, 'taikhoannganhang'),
   patch: (id, entity) => {
+    if(entity.password){
+      const hash = bcrypt.hashSync(entity.password, 8);
+      entity.password = hash;
+    }
     delete entity.id;
     return db.patch(entity, { id: id }, 'taikhoannganhang')
   },

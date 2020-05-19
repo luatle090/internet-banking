@@ -6,16 +6,18 @@ module.exports = {
     return db.load(sql);
   },
 
-  getlist:(email,phone,PageIndex) =>{
+  getlist:(email,phone,username,sotk,PageIndex) =>{
     const sql = `CREATE TEMPORARY TABLE IF NOT EXISTS temp AS 
     (
       SELECT ROW_NUMBER() OVER (
           ORDER BY k.id
-      ) RowIndex, k.*,t.id as idTK,t.soTK,t.tenDangKy,t.tenGoiNho,t.username,t.password
+      ) RowIndex, k.*,t.id as idTK,t.soTK,t.tenDangKy,t.tenGoiNho,t.username,t.password,t.soDu
     FROM khachhang AS k
     LEFT JOIN taikhoannganhang AS t ON k.id = t.idKhachHang
       WHERE ('${email}' = '' OR k.email = '${email}')
       AND ('${phone}' = '' OR k.phone = '${phone}')
+      AND ('${username}' = '' OR t.username = '${username}')
+      AND ('${sotk}' = '' OR t.soTK = '${sotk}')
     );
     
     SELECT t.*
