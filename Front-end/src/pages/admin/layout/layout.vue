@@ -11,6 +11,10 @@
         <md-icon>content_paste</md-icon>
         <p>danh sach khach hang</p>
       </sidebar-link>
+      <sidebar-link to="/admin/lichsugiaodich">
+        <md-icon>content_paste</md-icon>
+        <p>lich su giao dich</p>
+      </sidebar-link>
     </side-bar>
 
     <div class="main-panel">
