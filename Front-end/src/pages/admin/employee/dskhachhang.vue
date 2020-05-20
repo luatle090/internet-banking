@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content pt-0">
     <md-dialog :md-active.sync="showDialog">
       <md-dialog-title>Thông tin khách hàng</md-dialog-title>
 

@@ -105,7 +105,7 @@ const routes = [
       },
       {
         path: "lichsugiaodich",
-        name: "Danh Sách Khách Hàng",
+        name: "Lịch sử giao dịch",
         component: () => import("../pages/admin/employee/lichsugiaodich")
       },
       {
