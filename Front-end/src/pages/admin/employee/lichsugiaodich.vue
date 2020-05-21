@@ -136,7 +136,7 @@ export default {
             currentPageChuyen: 1,
             currentPageNhan: 1,
             currentPageNo: 1,
-            perPage: 3,
+            perPage: 10,
             rowsChuyen: 0,
             rowsNhan: 0,
             rowsNo: 0,
@@ -159,7 +159,9 @@ export default {
                 { key: 'nguoiTao', label: 'Người tạo' },
                 { key: 'tienNo', label: 'Tiền nợ' },
                 { key: 'noiDung', label: 'Nội dung' },
-                { key: 'nameage', label: 'Tình trạng' }
+                { key: 'nameage', label: 'Tình trạng' },
+                { key: 'giaoDich', label: 'Giao dịch' },
+                { key: 'NoiDungChuyen', label: 'Nội dung chuyển' }
             ],
             lichSuList: [],
             money: {

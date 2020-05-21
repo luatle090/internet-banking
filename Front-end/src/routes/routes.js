@@ -75,7 +75,12 @@ const routes = [
         path: "taonhacno",
         name: "Tạo Nhắc nợ",
         component: () => import("../pages/NhacNo/TaoNo")
-      }
+      },
+      {
+        path: "thietlapnguoinhan",
+        name: "Thiết lập người nhận",
+        component: () => import("../pages/customer/thietlapnguoinhan")
+      },
     ],
   },
   {

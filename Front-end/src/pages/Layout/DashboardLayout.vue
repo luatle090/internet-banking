@@ -47,6 +47,10 @@
         <md-icon>content_paste</md-icon>
         <p>Nhắc nợ</p>
       </sidebar-link>
+      <sidebar-link to="/thietlapnguoinhan">
+        <md-icon>content_paste</md-icon>
+        <p>Thiết lập người nhận</p>
+      </sidebar-link>
       <!-- <sidebar-link to="/typography">
         <md-icon>library_books</md-icon>
         <p>Typography</p>

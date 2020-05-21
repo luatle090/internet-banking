@@ -187,17 +187,13 @@ router.post('/nhanvien', async (req, res) => {
   const offset = req.query.limit * req.query.offset || 0;
 
   try {
-    // const lichSuNhanTienList = await nhacNoModel.loadByIdTaiKhoanNhan(userId, limit, offset);
-    // const totalItems = await nhacNoModel.countByIdTaiKhoanNhan(userId);
-    const [lichSuNhanTienList,totalItems] = await nhacNoModel.getNhacNoByIdTaiKhoan(userId,null, parseInt(limit), offset);
-    console.log(lichSuNhanTienList);
-    console.log(totalItems)
-    if (lichSuNhanTienList.length === 0 || totalItems.length === 0) {
+    const [lichSuNhanGuiNo,totalItems] = await nhacNoModel.getGiaoDichNhacNoByIdTaiKhoan(userId,null, parseInt(limit), offset);
+    if (lichSuNhanGuiNo.length === 0 || totalItems.length === 0) {
       res.status(204).end();
     } else {
       const result = {
         totalItems: totalItems[0].total,
-        listResult: lichSuNhanTienList
+        listResult: lichSuNhanGuiNo
       }
       res.json(result);
     }

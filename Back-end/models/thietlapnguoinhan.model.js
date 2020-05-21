@@ -20,6 +20,22 @@ module.exports = {
     return db.load(sql);
   },
 
+  getThietLapByIdTaiKhoan: async (idTaiKhoan, limit, offset) => {
+    let params = [];
+    let sql = `SELECT tl.*
+              FROM thietlapnguoinhan tl
+              WHERE tl.idTaiKhoanNHGui = ? `;
+    params.push(idTaiKhoan);
+    sql += ` ORDER by tl.tenGoiNho
+              LIMIT ? OFFSET ?`;
+    params.push(limit); 
+    params.push(offset);
+
+    const countSql = `select count(id) as total from thietlapnguoinhan where idTaiKhoanNHGui = ?`;
+    
+    return [await db.select(sql, params), await db.select(countSql, [idTaiKhoan])];
+  },
+
   add: entity => db.add(entity, 'thietlapnguoinhan'),
   del: id => db.del({ id: id }, 'thietlapnguoinhan'),
   patch: (id, entity) => {
