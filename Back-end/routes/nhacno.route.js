@@ -166,4 +166,46 @@ router.delete('/:id', async (req, res) => {
 //   res.json(rs);
 // })
 
+
+router.post('/nhanvien', async (req, res) => {
+  if (!req.body.soTK) {
+    throw createError(400, 'Invalid soTK.');
+  }
+  if (isNaN(req.query.limit)) {
+    throw createError(400, 'Invalid limit.');
+  }
+  if (isNaN(req.query.offset)) {
+    throw createError(400, 'Invalid offset.');
+  }
+
+  const taiKhoanRS = await taiKhoanModel.loadBySoTK(req.body.soTK);
+  if(taiKhoanRS.length === 0){
+    throw createError(204, 'Not found');
+  }
+  const userId = taiKhoanRS[0].id;
+  const limit = req.query.limit || 10;
+  const offset = req.query.limit * req.query.offset || 0;
+
+  try {
+    // const lichSuNhanTienList = await nhacNoModel.loadByIdTaiKhoanNhan(userId, limit, offset);
+    // const totalItems = await nhacNoModel.countByIdTaiKhoanNhan(userId);
+    const [lichSuNhanTienList,totalItems] = await nhacNoModel.getNhacNoByIdTaiKhoan(userId,null, parseInt(limit), offset);
+    console.log(lichSuNhanTienList);
+    console.log(totalItems)
+    if (lichSuNhanTienList.length === 0 || totalItems.length === 0) {
+      res.status(204).end();
+    } else {
+      const result = {
+        totalItems: totalItems[0].total,
+        listResult: lichSuNhanTienList
+      }
+      res.json(result);
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500);
+    res.end('View error log on console.');
+  }
+})
+
 module.exports = router;

@@ -41,7 +41,7 @@ module.exports = {
                   INNER JOIN khachhang kh ON tk.idKhachHang = kh.id
                   WHERE nn.idTaiKhoanNo = ? `;
     params.push(idTaiKhoan);
-    if(!tinhTrang){
+    if(tinhTrang){
       sql += ` AND nn.tinhTrang = ? `;
       params.push(tinhTrang);
     }
@@ -53,6 +53,21 @@ module.exports = {
     const countSql = `select count(id) as total from nhacno where idTaiKhoanNo = ?`;
     
     return [await db.select(sql, params), await db.select(countSql, [idTaiKhoan])];
+  },
+  
+  loadByIdTaiKhoanNhan: (id, limit, offset) => {
+    const sql = `select id, DATE_FORMAT(ngayTao, "%d/%m/%Y") as ngayTao, idTaiKhoanTao, tienNo,
+                noiDung,tinhTrang
+                from nhacno
+                where idTaiKhoanTao = ${id}
+                order by ngayTao desc
+                limit ${limit} offset ${offset}`;
+    return db.load(sql);
+  },
+  
+  countByIdTaiKhoanNhan: (id) => {
+    const sql = `select count(id) as total from nhacno where idTaiKhoanTao = ${id}`;
+    return db.load(sql);
   },
 
   add: entity => db.add(entity, 'nhacno'),

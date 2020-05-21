@@ -33,13 +33,13 @@
                                 :items="getTransfer" 
                                 :fields="headers"
                                 :per-page="perPage"
-                                :current-page="currentPage"
+                                :current-page="currentPageChuyen"
                             ></b-table>
                             <div class="paging-right md-card-actions md-alignment-space-between">
                                 <div></div>
                                 <b-pagination class="pagination-success "
-                                    v-model="currentPage"
-                                    :total-rows="rows"
+                                    v-model="currentPageChuyen"
+                                    :total-rows="rowsChuyen"
                                     :per-page="perPage"
                                     aria-controls="my-table"
                                 ></b-pagination>
@@ -64,13 +64,48 @@
                                 :items="getReceive" 
                                 :fields="reciveheaders"
                                 :per-page="perPage"
-                                :current-page="currentPage"
+                                :current-page="currentPageNhan"
                             ></b-table>
                             <div class="paging-right md-card-actions md-alignment-space-between">
                                 <div></div>
                                 <b-pagination class="pagination-success "
-                                    v-model="currentPage"
-                                    :total-rows="rows"
+                                    v-model="currentPageNhan"
+                                    :total-rows="rowsNhan"
+                                    :per-page="perPage"
+                                    aria-controls="my-table"
+                                ></b-pagination>
+                            </div>
+                            <div style="display: none;" :key="item.id" v-for="item in lichSuList">
+                                <input type="hidden" v-model.lazy="item.giaoDich" v-money="money" /> 
+                            </div>
+                        </div>
+                        <!-- <simple-table table-header-color="green"></simple-table> -->
+                    </md-card-content>
+                </md-card>
+            </div>
+
+            <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100" >
+                <md-card>
+                    <md-card-header data-background-color="green">
+                        <h4 class="title">Thanh toán nhắc nợ</h4>
+                    </md-card-header>
+                    <md-card-content>
+                        <div>
+                            <b-table ref="tableno" id="my-table-chuyen" striped hover 
+                                :items="getNo" 
+                                :fields="debtheaders"
+                                :per-page="perPage"
+                                :current-page="currentPageNo"
+                            >
+                            <template v-slot:cell(nameage)="getNo">
+                                {{ getNo.item.tinhTrang ? "Đã trả" : "Chưa trả" }}
+                            </template>
+                            </b-table>
+                            <div class="paging-right md-card-actions md-alignment-space-between">
+                                <div></div>
+                                <b-pagination class="pagination-success "
+                                    v-model="currentPageNo"
+                                    :total-rows="rowsNo"
                                     :per-page="perPage"
                                     aria-controls="my-table"
                                 ></b-pagination>
@@ -98,9 +133,13 @@ export default {
             filter: {
                 soTK: null,
             },
-            currentPage: 1,
-            perPage: 10,
-            rows: 0,
+            currentPageChuyen: 1,
+            currentPageNhan: 1,
+            currentPageNo: 1,
+            perPage: 3,
+            rowsChuyen: 0,
+            rowsNhan: 0,
+            rowsNo: 0,
             headers: [
                 { key: 'ngayCK', label: 'Ngày' },
                 { key: 'soTaiKhoanNhan', label: 'TK nhận' },
@@ -115,6 +154,13 @@ export default {
                 { key: 'noiDungNhan', label: 'Nội dung' },
                 { key: 'nganHangGui', label: 'Ngân hàng gửi' }
             ],
+            debtheaders: [
+                { key: 'ngayTao', label: 'Ngày' },
+                { key: 'nguoiTao', label: 'Người tạo' },
+                { key: 'tienNo', label: 'Tiền nợ' },
+                { key: 'noiDung', label: 'Nội dung' },
+                { key: 'nameage', label: 'Tình trạng' }
+            ],
             lichSuList: [],
             money: {
                 thousands: ",",
@@ -128,6 +174,7 @@ export default {
         search(){
             this.$refs.tablechuyen.refresh();
             this.$refs.tablenhan.refresh();
+            this.$refs.tableno.refresh();
         },
         async getTransfer() {
             if(!this.filter.soTK) return;
@@ -139,11 +186,11 @@ export default {
                 },
                 params:{
                     limit: this.perPage,
-                    offset: this.currentPage - 1
+                    offset: this.currentPageChuyen - 1
                 }
             })
             .then(res => {
-                this.rows = res.data.totalItems;
+                this.rowsChuyen = res.data.totalItems;
                 this.lichSuList = res.data.listResult;
                 return [...this.lichSuList];
             })
@@ -161,11 +208,33 @@ export default {
                 },
                 params:{
                     limit: this.perPage,
-                    offset: this.currentPage - 1
+                    offset: this.currentPageNhan - 1
                 }
             })
             .then(res => {
-                this.rows = res.data.totalItems;
+                this.rowsNhan = res.data.totalItems;
+                this.lichSuList = res.data.listResult;
+                return [...this.lichSuList];
+            })
+            .catch(err => {
+                console.log(err);
+            });    
+        },
+        async getNo() {
+            if(!this.filter.soTK) return;
+            const accessToken = await this.getToken();
+
+            return axios.post("/nhacno/nhanvien",{soTK: this.filter.soTK}, {
+                headers: {
+                    "x-access-token": accessToken
+                },
+                params:{
+                    limit: this.perPage,
+                    offset: this.currentPageNo - 1
+                }
+            })
+            .then(res => {
+                this.rowsNo = res.data.totalItems;
                 this.lichSuList = res.data.listResult;
                 return [...this.lichSuList];
             })

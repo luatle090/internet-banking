@@ -56,7 +56,7 @@ router.post('/nhanvien', async (req, res) => {
     throw createError(400, 'Invalid offset.');
   }
 
-  const taiKhoanRS = await taiKhoanModel.loadBySoTK(req.body.userId);
+  const taiKhoanRS = await taiKhoanModel.loadBySoTK(req.body.soTK);
   if(taiKhoanRS.length === 0){
     throw createError(204, 'Not found');
   }
