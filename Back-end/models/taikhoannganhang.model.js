@@ -27,7 +27,7 @@ module.exports = {
   },
 
   getInfoNotMeBySoTK: (idTaiKhoan, soTKTruyVan) => {
-    const sql = `select tk.id, kh.hoTen from taikhoannganhang tk
+    const sql = `select tk.id, kh.hoTen, tk.tenDangKy from taikhoannganhang tk
                   inner join khachhang kh on tk.idKhachHang = kh.id
                   where tk.soTK = ${soTKTruyVan}
                   and not exists 
