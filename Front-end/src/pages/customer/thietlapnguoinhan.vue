@@ -63,6 +63,11 @@
                                 <md-icon>edit</md-icon>
                                 <md-tooltip md-direction="top">Edit</md-tooltip>
                                 </md-button>
+                                
+                                <md-button class="md-just-icon md-simple md-primary" @click="Delete(data.item)">
+                                <md-icon>delete</md-icon>
+                                <md-tooltip md-direction="top">Delete</md-tooltip>
+                                </md-button>
                             </template>
                             
                             <template v-slot:cell(nganHang)="data">
@@ -140,6 +145,7 @@ export default {
                 return this.thietlapList;
         },
         Edit(item){
+            console.log(this.itemEdit);
             this.isExists = true;
             this.isEdit = true;
             this.showDialog = true;
@@ -206,7 +212,18 @@ export default {
                 this.$refs.mytable.refresh();
             }
         },
-        
+        async Delete(item){
+            const cfm = confirm("Xác nhận xóa!"); 
+            if(!cfm) return;
+            const accessToken = await this.getToken();
+            const res = await axios.delete(`/thietlapnguoinhan/${item.id}`,{
+                headers: {
+                "x-access-token": accessToken
+                },
+            })
+            this.$swal("xóa thành công")
+            this.$refs.mytable.refresh();
+        }
     },
     directives: {
         money: VMoney

@@ -95,14 +95,14 @@ router.post('/', async (req, res) => {
   res.status(201).json(ret);
 })
 
-// router.delete('/:id', async (req, res) => {
-//   if (isNaN(req.params.id)) {
-//     throw createError(400, 'Invalid id.');
-//   }
+router.delete('/:id', async (req, res) => {
+  if (isNaN(req.params.id)) {
+    throw createError(400, 'Invalid id.');
+  }
 
-//   const rs = await thietlapnguoinhanModel.del(req.params.id);
-//   res.json(rs);
-// })
+  const rs = await thietLapModel.del(req.params.id);
+  res.json(rs);
+})
 
 router.patch('/:id', async (req, res) => {
   if (isNaN(req.params.id)) {
