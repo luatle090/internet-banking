@@ -114,6 +114,11 @@ const routes = [
         component: () => import("../pages/admin/employee/lichsugiaodich")
       },
       {
+        path: "doisoat",
+        name: "Đối soát",
+        component: () => import("../pages/admin/employee/doisoat")
+      },
+      {
         path: "dashboard",
         name: "Dashboard Admin",
         component: () => import("../pages/admin/DashboardAdmin")

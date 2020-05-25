@@ -9,11 +9,15 @@
       </sidebar-link>
       <sidebar-link to="/admin/danhsachkhachhang">
         <md-icon>content_paste</md-icon>
-        <p>danh sach khach hang</p>
+        <p>Danh sách khách hàng</p>
       </sidebar-link>
       <sidebar-link to="/admin/lichsugiaodich">
         <md-icon>content_paste</md-icon>
-        <p>lich su giao dich</p>
+        <p>lịch sử giao dịch</p>
+      </sidebar-link>
+      <sidebar-link to="/admin/doisoat">
+        <md-icon>content_paste</md-icon>
+        <p>Đối soát</p>
       </sidebar-link>
     </side-bar>
 

@@ -28,6 +28,7 @@ app.use('/api/khachhang', verifyAccessToken, require('./routes/khachhang.route')
 app.use('/api/lichsuchuyenkhoan', verifyAccessToken, require('./routes/lichsuchuyenkhoan.route'));
 app.use('/api/lichsunhantien', verifyAccessToken, require('./routes/lichsunhantien.route'));
 app.use('/api/nhacno', verifyAccessToken, require('./routes/nhacno.route'));
+app.use('/api/doisoat', verifyAccessToken, require('./routes/doisoat.route'));
 app.use('/api/nhacnotest', require('./routes/nhacno.route'));
 app.use('/api/taikhoannganhang', verifyAccessToken, require('./routes/taikhoannganhang.route'));
 app.use('/api/thietlapnguoinhan', verifyAccessToken, require('./routes/thietlapnguoinhan.route'));
