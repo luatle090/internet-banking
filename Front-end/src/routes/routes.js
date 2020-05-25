@@ -104,6 +104,11 @@ const routes = [
     meta: { requiresAuth:true },
     children: [
       {
+        path: "danhsachnhanvien",
+        name: "Danh Sách Nhân Viên",
+        component: () => import("../pages/admin/nhanvien/dsnhanvien")
+      },
+      {
         path: "danhsachkhachhang",
         name: "Danh Sách Khách Hàng",
         component: () => import("../pages/admin/employee/dskhachhang")

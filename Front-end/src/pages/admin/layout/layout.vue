@@ -7,6 +7,10 @@
         <md-icon>dashboard</md-icon>
         <p>Dashboard</p>
       </sidebar-link>
+       <sidebar-link to="/admin/danhsachnhanvien">
+        <md-icon>content_paste</md-icon>
+        <p>danh sách nhân viên</p>
+      </sidebar-link>
       <sidebar-link to="/admin/danhsachkhachhang">
         <md-icon>content_paste</md-icon>
         <p>danh sach khach hang</p>
