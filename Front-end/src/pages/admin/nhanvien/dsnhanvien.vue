@@ -88,28 +88,28 @@
         </div>
       </md-card-content>
     </md-dialog>
- <md-dialog :md-active.sync="showDeleteDialog">
+    <md-dialog :md-active.sync="showDeleteDialog">
       <md-dialog-title>Xóa nhân viên</md-dialog-title>
 
       <md-card-content>
         <div class="md-layout primary">
           <div class="md-layout-item md-small-size-100 md-size-100 wight-500">
-                <md-field>
-                  <label>ID</label>
-                  <md-input v-model="CusInfo.id" type="text"></md-input>
-                </md-field>
-                <md-field>
-                  <label>Tên tài khoản*</label>
-                  <md-input v-model="CusInfo.username" type="text"></md-input>
-                </md-field>
-                <md-field>
-                  <label>Họ tên*</label>
-                  <md-input v-model="CusInfo.hoTen"></md-input>
-                </md-field>
-                <md-field>
-                  <label>Vai trò*</label>
-                  <md-input v-model="CusInfo.idVaiTro" type="text"></md-input>
-                </md-field>
+            <md-field>
+              <label>ID</label>
+              <md-input v-model="CusInfo.id" type="text"></md-input>
+            </md-field>
+            <md-field>
+              <label>Tên tài khoản*</label>
+              <md-input v-model="CusInfo.username" type="text"></md-input>
+            </md-field>
+            <md-field>
+              <label>Họ tên*</label>
+              <md-input v-model="CusInfo.hoTen"></md-input>
+            </md-field>
+            <md-field>
+              <label>Vai trò*</label>
+              <md-input v-model="CusInfo.idVaiTro" type="text"></md-input>
+            </md-field>
           </div>
         </div>
       </md-card-content>
@@ -192,7 +192,7 @@
                       <md-icon>edit</md-icon>
                       <md-tooltip md-direction="top">Edit</md-tooltip>
                     </md-button>
-                  <md-button class="md-just-icon md-simple md-primary" @click="Delete(item)">
+                    <md-button class="md-just-icon md-simple md-primary" @click="Delete(item)">
                       <md-icon>delete</md-icon>
                       <md-tooltip md-direction="top">Xóa</md-tooltip>
                     </md-button>
@@ -316,23 +316,22 @@ export default {
     },
     async submitDelete() {
       const info = {
-        id: this.CusInfo.id,
+        id: this.CusInfo.id
       };
-      // const res = await axios.delete(`/nhanvien/${info.id}`, info, {
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     "x-access-token": localStorage.getItem("accessToken")
-      //   }
-      // });
-       const accessToken = await this.getToken();
+      const accessToken = await this.getToken();
       const res = axios({
         method: "delete",
-        url: `/nhanvien/${info.id}`, info,
+        url: `/nhanvien/${info.id}`,
+        info,
         headers: {
           "Content-Type": "application/json",
           "x-access-token": accessToken
-        }})
-      if (res) {
+        }
+      }).catch(err => {
+        console.error(err);
+      });
+      if (res) { 
+        this.dsnhanvien.pop({ ...this.CusInfo });
         await this.$swal({
           icon: "success",
           text: "xóa thành công"
@@ -415,19 +414,6 @@ export default {
         .all(request)
         .then(
           axios.spread((...responses) => {
-            const restNV = responses[0];
-            // if(responses.length>1){
-            //   const resTKKH = responses[1];
-            //   this.CusInfo.id = resTKKH.data.id;
-            //   this.dskhachhang.forEach(element => {
-            //     if(element.id == this.CusInfo.id){
-            //       element.idVaiTro = this.CusInfo.idVaiTro;
-            //       element.diaChi = this.CusInfo.diaChi;
-            //       element.tenDangKy = this.CusInfo.tenDangKy;
-            //       element.username = this.CusInfo.username;
-            //     }
-            //   });
-            // }
             this.$swal({
               icon: "success",
               text: "lưu thành công"
