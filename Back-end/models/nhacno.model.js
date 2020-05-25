@@ -35,7 +35,11 @@ module.exports = {
   getNhacNoByIdTaiKhoan: async (idTaiKhoan, tinhTrang, limit, offset) => {
     let params = [];
     let sql = `SELECT nn.id, nn.noiDung, nn.tienNo, DATE_FORMAT(ngayTao, "%d/%m/%Y") as ngayTao, 
-                    kh.hoTen as nguoiTao, nn.tinhTrang
+                    kh.hoTen as nguoiTao, tk.soTK,
+                CASE    
+                  WHEN nn.tinhTrang = 0 THEN 'Chưa trả nợ'
+                  ELSE 'Đã trả nợ'
+                END as tinhTrang
                   FROM nhacno nn INNER JOIN taikhoannganhang tk
                   ON tk.id = nn.idTaiKhoanTao
                   INNER JOIN khachhang kh ON tk.idKhachHang = kh.id
