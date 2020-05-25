@@ -35,7 +35,7 @@ app.use('/api/thietlapnguoinhan', verifyAccessToken, require('./routes/thietlapn
 app.use('/api/hkl/chuyenkhoan', require('./routes/chuyenkhoan.route'));
 app.use('/api/hkl/taikhoan', require('./routes/taikhoan.route'));
 app.use('/api/nhacNoAddedEvent', verifyAccessToken, require('./routes/eventNhacNo').subscribeNhacNoAdded);
-
+app.use('/api/nhanvien',verifyAccessToken, require('./routes/nhanvien.route'));
 app.use((req, res, next) => {
   throw createError(404, 'Resource not found.');
 })
