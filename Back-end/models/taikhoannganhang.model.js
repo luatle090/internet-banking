@@ -19,8 +19,16 @@ module.exports = {
     return db.load(sql);
   },
 
+  getInfoBySoTK: soTK => {
+    const sql = `select kh.email as email, kh.hoTen as hoTen, kh.phone as phone
+                  from taikhoannganhang tk inner join khachhang kh 
+                  on tk.idKhachHang = kh.id where tk.soTK = ${soTK};`
+      return db.load(sql);
+  },
+
   loadBySoTK: soTK => {
-    const sql = `select tk.id, kh.hoTen from taikhoannganhang tk
+    const sql = `select tk.id, kh.hoTen, tenDangKy as tenDangKy
+                from taikhoannganhang tk
                 inner join khachhang kh on tk.idKhachHang = kh.id
                 where soTK = ${soTK}`;
     return db.load(sql);
