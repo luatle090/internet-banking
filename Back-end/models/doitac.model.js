@@ -4,7 +4,8 @@ module.exports = {
   getlist: async (tungay,denngay,nganhang,limit,offset) => {
     console.log(tungay)
     let params = [];
-    let sql = `select ls.*
+    let sql = `select DATE_FORMAT(ls.ngay, "%d/%m/%Y")as ngay, ls.idTaiKhoanNHNhan, ls.soTaiKhoanGui,
+              ls.giaoDich,ls.nganHangGui,ls.noiDungNhan,ls.id,signature
               from lichsunhantien ls 
               inner join doitac dt on dt.partnerCode = ls.nganHangGui
               where ls.ngay >= ${tungay ? "'"+tungay+"'" : 'ls.ngay'}

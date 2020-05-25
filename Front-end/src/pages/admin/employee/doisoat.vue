@@ -74,10 +74,6 @@
                                 :per-page="perPage"
                                 :current-page="currentPage"
                             >
-                            
-                            <template v-slot:cell(nganHang)="data">
-                                {{data.item.nganHang || "nội bộ"}}
-                            </template>
 
                             </b-table>
                             <div class="paging-right md-card-actions md-alignment-space-between">
@@ -115,7 +111,7 @@ export default {
                 nganhang: "",
             },
             currentPage: 1,
-            perPage: 3,
+            perPage: 10,
             rows: 0,
             headers: [
                 { key: 'ngay', label: 'Ngày' },
