@@ -84,31 +84,33 @@ router.get('/detail', async (req, res) => {
 //   }
 // })
 
-// router.post('/', async (req, res) => {
-//   const results = await thietlapnguoinhanModel.add(req.body);
-//   const ret = {
-//     id: results.insertId,
-//     ...req.body
-//   }
-//   res.status(201).json(ret);
-// })
+router.post('/', async (req, res) => {
+  const userId = res.locals.token.userId;
+  req.body.idTaiKhoanNHGui = userId;
+  const results = await thietLapModel.add(req.body);
+  const ret = {
+    id: results.insertId,
+    ...req.body
+  }
+  res.status(201).json(ret);
+})
 
-// router.delete('/:id', async (req, res) => {
-//   if (isNaN(req.params.id)) {
-//     throw createError(400, 'Invalid id.');
-//   }
+router.delete('/:id', async (req, res) => {
+  if (isNaN(req.params.id)) {
+    throw createError(400, 'Invalid id.');
+  }
 
-//   const rs = await thietlapnguoinhanModel.del(req.params.id);
-//   res.json(rs);
-// })
+  const rs = await thietLapModel.del(req.params.id);
+  res.json(rs);
+})
 
-// router.patch('/:id', async (req, res) => {
-//   if (isNaN(req.params.id)) {
-//     throw createError(400, 'Invalid id.');
-//   }
+router.patch('/:id', async (req, res) => {
+  if (isNaN(req.params.id)) {
+    throw createError(400, 'Invalid id.');
+  }
 
-//   const rs = await thietlapnguoinhanModel.patch(req.params.id, req.body);
-//   res.json(rs);
-// })
+  const rs = await thietLapModel.patch(req.params.id, req.body);
+  res.json(rs);
+})
 
 module.exports = router;

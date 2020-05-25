@@ -175,8 +175,8 @@ export default {
                     }},)
             if(res.data)
             {
-                    this.itemEdit.tenGoiNho = res.data.tenDangKy
-                    this.isExists = true
+                this.itemEdit.tenGoiNho = res.data.tenDangKy
+                this.isExists = true
             }
             else{
                 this.itemEdit.tenGoiNho = "không tìm thấy tài khoản"
