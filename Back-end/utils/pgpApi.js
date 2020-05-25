@@ -3,44 +3,36 @@ const fs = require('fs').promises;
 const opts = require("./opts");
 
 //hàm ký tên nhận vào partnerCode, timesamp, và request body
-async function sign(objCheckSum){
-    const privateKeyArmored = await fs.readFile("../Database/private-key-pgp.asc")
+async function sign(text){
+    const privateKeyArmored = await fs.readFile("./key/private-key-pgp.asc")
 
     const passphrase = opts.SIGNATURE.PASSPHRASE;
 
     const { keys: [privateKey] } = await openpgp.key.readArmored(privateKeyArmored);
     await privateKey.decrypt(passphrase);
 
-    //Serialize JavaScript object into JSON string
-    const text = JSON.stringify(objCheckSum);
+    ////Serialize JavaScript object into JSON string
+    //const text = JSON.stringify(objCheckSum);
 
-    const { signature: detachedSignature } = await openpgp.sign({
+    const { data: cleartext } = await openpgp.sign({
         message: openpgp.message.fromText(text), // CleartextMessage or Message object
-        privateKeys: [privateKey],                             // for signing
-        detached: true
+        privateKeys: [privateKey]                             // for signing
     });
 
-    //console.log(detachedSignature);
-    return detachedSignature;
+    //console.log(cleartext);
+    return cleartext;
 }
 
 //hàm verify cho hàm sign
-async function verify(detachedSignature, obj){
-    const publicKeyArmored = await fs.readFile("../Database/pub-key-pgp.asc");
-    //console.log(publicKeyArmored);
+async function verify(signature){
+    const publicKeyArmored = await fs.readFile("./key/pub-key-pgp-nhom7.asc");
+    //console.log(cleartext);
     
-    // const obj = {
-    //     partnerCode: partnerCode,
-    //     timesamp: date,
-    //     secretKey: opts.SIGNATURE.SECRET_KEY,
-    //     reqBody
-    // }
-    //Serialize JavaScript object into JSON string
-    const text = JSON.stringify(obj)
+    ////Serialize JavaScript object into JSON string
+    //const text = JSON.stringify(obj)
 
     const verified = await openpgp.verify({
-        message: openpgp.message.fromText(text), 
-        signature: await openpgp.message.readArmored(detachedSignature),           // parse armored message
+        message: await openpgp.message.readArmored(signature),
         publicKeys: (await openpgp.key.readArmored(publicKeyArmored)).keys, // for verification
     });
 

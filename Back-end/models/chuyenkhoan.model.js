@@ -13,17 +13,23 @@ module.exports = {
     return db.store(sql, param);
   },
 
+  thanhToanNo: (userId, entity, ngayCK) => {
+    const sql = `CALL ThanhToanNo(?,?,?,?,@status); select @status as status`;
+    var param = [userId, entity.idNhacNo, ngayCK, entity.noiDung];
+    return db.store(sql, param);
+  },
+
   NopTienVaoTaiKhoan: (entity, ngayCK) => {
     const sql = `CALL NopTien(?,?,?,?,?,?,?,@status); select @status as status`;
     var param = [entity.soTKGui, entity.soTKNhan, entity.giaoDich, ngayCK, 
-                  entity.noiDung, entity.partnerCode, entity.checksum];
+                  entity.noiDung, entity.partnerCode, entity.signature];
     return db.store(sql, param);
   },
 
   chuyenKhoanLienNH: (userIdGui, entity, ngayCK) => {
     const sql = `CALL ChuyenKhoanLienNH(?,?,?,?,?,?,?,@status); select @status as status`;
     var param = [userIdGui, entity.soTKNhan, entity.giaoDich, ngayCK, 
-                  entity.noiDung, entity.partnerCode, entity.checksum];
+                  entity.noiDung, entity.partnerCode, entity.signature];
     return db.store(sql, param);
   },
 
