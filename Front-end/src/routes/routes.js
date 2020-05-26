@@ -104,6 +104,11 @@ const routes = [
     meta: { requiresAuth:true },
     children: [
       {
+        path: "danhsachnhanvien",
+        name: "Danh Sách Nhân Viên",
+        component: () => import("../pages/admin/nhanvien/dsnhanvien")
+      },
+      {
         path: "danhsachkhachhang",
         name: "Danh Sách Khách Hàng",
         component: () => import("../pages/admin/employee/dskhachhang")
@@ -112,6 +117,11 @@ const routes = [
         path: "lichsugiaodich",
         name: "Lịch sử giao dịch",
         component: () => import("../pages/admin/employee/lichsugiaodich")
+      },
+      {
+        path: "doisoat",
+        name: "Đối soát",
+        component: () => import("../pages/admin/employee/doisoat")
       },
       {
         path: "dashboard",

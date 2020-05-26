@@ -33,46 +33,47 @@
                 
                 <md-card>
                     <md-card-header data-background-color="green">
-                        <h4 class="title">Thiết lập người nhận</h4>
+                        <h4 class="title">Đối soát</h4>
                     </md-card-header>
                     <md-card-content>
                         <div class="md-layout primary">
-                        <div class="md-layout-item md-small-size-25 md-size-25">
-                            <md-button class="md-success" @click="create()">thêm mới</md-button>
+                            <div class="md-layout-item md-small-size-25 md-size-25">
+                                <md-datepicker v-model="filter.tungay">
+                                    <label>từ ngày</label>
+                                </md-datepicker>
+                            </div>
+                            <div class="md-layout-item md-small-size-25 md-size-25">
+                                <md-datepicker v-model="filter.denngay">
+                                    <label>đến ngày</label>
+                                </md-datepicker>
+                            </div>
+                            <div class="md-layout-item md-small-size-25 md-size-25">
+                            <md-field>
+                                <label>ngân hàng</label>
+                                <md-input v-model="filter.nganhang" type="text"></md-input>
+                            </md-field>
+                            </div>
                         </div>
+                        <div class="md-layout primary">
+                            <div class="md-layout-item md-small-size-25 md-size-25">
+                                <md-button class="md-success" @click="search()">tìm kiếm</md-button>
+                            </div>
                         </div>
                     </md-card-content>
                 </md-card>
 
                 <md-card>
                     <md-card-header data-background-color="green">
-                        <h4 class="title">Thiết lập người nhận</h4>
+                        <h4 class="title">Đối soát</h4>
                     </md-card-header>
                     <md-card-content>
                         <div>
                             <b-table ref="mytable" striped hover 
-                                :items="getHistory" 
+                                :items="getDoiSoat" 
                                 :fields="headers"
                                 :per-page="perPage"
                                 :current-page="currentPage"
                             >
-                            
-                            
-                            <template v-slot:cell(tools)="data">
-                                <md-button class="md-just-icon md-simple md-primary" @click="Edit(data.item)">
-                                <md-icon>edit</md-icon>
-                                <md-tooltip md-direction="top">Edit</md-tooltip>
-                                </md-button>
-                                
-                                <md-button class="md-just-icon md-simple md-primary" @click="Delete(data.item)">
-                                <md-icon>delete</md-icon>
-                                <md-tooltip md-direction="top">Delete</md-tooltip>
-                                </md-button>
-                            </template>
-                            
-                            <template v-slot:cell(nganHang)="data">
-                                {{data.item.nganHang || "nội bộ"}}
-                            </template>
 
                             </b-table>
                             <div class="paging-right md-card-actions md-alignment-space-between">
@@ -100,17 +101,25 @@
 import axios from "axios";
 import { VMoney } from "v-money";
 import { mapActions } from 'vuex';
+
 export default {
     data() {
         return {
+            filter: {
+                tungay: "",
+                denngay: "",
+                nganhang: "",
+            },
             currentPage: 1,
             perPage: 10,
             rows: 0,
             headers: [
-                { key: 'soTaiKhoanNhan', label: 'TK nhận' },
-                { key: 'nganHang', label: 'Ngân hàng' },
-                { key: 'tenGoiNho', label: 'Tên gợi nhớ' },
-                { key: 'tools', label: 'tools' },
+                { key: 'ngay', label: 'Ngày' },
+                { key: 'idTaiKhoanNHNhan', label: 'Tài khản nhận' },
+                { key: 'soTaiKhoanGui', label: 'Tài khoản gửi' },
+                { key: 'giaoDich', label: 'Giao dịch' },
+                { key: 'nganHangGui', label: 'Ngân hàng gửi' },
+                { key: 'noiDungNhan', label: 'Nội dung nhận' },
             ],
             thietlapList: [],
             money: {
@@ -128,100 +137,27 @@ export default {
     },
     methods: {
         ...mapActions(["getToken"]),
-        async getHistory() {
+        async getDoiSoat() {
             const accessToken = await this.getToken();
 
-            const res = await axios.get("/thietlapnguoinhan/detail", {
+            const res = await axios.get("/doisoat", {
                 headers: {
                 "x-access-token": accessToken
                 },
                 params:{
+                    tungay: this.filter.tungay,
+                    denngay: this.filter.denngay,
+                    nganhang: this.filter.nganhang,
                     limit: this.perPage,
                     offset: this.currentPage - 1
                 }
             })
+            console.log(res)
                 this.rows = res.data.totalItems;
                 this.thietlapList = res.data.listResult;
                 return this.thietlapList;
         },
-        Edit(item){
-            console.log(this.itemEdit);
-            this.isExists = true;
-            this.isEdit = true;
-            this.showDialog = true;
-            this.itemEdit = item;
-        },
-        create(){
-            this.isExists = false;
-            this.isEdit = false;
-            this.showDialog = true;
-            this.itemEdit = {
-                idKhachHang: 0,
-                tenGoiNho: "",
-            };
-        },
-        async search(){
-            const tl = this.thietlapList.find(x=>x.soTaiKhoanNhan == this.itemEdit.idKhachHang)
-            if(tl){
-                this.itemEdit.tenGoiNho = "tài khoản đã lưu"
-                this.isExists = false
-                return;
-            }
-
-            const accessToken = await this.getToken();
-            const res = await axios.get(`/taikhoannganhang/${this.itemEdit.idKhachHang}`,{
-                    headers: {
-                    "x-access-token": accessToken
-                    }},)
-            if(res.data)
-            {
-                this.itemEdit.tenGoiNho = res.data.tenDangKy
-                this.isExists = true
-            }
-            else{
-                this.itemEdit.tenGoiNho = "không tìm thấy tài khoản"
-                this.isExists = false
-            }
-        },
-        async save(){
-            const accessToken = await this.getToken();
-            const data = { tenGoiNho: this.itemEdit.tenGoiNho }
-            if(this.isEdit){
-                const res = await axios.patch(`/thietlapnguoinhan/${this.itemEdit.id}`,data, {
-                    headers: {
-                    "x-access-token": accessToken
-                    },
-                })
-                this.$swal("lưu thành công")
-            }
-            else{
-                if(!this.isExists){
-                    this.$swal("không tìm thấy tài khoản")
-                    return;
-                }
-                const data = { 
-                    tenGoiNho: this.itemEdit.tenGoiNho,
-                    soTaiKhoanNhan: this.itemEdit.idKhachHang,
-                }
-                const res = await axios.post(`/thietlapnguoinhan`,data, {
-                    headers: {
-                    "x-access-token": accessToken
-                    },
-                })
-                this.$swal("lưu thành công")
-                this.$refs.mytable.refresh();
-            }
-        },
-        async Delete(item){
-            const cfm = confirm("Xác nhận xóa!"); 
-            if(!cfm) return;
-            const accessToken = await this.getToken();
-            const res = await axios.delete(`/thietlapnguoinhan/${item.id}`,{
-                headers: {
-                "x-access-token": accessToken
-                },
-            })
-            this.$swal("xóa thành công")
+        search(){
             this.$refs.mytable.refresh();
         }
     },

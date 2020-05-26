@@ -10,7 +10,8 @@ module.exports = {
     const sql = `select DATE_FORMAT(ngay, "%d/%m/%Y") as ngayCK, idTaiKhoanNHGui, soTaiKhoanNhan,  
                   giaoDich, noiDungChuyen, nganHangNhan
                   from lichsuchuyenkhoan 
-                  where idTaiKhoanNHGui = ${idTaiKhoan} and idNhacNo IS NULL
+                  where idTaiKhoanNHGui = ${idTaiKhoan} and idNhacNo IS NULL AND
+                  Date(ngay) BETWEEN Date(DATE_SUB(NOW(), INTERVAL 30 DAY)) AND Date(Now())
                   order by ngay desc
                   limit ${limit} offset ${offset}`;
     return db.load(sql);
@@ -19,7 +20,8 @@ module.exports = {
   countByIdTaiKhoanGuiWithOutNhacNo: (idTaiKhoan) => {
     const sql = `select count(id) as total
                   from lichsuchuyenkhoan 
-                  where idTaiKhoanNHGui = ${idTaiKhoan} and idNhacNo IS NULL`;
+                  where idTaiKhoanNHGui = ${idTaiKhoan} and idNhacNo IS NULL
+                  AND Date(ngay) BETWEEN Date(DATE_SUB(NOW(), INTERVAL 30 DAY)) AND Date(Now())`;
     return db.load(sql);
   },
 

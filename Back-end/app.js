@@ -28,12 +28,14 @@ app.use('/api/khachhang', verifyAccessToken, require('./routes/khachhang.route')
 app.use('/api/lichsuchuyenkhoan', verifyAccessToken, require('./routes/lichsuchuyenkhoan.route'));
 app.use('/api/lichsunhantien', verifyAccessToken, require('./routes/lichsunhantien.route'));
 app.use('/api/nhacno', verifyAccessToken, require('./routes/nhacno.route'));
+app.use('/api/doisoat', verifyAccessToken, require('./routes/doisoat.route'));
 app.use('/api/nhacnotest', require('./routes/nhacno.route'));
 app.use('/api/taikhoannganhang', verifyAccessToken, require('./routes/taikhoannganhang.route'));
 app.use('/api/thietlapnguoinhan', verifyAccessToken, require('./routes/thietlapnguoinhan.route'));
-app.use('/api/chuyenkhoan', require('./routes/chuyenkhoan.route'));
+app.use('/api/hkl/chuyenkhoan', require('./routes/chuyenkhoan.route'));
+app.use('/api/hkl/taikhoan', require('./routes/taikhoan.route'));
 app.use('/api/nhacNoAddedEvent', verifyAccessToken, require('./routes/eventNhacNo').subscribeNhacNoAdded);
-
+app.use('/api/nhanvien',verifyAccessToken, require('./routes/nhanvien.route'));
 app.use((req, res, next) => {
   throw createError(404, 'Resource not found.');
 })
@@ -47,7 +49,7 @@ app.use(function (err, req, res, next) {
   }
 })
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`API is running at http://localhost:${PORT}`);
 })
