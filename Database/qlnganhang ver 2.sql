@@ -252,7 +252,9 @@ INSERT INTO `khachhang` (`id`, `hoTen`, `email`, `phone`) VALUES
 (3, 'Nguyễn Jang Mi', 'mail3@gmail.com', NULL),
 (4, 'Nguyễn Amee', 'yso33942@bcaoo.com', NULL),
 (5, 'Nguyễn Bảo Thy', 'mail5@gmail.com', NULL),
-(8, 'Lê Lê', 'Testing@Testing.com', '2222');
+(6, 'Lê Lê', 'Testing@Testing.com', '2222'),
+(7,'khoa','ninakhoa1234@gmail.com','123123123'),
+(8,'hieu','abc','0123456654');
 
 -- --------------------------------------------------------
 
@@ -294,8 +296,48 @@ INSERT INTO `lichsuchuyenkhoan` (`id`, `ngay`, `idTaiKhoanNHGui`, `soTaiKhoanNha
 (11, '2020-04-01 19:12:30', 6, 'A1', 1, 'cc', 'ACB', NULL, '-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v4.9.0\r\nComment: https://openpgpjs.org\r\n\r\nwsBcBAEBCgAGBQJehIUsAAoJEJfZvPhZijS0qXsH/0jf7CzFTthhJeEukM+0\r\nruLi2Zrt0fd3zvt05IN0SP77hW0gPXuvJQ5YtyGWdUQNTFxnPjpCPclWj/ut\r\nbcCocp7p22WPMXT3IFJSccXtJE1zDO2BcQKw12lNOtrPO3W9pZuxptKmtkfa\r\nWpJW75J7Rsk+Uq9mwUOLybyUmmw1XFV6UeG5fFFupGyaeTcxgvCIgKkosBms\r\nw56WuJN6vmdLj657q0NZxIJmarKxkv10gDalMBPU2rTIRs52J/wzaA3O+61M\r\nYYL+Keue/3YOEn8cY5nNayE5G6qssHW4eZDO8Lona5Z7wgJhnFfiKnkc7Vng\r\nXYH/9XwQIKOckDBZ5GRCiTg=\r\n=kkiL\r\n-----END PGP SIGNATURE-----\r\n'),
 (12, '2020-04-01 19:13:11', 6, 'A1', 1, 'cc', 'ACB', NULL, '-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v4.9.0\r\nComment: https://openpgpjs.org\r\n\r\nwsBcBAEBCgAGBQJehIVUAAoJEJfZvPhZijS08g0H+gLZR082GFP69ewyuE/X\r\n0mHzQbt/LmAEDrwDFD1tUiU1iNvXNKft4K/KmQg8HOQ8lQBkxqxqbxYNJ2yp\r\nT2e0PENWTXgO36uL/A/zVm2JwAq+Km/0w5eB5EDthm+gQVJlrDaHZJ0ZqW7R\r\n1ZhDmw86Ah3v7+Tv67MjXW4+Yen1PR7v5R68p/ZfgRe2lyqtueaeX2+OF1iR\r\ntB/ibYLnF7GGCVClbJnnqD6ydhwsk0kcwOWfgJuyeGw7qXFZYMcR0lBtH3B4\r\nv2U1knnwyqQpp0+6lT5Hg5UHzW+0gCEHXecFKezijOKjBuSWXccepQC4E2RC\r\n7geMkF9JmdM/sCCh6dKVlSE=\r\n=mLih\r\n-----END PGP SIGNATURE-----\r\n'),
 (13, '2020-04-01 19:14:17', 6, 'A1', 1, 'cc', 'ACB', NULL, '-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v4.9.0\r\nComment: https://openpgpjs.org\r\n\r\nwsBcBAEBCgAGBQJehIWWAAoJEJfZvPhZijS0Hv8H/jcCWAqrFx94/eyeotZp\r\nzp0GJ7w07tg1WdY7X15+73x0DfVXqCsDzc9AlowdgAB0jGOhYwbTkB4o0m/a\r\nLv7KjxS0/MxRLdTJjiLpHP8E+A2PmutTr6pjX/77Ersnh6nVWAa/W0N2M5aF\r\nFFXgug6Fpl/skDZri6UP4G2cxHHxC36Wzd1tq3PlTJOk3QiuDR3SROfJYPGz\r\nUo1TJ5su+kvTFUiRKdrgbkaMYeIAZDZa6nFSd/VirSImRQ00hRItOOeAOixa\r\nJrc8WtnniR1nbCK0W5/CD9RvDsgK29MB/IPq+wpiwEiH4LZnA+MrRb/LumO9\r\noiFpYecHaQBEug0b1e5KmqY=\r\n=es6F\r\n-----END PGP SIGNATURE-----\r\n'),
-(14, '2020-04-01 19:22:27', 6, 'A1', 998975, 'cc', 'ACB', NULL, '-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v4.9.0\r\nComment: https://openpgpjs.org\r\n\r\nwsBcBAEBCgAGBQJehIeAAAoJEJfZvPhZijS0XBgH/ipOZ2QZXxPM7CZEJP9N\r\nlx0B5wQS5uGQHlOX6nrp51nDZaykqWcgYb6VCI6h8fKELP241AaTSiLN+WlG\r\nuGtOlXDpzDMU2fUH0MoCZH8xbtH15gXqq4DhbImXCZj6HOcohHIpW4egpjQ7\r\nIKZI7v8VgQH9u7slJzLZLYt4w/m5mMBN7sHU6twrZzd7annbd/1BMN3WMF47\r\nK99x3sTsLMX4jdV5U0i9gFdPq1cQL+tuBWX8NA/ab3VKqM2baA6Km6uTVBps\r\n2XD7oyqJErMdmONbbjIPQUg6LK2zAs4HT20+tAV8z9+kjG96sJyJ2NgHzjeK\r\nJoEILeFrgbyJcOV+KvB65aw=\r\n=ROK+\r\n-----END PGP SIGNATURE-----\r\n');
-
+(14, '2020-04-01 19:22:27', 6, 'A1', 998975, 'cc', 'ACB', NULL, '-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v4.9.0\r\nComment: https://openpgpjs.org\r\n\r\nwsBcBAEBCgAGBQJehIeAAAoJEJfZvPhZijS0XBgH/ipOZ2QZXxPM7CZEJP9N\r\nlx0B5wQS5uGQHlOX6nrp51nDZaykqWcgYb6VCI6h8fKELP241AaTSiLN+WlG\r\nuGtOlXDpzDMU2fUH0MoCZH8xbtH15gXqq4DhbImXCZj6HOcohHIpW4egpjQ7\r\nIKZI7v8VgQH9u7slJzLZLYt4w/m5mMBN7sHU6twrZzd7annbd/1BMN3WMF47\r\nK99x3sTsLMX4jdV5U0i9gFdPq1cQL+tuBWX8NA/ab3VKqM2baA6Km6uTVBps\r\n2XD7oyqJErMdmONbbjIPQUg6LK2zAs4HT20+tAV8z9+kjG96sJyJ2NgHzjeK\r\nJoEILeFrgbyJcOV+KvB65aw=\r\n=ROK+\r\n-----END PGP SIGNATURE-----\r\n'),
+(15,'2020-04-01 19:22:55',1,'2',1000,'1 chuyen 2 1000','HKL Bank',NULL,NULL),
+(16,'2020-04-02 19:22:55',1,'3',1000,'1 chuyen 3 1000','HKL Bank',NULL,NULL),
+(17,'2020-04-02 19:22:55',1,'4',1000,'1 chuyen 4 1000','HKL Bank',NULL,NULL),
+(18,'2020-04-02 19:32:55',1,'5',1000,'1 chuyen 5 1000','HKL Bank',NULL,NULL),
+(19,'2020-04-02 19:32:55',1,'6',1000,'1 chuyen 6 1000','HKL Bank',NULL,NULL),
+(20,'2020-04-02 19:32:55',1,'7',1000,'1 chuyen 7 1000','HKL Bank',NULL,NULL),
+(21,'2020-04-03 19:32:55',1,'8',1000,'1 chuyen 8 1000','HKL Bank',NULL,NULL),
+(22,'2020-04-02 19:32:25',2,'1',1000,'2 chuyen 1 2000','HKL Bank',NULL,NULL),
+(23,'2020-04-02 19:32:25',2,'3',2000,'2 chuyen 3 2000','HKL Bank',NULL,NULL),
+(24,'2020-04-02 19:42:25',2,'4',2000,'2 chuyen 4 2000','HKL Bank',NULL,NULL),
+(25,'2020-04-02 19:52:25',2,'5',2000,'2 chuyen 5 2000','HKL Bank',NULL,NULL),
+(26,'2020-04-02 19:52:25',3,'8',3000,'3 chuyen 8 3000','HKL Bank',NULL,NULL),
+(27,'2020-04-03 19:52:25',3,'7',3000,'3 chuyen 7 3000','HKL Bank',NULL,NULL),
+(28,'2020-04-03 20:32:25',3,'6',3000,'3 chuyen 6 3000','HKL Bank',NULL,NULL),
+(29,'2020-04-03 20:32:25',3,'5',3000,'3 chuyen 5 3000','HKL Bank',NULL,NULL),
+(30,'2020-04-03 20:32:25',4,'8',4000,'4 chuyen 8 4000','HKL Bank',NULL,NULL),
+(31,'2020-04-03 20:32:35',4,'7',4000,'4 chuyen 7 4000','HKL Bank',NULL,NULL),
+(32,'2020-04-03 20:32:45',4,'6',4000,'4 chuyen 6 4000','HKL Bank',NULL,NULL),
+(33,'2020-04-03 20:32:45',4,'5',4000,'4 chuyen 5 4000','HKL Bank',NULL,NULL),
+(34,'2020-04-03 20:32:15',5,'3',5000,'5 chuyen 3 5000','HKL Bank',NULL,NULL),
+(35,'2020-04-03 20:32:20',5,'4',5000,'5 chuyen 4 5000','HKL Bank',NULL,NULL),
+(36,'2020-04-03 20:32:40',5,'8',5000,'5 chuyen 8 5000','HKL Bank',NULL,NULL),
+(37,'2020-04-03 20:32:40',5,'7',5000,'5 chuyen 7 5000','HKL Bank',NULL,NULL),
+(38,'2020-04-03 20:32:40',6,'7',6000,'6 chuyen 7 6000','HKL Bank',NULL,NULL),
+(39,'2020-04-03 20:32:40',6,'8',6000,'6 chuyen 8 6000','HKL Bank',NULL,NULL),
+(40,'2020-04-03 20:32:50',6,'4',6000,'6 chuyen 4 6000','HKL Bank',NULL,NULL),
+(41,'2020-04-03 20:34:00',6,'3',6000,'6 chuyen 3 6000','HKL Bank',NULL,NULL),
+(42,'2020-04-03 20:34:00',7,'3',7000,'7 chuyen 3 7000','HKL Bank',NULL,NULL),
+(43,'2020-04-03 20:34:00',7,'4',7000,'7 chuyen 4 7000','HKL Bank',NULL,NULL),
+(44,'2020-04-03 20:34:10',7,'5',7000,'7 chuyen 5 7000','HKL Bank',NULL,NULL),
+(45,'2020-04-03 20:34:20',7,'8',7000,'7 chuyen 8 7000','HKL Bank',NULL,NULL),
+(46,'2020-04-03 20:34:20',8,'7',8000,'8 chuyen 7 8000','HKL Bank',NULL,NULL),
+(47,'2020-04-03 20:34:20',8,'2',8000,'8 chuyen 2 8000','HKL Bank',NULL,NULL),
+(48,'2020-04-03 20:34:30',8,'5',8000,'8 chuyen 5 8000','HKL Bank',NULL,NULL),
+(49,'2020-04-03 20:34:30',8,'6',8000,'8 chuyen 6 8000','HKL Bank',NULL,NULL),
+(50,'2020-04-03 20:34:30',8,'4',8000,'8 chuyen 4 8000','HKL Bank',NULL,NULL),
+(51,'2020-04-03 20:34:30',8,'1',8000,'8 chuyen 1 8000','HKL Bank',NULL,NULL),
+(52,'2020-04-03 20:34:30',7,'1',8000,'7 chuyen 1 7000','HKL Bank',NULL,NULL),
+(53,'2020-04-03 20:34:30',5,'1',5000,'7 chuyen 1 5000','HKL Bank',NULL,NULL),
+(54,'2020-04-03 20:34:30',5,'2',5000,'5 chuyen 2 5000','HKL Bank',NULL,NULL),
+(55,'2020-04-03 20:34:30',7,'2',5000,'7 chuyen 2 5000','HKL Bank',NULL,NULL);
 -- --------------------------------------------------------
 
 --
@@ -330,8 +372,48 @@ INSERT INTO `lichsunhantien` (`id`, `ngay`, `idTaiKhoanNHNhan`, `soTaiKhoanGui`,
 (9, '2020-04-01 12:59:32', 6, 'A001', 22, 'ACB', 'cc', '-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v4.9.0\r\nComment: https://openpgpjs.org\r\n\r\nwsBcBAEBCgAGBQJehC3AAAoJEJfZvPhZijS01MEH/3ddaQj7mtPXntHHRvlu\r\nCbC6qxqbSSA0VibJanxbi+FGyUlsvdKuTcGROa1zA0AEcG1alc+tlZYlRt1u\r\nV8EuWhEvwnZtaUBxfSHabxqbGjG89BohpnohN4wcdE6HqQyzO99fGNh3b8vY\r\nJYxsv/guNQkq8d4uvGwc5/glXvpFzQ9a3BrIinwiTXhytjry0ZGPzEOlm/4S\r\nEhpfDMnyvIY94j9gwzbcAX8txc8+eWh/NvXwiOThSclo6U7/R5HduRCEamrI\r\nt1gIXnXSjfC7b6Zr20z1sHql0d5+EwLF0Swpj06QbAJ1BeJXbDdY/CgY6eX0\r\nZIgxSrWna37uTZR6JND3EuI=\r\n=uh1a\r\n-----END PGP SIGNATURE-----\r\n'),
 (10, '2020-04-01 13:00:20', 6, 'A001', 1, 'ACB', 'cc', '-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v4.9.0\r\nComment: https://openpgpjs.org\r\n\r\nwsBcBAEBCgAGBQJehC3xAAoJEJfZvPhZijS0HwcH/2XTxcbBxj70tDDeqJQ0\r\nk5TifAnRtqsd0wp0mZ02jKasKxSNRIllrYgWn9wT4n1sennohlq6YQetuMI0\r\n+UsVxwvqULVV+JJ6GUgLnIaRAwuY7IyvBNSrQ9JvRdYIOZqiCgDlSDLj15Vc\r\ngguDWPOeTi4Qob8+RO/5T03M3SiH4orVITxHxBcUbiGky7x7vLhooCEufS58\r\n8lZVMYPPeLQG/0nDsQiEw1z5y0nqeup5aoswkDQ4+hpghMy5hqKNvU2+bCXo\r\nLVlLhVR3njwlZ06uGlgSLRIvjzAaORx+kXozOt3rsq9geNx5KFH8KZW6vCy8\r\nA/BgNivpo4z3o7RxyNc8YZQ=\r\n=2K5I\r\n-----END PGP SIGNATURE-----\r\n'),
 (11, '2020-04-01 18:17:17', 6, 'A001', 1, 'ACB', 'cc', '-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v4.9.0\r\nComment: https://openpgpjs.org\r\n\r\nwsBcBAEBCgAGBQJehHg8AAoJEJfZvPhZijS0ZKoH/3vgmvbcFTi37+yf/+4c\r\nbcujEkZBlHg8xCR0YYyc1MglBXm7Zfu/YvwSnn6JVJqouG7jtsJon+9V+dpY\r\nQAuh5LeYZl3iD6qQx1Eug32Y1Pc57fVs+o3dv9xDUyeJM8JHfVpN4IsQb+X9\r\nBCY1Ehdi/OnPkxCU2+T06dMrs9i9lFcCxR09i1CXXhcGtCOEKK2NpiU0kldu\r\nYuOx+CmLYfaoJq0epmxfAFd9Ct8BafMnGKMmSef6nqVigCLSuqeNDlsW32o0\r\n4yVIynJQBWsYidZXjgbF9S6FLp32tbxLc6WgAGm7zCTrxH0KJvFvC/DJf25u\r\nr56Kv0dmZnota0R4tNcJFmg=\r\n=y85n\r\n-----END PGP SIGNATURE-----\r\n'),
-(12, '2020-04-01 18:18:47', 6, 'A001', 1, 'ACB', 'cc', '-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v4.9.0\r\nComment: https://openpgpjs.org\r\n\r\nwsBcBAEBCgAGBQJehHiWAAoJEJfZvPhZijS0klsH/izFVEMF7fVlK6jrBNaw\r\nlWsoImyIzRY5GMGfEp37KWBMPwdycfopCVWgBobl1MbSavYFAJ5y1VXdcLnZ\r\noL2t8F7BgJ5sZUA3APAnbuu50tcM1cyEnlnE8yYHYxxsskmx2gsdTgwi0aNe\r\nWdHlocvodTiocU7u/DQ3cVgYLHm0kGG2w/4aQX/Ah/V+Q+bc6mW61ZOOQ8zD\r\nCEjtf1TPO+xmee9Q3VeNSLZPviZJHZDZ0SlXRsMotKku11Je8fHzLhTGKoOl\r\nILsAGiMVWa2Ks5CsfhtmSTRTLSu/P+WompSOHKyQwUSa0bu6IJCZu5QQBctx\r\nGDzEX/aq9WwBXji1y2Zju7U=\r\n=Frhd\r\n-----END PGP SIGNATURE-----\r\n');
-
+(12, '2020-04-01 18:18:47', 6, 'A001', 1, 'ACB', 'cc', '-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v4.9.0\r\nComment: https://openpgpjs.org\r\n\r\nwsBcBAEBCgAGBQJehHiWAAoJEJfZvPhZijS0klsH/izFVEMF7fVlK6jrBNaw\r\nlWsoImyIzRY5GMGfEp37KWBMPwdycfopCVWgBobl1MbSavYFAJ5y1VXdcLnZ\r\noL2t8F7BgJ5sZUA3APAnbuu50tcM1cyEnlnE8yYHYxxsskmx2gsdTgwi0aNe\r\nWdHlocvodTiocU7u/DQ3cVgYLHm0kGG2w/4aQX/Ah/V+Q+bc6mW61ZOOQ8zD\r\nCEjtf1TPO+xmee9Q3VeNSLZPviZJHZDZ0SlXRsMotKku11Je8fHzLhTGKoOl\r\nILsAGiMVWa2Ks5CsfhtmSTRTLSu/P+WompSOHKyQwUSa0bu6IJCZu5QQBctx\r\nGDzEX/aq9WwBXji1y2Zju7U=\r\n=Frhd\r\n-----END PGP SIGNATURE-----\r\n'),
+(13,'2020-04-01 19:22:55',2,'1',1000,'HKL Bank','1 chuyen 2 1000',NULL),
+(14,'2020-04-02 19:22:55',3,'1',1000,'HKL Bank','1 chuyen 3 1000',NULL),
+(15,'2020-04-02 19:22:55',4,'1',1000,'HKL Bank','1 chuyen 4 1000',NULL),
+(16,'2020-04-02 19:32:55',5,'1',1000,'HKL Bank','1 chuyen 5 1000',NULL),
+(17,'2020-04-02 19:32:55',6,'1',1000,'HKL Bank','1 chuyen 6 1000',NULL),
+(18,'2020-04-02 19:32:55',7,'1',1000,'HKL Bank','1 chuyen 7 1000',NULL),
+(19,'2020-04-03 19:32:55',8,'1',1000,'HKL Bank','1 chuyen 8 1000',NULL),
+(20,'2020-04-02 19:32:25',1,'2',1000,'HKL Bank','2 chuyen 1 2000',NULL),
+(21,'2020-04-02 19:32:25',3,'2',2000,'HKL Bank','2 chuyen 3 2000',NULL),
+(22,'2020-04-02 19:42:25',4,'2',2000,'HKL Bank','2 chuyen 4 2000',NULL),
+(23,'2020-04-02 19:52:25',5,'2',2000,'HKL Bank','2 chuyen 5 2000',NULL),
+(24,'2020-04-02 19:52:25',8,'3',3000,'HKL Bank','3 chuyen 8 3000',NULL),
+(25,'2020-04-03 19:52:25',7,'3',3000,'HKL Bank','3 chuyen 7 3000',NULL),
+(26,'2020-04-03 20:32:25',6,'3',3000,'HKL Bank','3 chuyen 6 3000',NULL),
+(27,'2020-04-03 20:32:25',5,'3',3000,'HKL Bank','3 chuyen 5 3000',NULL),
+(28,'2020-04-03 20:32:25',8,'4',4000,'HKL Bank','4 chuyen 8 4000',NULL),
+(29,'2020-04-03 20:32:35',7,'4',4000,'HKL Bank','4 chuyen 7 4000',NULL),
+(30,'2020-04-03 20:32:45',6,'4',4000,'HKL Bank','4 chuyen 6 4000',NULL),
+(31,'2020-04-03 20:32:45',5,'4',4000,'HKL Bank','4 chuyen 5 4000',NULL),
+(32,'2020-04-03 20:32:15',3,'5',5000,'HKL Bank','5 chuyen 3 5000',NULL),
+(33,'2020-04-03 20:32:20',4,'5',5000,'HKL Bank','5 chuyen 4 5000',NULL),
+(34,'2020-04-03 20:32:40',8,'5',5000,'HKL Bank','5 chuyen 8 5000',NULL),
+(35,'2020-04-03 20:32:40',7,'5',5000,'HKL Bank','5 chuyen 7 5000',NULL),
+(36,'2020-04-03 20:32:40',7,'6',6000,'HKL Bank','6 chuyen 7 6000',NULL),
+(37,'2020-04-03 20:32:40',8,'6',6000,'HKL Bank','6 chuyen 8 6000',NULL),
+(38,'2020-04-03 20:32:50',4,'6',6000,'HKL Bank','6 chuyen 4 6000',NULL),
+(39,'2020-04-03 20:34:00',3,'6',6000,'HKL Bank','6 chuyen 3 6000',NULL),
+(40,'2020-04-03 20:34:00',3,'7',7000,'HKL Bank','7 chuyen 3 7000',NULL),
+(41,'2020-04-03 20:34:00',4,'7',7000,'HKL Bank','7 chuyen 4 7000',NULL),
+(42,'2020-04-03 20:34:10',5,'7',7000,'HKL Bank','7 chuyen 5 7000',NULL),
+(43,'2020-04-03 20:34:20',8,'7',7000,'HKL Bank','7 chuyen 8 7000',NULL),
+(44,'2020-04-03 20:34:20',7,'8',8000,'HKL Bank','8 chuyen 7 8000',NULL),
+(45,'2020-04-03 20:34:20',2,'8',8000,'HKL Bank','8 chuyen 2 8000',NULL),
+(46,'2020-04-03 20:34:30',5,'8',8000,'HKL Bank','8 chuyen 5 8000',NULL),
+(47,'2020-04-03 20:34:30',6,'8',8000,'HKL Bank','8 chuyen 6 8000',NULL),
+(48,'2020-04-03 20:34:30',4,'8',8000,'HKL Bank','8 chuyen 4 8000',NULL),
+(49,'2020-04-03 20:34:30',1,'8',8000,'HKL Bank','8 chuyen 1 8000',NULL),
+(50,'2020-04-03 20:34:30',1,'7',7000,'HKL Bank','7 chuyen 1 7000',NULL),
+(51,'2020-04-03 20:34:30',1,'5',5000,'HKL Bank','5 chuyen 1 5000',NULL),
+(52,'2020-04-03 20:34:30',2,'5',5000,'HKL Bank','5 chuyen 2 5000',NULL),
+(53,'2020-04-03 20:34:30',2,'7',7000,'HKL Bank','7 chuyen 2 7000',NULL);
 -- --------------------------------------------------------
 
 --
@@ -455,13 +537,14 @@ CREATE TABLE IF NOT EXISTS `taikhoannganhang` (
 --
 
 INSERT INTO `taikhoannganhang` (`id`, `tenDangKy`, `soDu`, `soTK`, `idKhachHang`, `username`, `password`) VALUES
-(6, 'Amee', 998976, 1, 4, 'kh1', '$2a$08$p3AMjO9Zr9pW5MOIwzw2cOv8PDSkTA0BGBWv2mZwNZrYQYvTJI9si'),
-(7, 'DinhLong', 1001066, 2, 2, 'kh2', '$2a$08$jDOMqbmVeXOslGYilubHeeXrhlznnsTCVvTBVIxhXd5dXC/Of/ef.'),
-(8, 'JangMi', 1000000, 3, 3, 'kh3', '$2a$08$a5aFVQJH/f9iElQX8W/AWelh.R/M0Dwjy9wWubUqGr8XDwA8uAWJC'),
-(9, 'ijji', 1000000, 4, 1, 'kh4', '$2a$08$37ZCdnPhE1YYcJ5YFrVJbucZ7June1sskVsuy27CeWf7paTtLnri6'),
-(10, 'superstar', 1000000, 5, 5, 'kh5', '$2a$08$m.SpvGRjQfyXkmGwMQh0jub9DH7Y0w1amP8JpPhu32gJ9q9B4rFDq'),
-(12, 'Lê Lê', 0, 12, 8, 'number1', '123456');
-
+(1, 'Amee', 998976, 1, 1, 'kh1', '$2a$08$p3AMjO9Zr9pW5MOIwzw2cOv8PDSkTA0BGBWv2mZwNZrYQYvTJI9si'),
+(2, 'DinhLong', 1001066, 2, 2, 'kh2', '$2a$08$jDOMqbmVeXOslGYilubHeeXrhlznnsTCVvTBVIxhXd5dXC/Of/ef.'),
+(3, 'JangMi', 1000000, 3, 3, 'kh3', '$2a$08$a5aFVQJH/f9iElQX8W/AWelh.R/M0Dwjy9wWubUqGr8XDwA8uAWJC'),
+(4, 'ijji', 1000000, 4, 4, 'kh4', '$2a$08$37ZCdnPhE1YYcJ5YFrVJbucZ7June1sskVsuy27CeWf7paTtLnri6'),
+(5, 'superstar', 1000000, 5, 5, 'kh5', '$2a$08$m.SpvGRjQfyXkmGwMQh0jub9DH7Y0w1amP8JpPhu32gJ9q9B4rFDq'),
+(6,'Lê Lê',2000000,6,6,'kh6','$2a$08$PKnUoaplkybef9iMMOSSju1x7bg.vre5MCN2/yRtIPOkGu1XksM2a'),
+(7,'khoa',1000000,7,7,'khoa','$2a$08$PKnUoaplkybef9iMMOSSju1x7bg.vre5MCN2/yRtIPOkGu1XksM2a'),
+ (8,'hieu',1000000,8,8,'hieu','$2a$08$lNufkCFAHT8HeMc0z9TEJu5yegpV3vpv/2s7cqv3B/gqmZ5jXGGw2');
 -- --------------------------------------------------------
 
 --
