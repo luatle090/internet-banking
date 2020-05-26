@@ -54,7 +54,7 @@ router.get('/:soTK', async (req, res) => {
         });
     }
   } catch (error) {
-    logger.error(err);
+    logger.error(error);
     res.status(500);
     res.end('View error log on console.');
   }
@@ -148,6 +148,24 @@ router.patch('/security', async (req, res) => {
   }
 });
 
+router.patch('/dongtaikhoan', async (req, res) => {
+  const userId = res.locals.token.userId;
+  if (isNaN(userId)) {
+    throw createError(400, 'Invalid id.');
+  }
+  const row = await taikhoannganhangModel.loadById(userId);
+  if(row.length === 0){
+    res.status(204).end();
+  }
+  else{
+    const entity = {
+      tinhTrang: !row[0].tinhTrang
+    } 
+    const rs = await taikhoannganhangModel.patch(userId, entity);
+    res.json(rs);
+  }
+ 
+})
 
 router.patch('/:id', async (req, res) => {
   if (isNaN(req.params.id)) {

@@ -19,7 +19,7 @@ module.exports = {
 
   countByIdTaiKhoanNhan: (id) => {
     const sql = `select count(id) as total from lichsunhantien 
-                  where idTaiKhoanNHNhan = ${id}
+                  where idTaiKhoanNHNhan = ${id} and
                   Date(ngay) BETWEEN Date(DATE_SUB(NOW(), INTERVAL 30 DAY)) AND Date(Now())`;
     return db.load(sql);
   },

@@ -17,7 +17,7 @@
         <p>tai khoan ngan hang</p>
       </sidebar-link>
       <li to="/">
-        <a href="#" v-b-toggle.collapse-lichsu class="nav-link sidebar-menu-item">
+        <a href="#" v-b-toggle.collapse-lichsu class="nav-link sidebar-menu-item sidebar-menu-padding-left">
           <md-icon>history</md-icon>
           <p>Lịch sử giao dịch <b class="caret"></b></p></a>
           <b-collapse id="collapse-lichsu" accordion="my-accordion" style="animation-fill-mode: both; animation-timing-function: ease-out;">
@@ -29,11 +29,14 @@
             </sidebar-link>
           </b-collapse>
       </li>
-
+      <sidebar-link to="/thietlapnguoinhan">
+        <md-icon>content_paste</md-icon>
+        <p>Thiết lập người nhận</p>
+      </sidebar-link>
       <li to="/">
-        <a href="#" v-b-toggle.collapse-chuyenkhoan class="nav-link sidebar-menu-item">
+        <a href="#" v-b-toggle.collapse-chuyenkhoan class="nav-link sidebar-menu-item sidebar-menu-padding-left">
           <md-icon>payment</md-icon>
-          <p>Chuyển khoản <b class="caret"></b></p></a>
+          <p>Chuyển khoản<b class="caret"></b></p></a>
           <b-collapse id="collapse-chuyenkhoan" accordion="my-accordion" style="animation-fill-mode: both; animation-timing-function: ease-out;">
             <sidebar-link to="/chuyenkhoannoibo">
               <p>chuyển khoản nội bộ</p>
@@ -47,9 +50,9 @@
         <md-icon>content_paste</md-icon>
         <p>Nhắc nợ</p>
       </sidebar-link>
-      <sidebar-link to="/thietlapnguoinhan">
+      <sidebar-link to="/no">
         <md-icon>content_paste</md-icon>
-        <p>Thiết lập người nhận</p>
+        <p>Nợ</p>
       </sidebar-link>
       <!-- <sidebar-link to="/typography">
         <md-icon>library_books</md-icon>
@@ -70,7 +73,6 @@
     </div>
   </div>
 </template>
-<style lang="scss"></style>
 <script>
 import TopNavbar from "./TopNavbar.vue";
 import ContentFooter from "./ContentFooter.vue";
@@ -86,3 +88,8 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+  .sidebar-menu-padding-left{
+    padding-left: 20px!important;
+  }
+</style>

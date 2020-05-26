@@ -12,6 +12,11 @@ module.exports = {
     return db.load(sql);
   },
 
+  getAccValidById: id => {
+    const sql = `select * from taikhoannganhang where id = ${id} and tinhTrang is true`;
+    return db.load(sql);
+  },
+
   getInfoById: id => {
     const sql = `select tk.soTK as soTK, kh.email as email, kh.hoTen as hoTen
                   from taikhoannganhang tk inner join khachhang kh 
@@ -22,7 +27,8 @@ module.exports = {
   getInfoBySoTK: soTK => {
     const sql = `select kh.email as email, kh.hoTen as hoTen, kh.phone as phone
                   from taikhoannganhang tk inner join khachhang kh 
-                  on tk.idKhachHang = kh.id where tk.soTK = ${soTK};`
+                  on tk.idKhachHang = kh.id where tk.soTK = ${soTK}
+                  where tk.tinhTrang is true`;
       return db.load(sql);
   },
 

@@ -43,6 +43,10 @@ router.post('/noibo', verifyAccessToken, async (req, res, next) => {
 
   var ngayCK = new Date();
   try{
+    const rowsTaiKhoan = await taiKhoanModel.getAccValidById(userId);
+    if(rowsTaiKhoan.length === 0){
+      throw createError(403, 'Tai khoan da bi khoa');
+    }
     const rows = await chuyenKhoanModel.chuyenKhoanNoiBo(userId, req.body, ngayCK);
     var status = rows[1][0].status;
     if(status === 0){
@@ -338,7 +342,7 @@ router.post('/trutien', verifyAccessToken, async (req, res, next) => {
   }
 
   //kiểm tra giao dịch
-  const rowsTaiKhoan = await taiKhoanModel.loadById(userId);
+  const rowsTaiKhoan = await taiKhoanModel.getAccValidById(userId);
   if(rowsTaiKhoan.length === 0){
     throw createError(204, '');
   }
