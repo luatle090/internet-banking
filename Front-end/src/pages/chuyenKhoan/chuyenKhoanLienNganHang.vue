@@ -10,14 +10,21 @@
             </md-card-header>
             <md-card-content>
               <div class="md-layout">
-                <div>
-                  <b-form-group >
-                    <b-form-radio v-model="selected" value="1">Trong danh sách đã lưu</b-form-radio>
-                    <b-form-radio v-model="selected" value="2">Ngoài danh sách đã lưu</b-form-radio>
-                  </b-form-group>
-                </div>
-                <div v-if="showDS" class="md-layout-item md-small-size-100 md-size-100">
+                <div class="md-layout-item">
                   <md-field>
+                    <label>Đối tác</label>
+                    <md-select v-model="nganHang" >
+                      <md-option v-for="doiTac in dsDoiTac" 
+                        :key="doiTac.id" 
+                        v-bind:value="{ partnerCode: doiTac.partnerCode, tenNganHang: doiTac.moTa }"
+                      >
+                        {{ doiTac.moTa }}
+                      </md-option>
+                    </md-select>
+                  </md-field>
+                </div>
+                <!-- <div v-if="showDS" class="md-layout-item md-small-size-100 md-size-100">
+
                     <label>Số tài khoản</label>
                     <md-input @change="getSoTK" required list="ds-thietLap"></md-input>
                     <datalist id="ds-thietLap">
@@ -25,8 +32,8 @@
                     </datalist>
                     </md-field>
                     <span class="help-block" ><h3>{{ messageSoTK }}</h3></span>
-                </div>
-                <div v-else class="md-layout-item md-small-size-100 md-size-100">
+                </div> -->
+                <div class="md-layout-item md-small-size-100 md-size-100">
                   <md-field>
                     <label>Số tài khoản</label>
                     <md-input required v-model="soTK" type="text"></md-input>
@@ -67,6 +74,7 @@ export default {
   data() {
     return {
       soTK: "",
+      nganHang: "",
       noiDung: "",
       giaoDich: null,
       erro: false,
@@ -75,47 +83,50 @@ export default {
       messageSoTK: "",
       selected: "1",
       showDS: true,
-      title: "Chuyển khoản nội bộ",
-      dsThietLap:[]
+      title: "Chuyển khoản liên ngân hàng",
+      dsDoiTac:[]
     };
   },
 
   mounted() {
-    this.fetchThietLap();
+    this.fetchDoiTac();
   },
 
-  watch: {
-    selected: function(){
-      this.messageSoTK = "";
-      if(this.selected == "1"){
-        this.showDS = true;
-      }
-      else if (this.selected == "2"){
-        this.showDS = false;
-      }
-    }
-  },
+//   watch: {
+//     selected: function(){
+//       this.messageSoTK = "";
+//       if(this.selected == "1"){
+//         this.showDS = true;
+//       }
+//       else if (this.selected == "2"){
+//         this.showDS = false;
+//       }
+//     }
+//   },
 
   methods: {
     ...mapActions(["getToken"]),
-    ...mapMutations(["setChuyenKhoan"]),
+    ...mapMutations(["setChuyenKhoanLienNH"]),
 
     async checkThongTin(){
-      const soTK = this.soTK;
+      const data = {
+        soTK : this.soTK,
+        partnerCode : this.nganHang.partnerCode
+      }
       const accessToken = await this.getToken();
       axios({
-        method: "get",
-        url: `/taikhoannganhang/${soTK}`,
+        method: "post",
+        url: `/hkl/taikhoan/`,
         headers:{
           "x-access-token" : accessToken
-        }
-      }).then(res => {     
+        },
+        data: data
+      }).then(res => {  
         if(res.status === 204){
-           console.log(res.status);
           this.messageSoTK = "Không tồn tại tài khoản nhận này";
         }
         else if (res.status === 200) {
-          this.guiMaOTP(res.data.id, res.data.hoTen);
+          this.guiMaOTP(res.data.taiKhoan.hoTen);
         }
         
       }).catch(err => {
@@ -130,18 +141,18 @@ export default {
       })
     },
 
-    async guiMaOTP(userIdNhan, hoTen){
+    async guiMaOTP(hoTen){
       const accessToken = await this.getToken();
       
-
       const data = {
-        userIdNhan: userIdNhan,
-        soTK: this.soTK,
+        soTKNhan: this.soTK,
         hoTen: hoTen,
         giaoDich: this.giaoDich,
-        noiDung: this.noiDung
+        noiDung: this.noiDung,
+        partnerCode : this.nganHang.partnerCode,
+        nganHang: this.nganHang.tenNganHang
       }
-
+      
       axios({
         method: "get",
         url: "/hkl/chuyenkhoan/getotp",
@@ -149,9 +160,9 @@ export default {
           "x-access-token" : accessToken
         }
       });
-
-      this.setChuyenKhoan(data);
-      this.$router.push({path: 'xacnhanchuyenkhoan'});
+      
+      this.setChuyenKhoanLienNH(data);
+      this.$router.push({path: 'xacnhancklnh'});
     },
 
     getSoTK(e){
@@ -161,29 +172,44 @@ export default {
       }
     },
 
-    async fetchThietLap(){
-      // this.dsThietLap = [
-      //   {soTK: "NH1000", hoTen: "Nguyễn Văn A"},
-      //   {soTK: "NH1001", hoTen: "Nguyễn Văn C"},
-      //   {soTK: "NH1002", hoTen: "Nguyễn Văn B"}
-      // ]
-
+    async fetchDoiTac(){
       const accessToken = await this.getToken();
-
       axios({
         method: "get",
-        url: "/thietlapnguoinhan/",
+        url: "/doisoat/all",
         headers:{
           "x-access-token" : accessToken
         }
       }).then(res => {
-        this.dsThietLap = res.data
+        this.dsDoiTac = res.data.nganHang;
       }).catch(err => {
-        // this.message = "Có lỗi xảy ra. Vui lòng thử lại sau";
-        // this.erro = true;
-
+        
       });
-    },
+    }
+
+    // async fetchThietLap(){
+    //   // this.dsThietLap = [
+    //   //   {soTK: "NH1000", hoTen: "Nguyễn Văn A"},
+    //   //   {soTK: "NH1001", hoTen: "Nguyễn Văn C"},
+    //   //   {soTK: "NH1002", hoTen: "Nguyễn Văn B"}
+    //   // ]
+
+    //   const accessToken = await this.getToken();
+
+    //   axios({
+    //     method: "get",
+    //     url: "/thietlapnguoinhan/",
+    //     headers:{
+    //       "x-access-token" : accessToken
+    //     }
+    //   }).then(res => {
+    //     this.dsThietLap = res.data
+    //   }).catch(err => {
+    //     // this.message = "Có lỗi xảy ra. Vui lòng thử lại sau";
+    //     // this.erro = true;
+
+    //   });
+    // },
 
     // chuyenKhoan(){
     //   const accessToken = await this.getToken();
