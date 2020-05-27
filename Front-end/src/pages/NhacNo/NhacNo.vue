@@ -76,6 +76,7 @@ import { mapActions, mapGetters, mapMutations } from "vuex";
 import EventSource from "eventsource";
 
 export default {
+    props: ['showMS'],
     data() {
         return {
             title: 'Nhắc nợ',
@@ -101,6 +102,10 @@ export default {
                 masked: false
             }
         };
+    },
+    mounted() {
+        console.log(this.showMS);
+        this.show = this.showMS;
     },
     computed: {
         ...mapGetters(["dsNhacNo", "totalRows"])

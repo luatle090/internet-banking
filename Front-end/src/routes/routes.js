@@ -79,7 +79,8 @@ const routes = [
       {
         path: "nhacno",
         name: "Nhắc nợ",
-        component: () => import("../pages/NhacNo/NhacNo")
+        component: () => import("../pages/NhacNo/NhacNo"),
+        props: true
       },
       {
         path: "taonhacno",

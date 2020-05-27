@@ -35,7 +35,7 @@ router.get('/', async (req, res, next) => {
     else{
       nhacNoArray = await nhacNoModel.getNhacNoByIdTaiKhoan(userId, tinhTrang, limit, offset);
     }
-    
+    console.log(nhacNoArray[0]);
     if(nhacNoArray[0].length === 0 || nhacNoArray[1].length === 0){
       res.status(204).end();
     }
@@ -123,6 +123,11 @@ router.delete('/:id', async (req, res) => {
     const rs = await nhacNoModel.del(req.params.id);
     console.log(rs);
     if(rs.affectedRows > 0){
+      const nhacNoDTO = {
+        
+      };
+
+      events.publishNhacNoDel(nhacNoDTO);
       res.json({
         affectedRows: rs.affectedRows
       }).end();
@@ -166,6 +171,43 @@ router.delete('/:id', async (req, res) => {
 //   res.json(rs);
 // })
 
+
+router.post('/nhanvien', async (req, res) => {
+  if (!req.body.soTK) {
+    throw createError(400, 'Invalid soTK.');
+  }
+  if (isNaN(req.query.limit)) {
+    throw createError(400, 'Invalid limit.');
+  }
+  if (isNaN(req.query.offset)) {
+    throw createError(400, 'Invalid offset.');
+  }
+
+  const taiKhoanRS = await taiKhoanModel.loadBySoTK(req.body.soTK);
+  if(taiKhoanRS.length === 0){
+    throw createError(204, 'Not found');
+  }
+  const userId = taiKhoanRS[0].id;
+  const limit = req.query.limit || 10;
+  const offset = req.query.limit * req.query.offset || 0;
+
+  try {
+    const [lichSuNhanGuiNo,totalItems] = await nhacNoModel.getGiaoDichNhacNoByIdTaiKhoan(userId,null, parseInt(limit), offset);
+    if (lichSuNhanGuiNo.length === 0 || totalItems.length === 0) {
+      res.status(204).end();
+    } else {
+      const result = {
+        totalItems: totalItems[0].total,
+        listResult: lichSuNhanGuiNo
+      }
+      res.json(result);
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500);
+    res.end('View error log on console.');
+  }
+})
 
 router.post('/nhanvien', async (req, res) => {
   if (!req.body.soTK) {
