@@ -83,6 +83,23 @@ module.exports = {
     return [await db.select(sql, params), await db.select(countSql, [idTaiKhoan])];
   },
 
+  getGiaoDichThanhToanNo30Ngay: async (idTaiKhoan) => {
+    let params = [];
+    let sql = `select DATE_FORMAT(ngay, "%d/%m/%Y") as ngayCK, idTaiKhoanNHGui, soTaiKhoanNhan,  
+                  giaoDich, noiDungChuyen, nganHangNhan, kh.hoTen
+                  FROM lichsuchuyenkhoan ls
+                  INNER JOIN taikhoannganhang tk ON tk.id = ls.idTaiKhoanNHGui
+                  INNER JOIN khachhang kh ON tk.idKhachHang = kh.id 
+                  WHERE ls.idTaiKhoanNHGui = ${idTaiKhoan} and ls.idNhacNo is not null
+                  AND Date(ngay) BETWEEN Date(DATE_SUB(NOW(), INTERVAL 30 DAY)) AND Date(Now())`;
+
+    const countSql = `select count(id) as total from lichsuchuyenkhoan 
+                      where idTaiKhoanNHGui = ${idTaiKhoan} and ls.idNhacNo is not null
+                      AND Date(ngay) BETWEEN Date(DATE_SUB(NOW(), INTERVAL 30 DAY)) AND Date(Now())`;
+    
+    return [await db.load(sql), await db.load(countSql)];
+  },
+
   add: entity => db.add(entity, 'nhacno'),
   del: id => db.del({ id: id }, 'nhacno'),
   patch: (id, entity) => {

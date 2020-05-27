@@ -41,7 +41,7 @@
             <sidebar-link to="/chuyenkhoannoibo">
               <p>chuyển khoản nội bộ</p>
             </sidebar-link>
-            <sidebar-link to="/">
+            <sidebar-link to="/cklnh">
               <p>chuyển khoản liên ngân hàng</p>
             </sidebar-link>
           </b-collapse>

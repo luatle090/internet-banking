@@ -67,9 +67,20 @@ const routes = [
         component: () => import("../pages/chuyenKhoan/xacNhanChuyenKhoanNoiBo")
       },
       {
+        path: "cklnh",
+        name: "Chuyển khoản liên ngân hàng",
+        component: () => import("../pages/ChuyenKhoan/chuyenKhoanLienNganHang")
+      },
+      {
+        path: "xacnhancklnh",
+        name: "Xác nhận chuyển khoản liên ngân hàng",
+        component: () => import("../pages/ChuyenKhoan/xacNhanChuyenKhoanLienNganHang")
+      },
+      {
         path: "nhacno",
         name: "Nhắc nợ",
-        component: () => import("../pages/NhacNo/NhacNo")
+        component: () => import("../pages/NhacNo/NhacNo"),
+        props: true
       },
       {
         path: "taonhacno",

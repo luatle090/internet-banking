@@ -245,7 +245,7 @@ export default {
             const accessToken = await await this.getToken();
                 axios({
                     method: "get",
-                    url: "/chuyenkhoan/getotp",
+                    url: "/hkl/chuyenkhoan/getotp",
                     headers:{
                     "x-access-token" : accessToken
                     }
@@ -280,7 +280,7 @@ export default {
             const accessToken = await this.getToken();
             axios({
                 method: "post",
-                url: "/chuyenkhoan/thanhtoanno",
+                url: "/hkl/chuyenkhoan/thanhtoanno",
                 headers:{
                     "x-access-token" : accessToken
                 },

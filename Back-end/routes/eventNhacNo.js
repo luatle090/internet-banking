@@ -38,16 +38,27 @@ var subscribeEvent = (req, res, event) => {
 // event pub-sub
 
 var NHACNO_ADDED = 'NHACNO_ADDED';
+var NHACNO_DEL = 'NHACNO_DEL';
 
 var subscribeNhacNoAdded = (req, res) => {
     subscribeEvent(req, res, NHACNO_ADDED);
+}
+
+var subscribeNhacNoDel = (req, res) => {
+    subscribeEvent(req, res, NHACNO_DEL);
 }
 
 var publishNhacNoAdded = nhacNoObj => {
     emitter.emit(NHACNO_ADDED, nhacNoObj);
 }
 
+var publishNhacNoDel = nhacNoObj => {
+    emitter.emit(NHACNO_DEL, nhacNoObj);
+}
+
 module.exports = {
     subscribeNhacNoAdded,
-    publishNhacNoAdded
+    publishNhacNoAdded,
+    subscribeNhacNoDel,
+    publishNhacNoDel
 }

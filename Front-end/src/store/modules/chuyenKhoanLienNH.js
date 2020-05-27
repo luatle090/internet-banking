@@ -1,29 +1,30 @@
 import axios from "axios";
 
 const state = {
-    chuyenKhoan:{
-        // userIdNhan: null,
-        // soTK: "",
+    chuyenKhoanLienNH:{
+        // soTKNhan: "",
         // hoTen: "",
         // giaoDich: null,
         // noiDung: ""
+        // partnerCode: ""
+        // nganHang: ""
     }
   };
   
 const getters = {
-    infoChuyenKhoan: state => state.chuyenKhoan
+    infoChuyenKhoanLienNH: state => state.chuyenKhoanLienNH
      
 };
 
 const actions = {
-    async impChuyenKhoan({ getters, dispatch }, otp){
+    async impChuyenKhoanLienNH({ getters, dispatch }, otp){
         const accessToken = await dispatch('getToken', null, { root: true });
-        let data = getters['infoChuyenKhoan'];
+        let data = getters['infoChuyenKhoanLienNH'];
         data.token = otp;
         //console.log(data);
         const res = await axios({
             method: "post",
-            url: "/hkl/chuyenkhoan/noibo",
+            url: "/hkl/chuyenkhoan/trutien",
             headers:{
               "x-access-token" : accessToken
             },
@@ -34,7 +35,7 @@ const actions = {
 };
 
 const mutations = {
-    setChuyenKhoan: (state, chuyenKhoan) => (state.chuyenKhoan = chuyenKhoan)
+    setChuyenKhoanLienNH: (state, chuyenKhoan) => (state.chuyenKhoanLienNH = chuyenKhoan)
 };
 
 export default{

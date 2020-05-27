@@ -119,8 +119,8 @@ export default {
         this.daChuyenXong = true;
         if(res.status === 201){
           this.show = false;
-          show = true;
-          this.$router.replace({name:'nhacno', params:{show}});
+          const showMS = true;
+          this.$router.replace({path:'nhacno', params:{showMS}});
         }
         else if (res.status === 204){
           this.message = "Lỗi tạo nhắc nợ";

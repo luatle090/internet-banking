@@ -1,4 +1,5 @@
 import axios from "axios";
+import Vue from 'vue';
 
 const state = {
     nhacNoList:[],
@@ -72,6 +73,7 @@ const actions = {
         }
     },
     async addHeadNhacNoList({ commit }, nhacNo){
+
         commit('addHeadNhacNoList', nhacNo);
         commit('incrementRows');
     }
@@ -81,8 +83,18 @@ const mutations = {
     setNhacNoList: (state, nhacNoList) => (state.nhacNoList = nhacNoList),
     setTotalRows: (state, totalRows) => (state.rows = totalRows),
     incrementRows: (state) => (state.rows++),
-    addTailNhacNoList: (state, nhacNo) => state.nhacNoList.push(nhacNo),
-    addHeadNhacNoList: (state, nhacNo) => state.nhacNoList.unshift(nhacNo),
+    addTailNhacNoList: (state, nhacNo) => {
+        if(typeof state.nhacNoList === "undefined"){
+            state.nhacNoList = [];
+        }
+        state.nhacNoList.push(nhacNo);
+    },
+    addHeadNhacNoList: (state, nhacNo) => { 
+        if(typeof state.nhacNoList === "undefined"){
+            state.nhacNoList = [];
+        }
+        state.nhacNoList.unshift(nhacNo); 
+    },
     removeNhacNoList: (state, id) => (state.nhacNoList = state.nhacNoList.filter(nhacNo => nhacNo.id != id)),
 };
 

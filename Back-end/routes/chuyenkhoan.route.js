@@ -45,7 +45,9 @@ router.post('/noibo', verifyAccessToken, async (req, res, next) => {
   try{
     const rowsTaiKhoan = await taiKhoanModel.getAccValidById(userId);
     if(rowsTaiKhoan.length === 0){
-      throw createError(403, 'Tai khoan da bi khoa');
+      return res.status(403).json({
+        message: "Tai khoan da bi khoa"
+      }).end();
     }
     const rows = await chuyenKhoanModel.chuyenKhoanNoiBo(userId, req.body, ngayCK);
     var status = rows[1][0].status;
@@ -93,7 +95,7 @@ router.get('/getotp', verifyAccessToken, async (req, res) => {
       message: info.accepted
     });
   } catch (error) {
-    logger.error(err);
+    logger.error(error);
     res.status(500);
     res.end('View error log on console.');
   }
@@ -327,6 +329,7 @@ router.post('/trutien', verifyAccessToken, async (req, res, next) => {
   //await new Promise(resolve => setTimeout(resolve, 3000));
   
   const userId = res.locals.token.userId;
+  const username = res.locals.token.username;
 
   if (!req.body.soTKNhan) {
     throw createError(400, 'Invalid soTKNhan.');
@@ -341,6 +344,19 @@ router.post('/trutien', verifyAccessToken, async (req, res, next) => {
     throw createError(400, 'Invalid partnerCode.');
   }
 
+  if (!req.body.token) {
+    return res.status(401).json({ message: "otp is required" });
+  }
+
+  //check OTP
+  if(!mailer.checkOTP(username, req.body.token)){
+    return res.status(404).json({message: "wrong token"});
+  }
+  
+  if(req.body.giaoDich <=0 ){
+    throw createError(400, 'Giao dich khong hop le');
+  }
+  
   //kiểm tra giao dịch
   const rowsTaiKhoan = await taiKhoanModel.getAccValidById(userId);
   if(rowsTaiKhoan.length === 0){
@@ -366,7 +382,7 @@ router.post('/trutien', verifyAccessToken, async (req, res, next) => {
   }
 
   try{
-    const url = rowsDoiTac[0].api;
+    let url = rowsDoiTac[0].api;
     let checkSum = "";
     let signature = "";
     var body;
@@ -390,7 +406,7 @@ router.post('/trutien', verifyAccessToken, async (req, res, next) => {
         NgayGio: date //Định dạng ngày giờ: YYYY-MM-DD HH:mm:ss
       };
       
-      const c = code + date;
+      const c = "HKL" + date;
       const hash = bcrypt.hashSync(c, 8);
       body = {
         code: "HKL",
@@ -399,6 +415,7 @@ router.post('/trutien', verifyAccessToken, async (req, res, next) => {
         signature: chuKyBase64,
         data: data
       }
+      url = url + "/api/plus";
     }
     else{
       checkSum = await rsaApi.sign(entity);

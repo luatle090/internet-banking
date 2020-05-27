@@ -13,25 +13,31 @@
                 <div class="md-layout-item md-small-size-100 md-size-100">
                   <md-field>
                     <label>Số tài khoản</label>
-                    <md-input required v-bind:value="infoChuyenKhoan.soTK" type="text" disabled></md-input>
+                    <md-input required v-bind:value="infoChuyenKhoanLienNH.soTKNhan" type="text" disabled></md-input>
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100 md-size-100">
                   <md-field>
                     <label>Họ tên</label>
-                    <md-input required v-bind:value="infoChuyenKhoan.hoTen" type="text" disabled></md-input>
+                    <md-input required v-bind:value="infoChuyenKhoanLienNH.hoTen" type="text" disabled></md-input>
+                  </md-field>
+                </div>
+                <div class="md-layout-item md-small-size-100 md-size-100">
+                  <md-field>
+                    <label>Ngân hàng</label>
+                    <md-input required v-bind:value="infoChuyenKhoanLienNH.nganHang" type="text" disabled></md-input>
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100 md-size-100">
                   <md-field>
                     <label>Số tiền chuyển khoản</label>
-                    <md-input required v-bind:value="infoChuyenKhoan.giaoDich" disabled type="text"></md-input>
+                    <md-input required v-bind:value="infoChuyenKhoanLienNH.giaoDich" disabled type="text"></md-input>
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100 md-size-100">
                   <md-field>
                     <label>Nội dung</label>
-                    <md-input :value="infoChuyenKhoan.noiDung" type="text" disabled></md-input>
+                    <md-input :value="infoChuyenKhoanLienNH.noiDung" type="text" disabled></md-input>
                   </md-field>
                 </div>
                 <div v-show="!daChuyenXong" class="md-layout-item md-small-size-45">
@@ -71,32 +77,33 @@ export default {
       otp: null,
       daChuyenXong: false,
       message: "",
-      title: "Xác nhận thông tin Chuyển khoản nội bộ"
+      title: "Xác nhận thông tin Chuyển khoản liên ngân hàng"
     };
   },
 
-  computed: mapGetters(["infoChuyenKhoan"]),
+  computed: mapGetters(["infoChuyenKhoanLienNH"]),
 
   methods: {
-    ...mapActions(["impChuyenKhoan", "getToken"]),
-    ...mapMutations(["setChuyenKhoan"]),
+    ...mapActions(["impChuyenKhoanLienNH", "getToken"]),
+    ...mapMutations(["setChuyenKhoanLienNH"]),
 
     huyGiaoDich(){
       const info = {
-        userIdNhan: null,
-        soTK: "",
+        soTKNhan: "",
+        partnerCode: "",
+        nganHang: "",
         hoTen: "",
         giaoDich: null,
         noiDung: ""
       }
-      this.setChuyenKhoan(info);
+      this.setChuyenKhoanLienNH(info);
 
-      this.$router.push({path: 'chuyenkhoannoibo'});
+      this.$router.push({path: 'cklnh'});
     },
 
     async chuyenKhoan(){
       this.show = true;
-      this.impChuyenKhoan(this.otp).then(res => {
+      this.impChuyenKhoanLienNH(this.otp).then(res => {
         this.daChuyenXong = true;
         if(res.status === 201){
           this.message = "Chuyển khoản thành công";
@@ -104,7 +111,7 @@ export default {
           this.erro = false;
         }
         else if (res.status === 204){
-          this.message = "Không đủ tiền hoặc người nhận không tồn tại";
+          this.message = "Tài khoản chuyển khoản đã bị đóng";
           this.erro = true;
         }
       }).catch( err => {
@@ -113,11 +120,17 @@ export default {
           this.erro = true;
         }
         else if(err.response.status === 404){
-          this.message = "Mã OTP sai";
-          this.erro = true;
+          if(err.response.data.message == "wrong token"){
+            this.message = "Mã OTP sai";
+            this.erro = true;
+          }
+          else{
+            this.message = "Ngân hàng không tồn tại";
+            this.erro = true;
+          }
         }
-        else if(err.response.status === 403){
-          this.message = "Tài khoản chuyển khoản của bạn đã bị đóng"
+        else if (err.response.status === 406){
+          this.message = "Số tiền của bạn không đủ để thực hiện";
           this.erro = true;
         }
         else if (err.response.status === 409){

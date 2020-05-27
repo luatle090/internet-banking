@@ -31,6 +31,11 @@ module.exports = {
     return db.select(sql, [code]);
   },
 
+  getAllDoiTac : () => {
+    const sql = `select * from doitac`;
+    return db.load(sql);
+  },
+
   add: entity => db.add(entity, 'doitac'),
   del: id => db.del({ id: id }, 'doitac'),
   patch: (id, entity) => {
