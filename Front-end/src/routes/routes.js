@@ -49,7 +49,7 @@ const routes = [
       {
         path: "lichsuchuyenkhoan",
         name: "Lịch Sử Chuyển Khoản",
-        component: () => import("../pages/customer/lichSuChuyenKhoan")
+        component: () => import("../pages/customer/lichsuchuyenkhoan")
       },
       {
         path: "lichsunhantien",
@@ -59,12 +59,12 @@ const routes = [
       {
         path: "chuyenkhoannoibo",
         name: "Chuyển khoản",
-        component: () => import("../pages/ChuyenKhoan/chuyenKhoanNoiBo")
+        component: () => import("../pages/chuyenKhoan/chuyenKhoanNoiBo")
       },
       {
         path: "xacnhanchuyenkhoan",
         name: "Xác nhận Chuyển khoản",
-        component: () => import("../pages/ChuyenKhoan/xacNhanChuyenKhoanNoiBo")
+        component: () => import("../pages/chuyenKhoan/xacNhanChuyenKhoanNoiBo")
       },
       {
         path: "cklnh",

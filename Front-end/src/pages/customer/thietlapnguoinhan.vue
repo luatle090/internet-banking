@@ -71,7 +71,7 @@
                             </template>
                             
                             <template v-slot:cell(nganHang)="data">
-                                {{data.item.nganHang || "nội bộ"}}
+                                {{data.item.nganHang || "HKL Bank"}}
                             </template>
 
                             </b-table>
