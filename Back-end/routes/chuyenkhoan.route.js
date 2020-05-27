@@ -219,11 +219,13 @@ router.post('/noptien', async (req, res, next) => {
   let checksum = req.body.checksum;
   let signature = req.body.signature;
   const ngayCK = req.body.timestamp;
-
+  console.log(ngayCK);
   //check timestamp
   let date = new Date();
+  console.log(ngayCK > Date.now());
+  console.log(ngayCK < date.getTime());
   date.setMinutes(date.getMinutes() - otps.API.MINUTES);
-  if(ngayCK > Date.now() || ngayCK < date.getTime()){
+  if(ngayCK < date.getTime()){
     throw createError(403, 'Thoi gian het han');
   }
 
@@ -255,6 +257,7 @@ router.post('/noptien', async (req, res, next) => {
   try{
     //check checksum
     logger.info('check checksum');
+    console.log(hashDigest.toString(CryptoJS.enc.Hex));
     if(checksum == hashDigest.toString(CryptoJS.enc.Hex)) {
 
       // let chuKyGia = await pgpApi.sign("nhom18");
@@ -268,7 +271,7 @@ router.post('/noptien', async (req, res, next) => {
       let wordArray2 = CryptoJS.enc.Base64.parse(signature);
       signature = CryptoJS.enc.Utf8.stringify(wordArray2);
       
-      //console.log(signatureGia);
+      console.log(signature);
       
       //verify chữ ký
       const valid = await pgpApi.verify(signature);
@@ -285,7 +288,7 @@ router.post('/noptien', async (req, res, next) => {
         if(status === 0){
 
           let signatureRes = await pgpApi.sign("NhanTien");
-          const wordArray = CryptoJS.enc.Utf8.parse(chuKyGia);
+          const wordArray = CryptoJS.enc.Utf8.parse(signatureRes);
           signatureRes = CryptoJS.enc.Base64.stringify(wordArray);
           logger.info("Giao dich thanh cong");
           res.status(201).json({
@@ -425,9 +428,13 @@ router.post('/trutien', verifyAccessToken, async (req, res, next) => {
     }
 
     //call API
+    console.log(url);
     const resAPI = await axios({
       method: 'post',
       url: url,
+      headers: {
+        Authorization: "Basic d2ViX2FwcDpjaGFuZ2VpdA=="
+      },
       data: body,
       validateStatus: function (status) {
         return status >= 200 && status < 500;

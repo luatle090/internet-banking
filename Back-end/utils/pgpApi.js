@@ -15,7 +15,7 @@ async function sign(text){
     //const text = JSON.stringify(objCheckSum);
 
     const { data: cleartext } = await openpgp.sign({
-        message: openpgp.message.fromText(text), // CleartextMessage or Message object
+        message: openpgp.cleartext.fromText(text), // CleartextMessage or Message object
         privateKeys: [privateKey]                             // for signing
     });
 
@@ -32,7 +32,7 @@ async function verify(signature){
     //const text = JSON.stringify(obj)
 
     const verified = await openpgp.verify({
-        message: await openpgp.message.readArmored(signature),
+        message: await openpgp.cleartext.readArmored(signature),
         publicKeys: (await openpgp.key.readArmored(publicKeyArmored)).keys, // for verification
     });
 

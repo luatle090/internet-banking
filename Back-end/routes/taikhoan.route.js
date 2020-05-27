@@ -132,6 +132,7 @@ router.post('/', verifyAccessToken, async (req, res, next) => {
 
     try {
         const url = rowsDoiTac[0].api+"/api/information";
+        console.log(url);
         const resAPI = await axios({
             method: 'post',
             url: url,
