@@ -17,12 +17,23 @@
                   </b-form-group>
                 </div>
                 <div v-if="showDS" class="md-layout-item md-small-size-100 md-size-100">
-                  <md-field>
+                  <!-- <md-field>
                     <label>Số tài khoản</label>
                     <md-input @change="getSoTK" required list="ds-thietLap"></md-input>
                     <datalist id="ds-thietLap">
                       <option v-for="thietLap in dsThietLap" :value="thietLap.soTK" :key="thietLap.soTK" ></option>
                     </datalist>
+                    </md-field> -->
+                    <md-field>
+                      <label >Số tài khoản</label>
+                      <md-select v-model="soTK">
+                        <md-option v-for="thietLap in dsThietLap" 
+                          :value="thietLap.soTK" 
+                          :key="thietLap.id"
+                        >
+                          {{ thietLap.tenGoiNho }}
+                        </md-option>
+                      </md-select>
                     </md-field>
                     <span class="help-block" ><h3>{{ messageSoTK }}</h3></span>
                 </div>

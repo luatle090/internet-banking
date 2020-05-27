@@ -12,7 +12,7 @@ module.exports = {
   },
 
   getInfoThiepLapByUserId: id => {
-    const sql = `SELECT tk.soTK, kh.hoTen 
+    const sql = `SELECT tl.id, tl.tenGoiNho, tk.soTK, kh.hoTen 
                 FROM thietlapnguoinhan tl INNER JOIN taikhoannganhang tk
                 ON tl.soTaiKhoanNhan = tk.soTK
                 INNER JOIN khachhang kh ON kh.id = tk.idKhachHang
