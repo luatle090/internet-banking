@@ -97,9 +97,9 @@ router.post('/thongtin', async (req, res, next) => {
 /**
  * API Lấy thông tin tai khoan cua ngan hang doi tac
  * 
- * need testing
+ * 
  */
-router.post('/', async (req, res, next) => {
+router.post('/', verifyAccessToken, async (req, res, next) => {
     if (!req.body.soTK) {
         throw createError(400, 'Invalid soTK.');
     }
@@ -119,30 +119,42 @@ router.post('/', async (req, res, next) => {
       throw createError(404, 'Ngan hang doi tac not found');  
     }
 
+    //gen hash
+    const c = "HKL" + date;
+    const checksum = bcrypt.hashSync(c, 8);
+
     const data = {
         SoTaiKhoan: req.body.soTK,
         time: date,
-        code: partnerCode,
+        code: "HKL",
+        hash: checksum
     }
 
-    //gen hash
-    const c = code + now;
-    const checksum = bcrypt.hashSync(c, 8);
-
     try {
-        data.hash = checksum;
         const url = rowsDoiTac[0].api+"/api/information";
-        const resAPI = await axios.post(url, data);
+        const resAPI = await axios({
+            method: 'post',
+            url: url,
+            data: data,
+            validateStatus: function (status) {
+              return status >= 200 && status < 500;
+            }
+        });
         if(resAPI.status === 200){
             const dataResAPI = {
-                hoTen: resAPI.data.HoVaTen  
+                hoTen: resAPI.data[0].HoVaTen  
             }
             res.status(200).json({
-                taikhoan: dataResAPI
+                taiKhoan: dataResAPI
             }).end();
         }
+        
+        else if(resAPI.status === 404){
+            logger.info("Khong co tai khoan");
+            res.status(204).end();
+        }
       } catch (error) {
-        logger.error(err);
+        logger.error(error);
         res.status(500);
         res.end('View error log on console.');
       }

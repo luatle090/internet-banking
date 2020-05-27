@@ -36,5 +36,23 @@ router.get('/', async (req, res) => {
   }
 })
 
+router.get('/all', async (req, res) => {
+
+  try {
+    const rows = await doitacModel.getAllDoiTac();
+    if (rows.length === 0) {
+      res.status(204).end();
+    } else {
+      const nganHang = {
+        nganHang: rows
+      }
+      res.json(nganHang);
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500);
+    res.end('View error log on console.');
+  }
+})
 
 module.exports = router;

@@ -29,7 +29,7 @@
                             </template>
                             <template v-slot:cell(actions)="row">
                                 <div class="md-table-cell-container">
-                                    <button title="Chi tiết" type="button" @click="detailedNhacNo(rows.item.id)" 
+                                    <button title="Chi tiết" type="button" @click="detailedNhacNo(row.item.id)" 
                                         class="md-button md-just-icon md-theme-default md-info md-simple"
                                     >
                                         <div class="md-ripple"> <div class="md-button-content">

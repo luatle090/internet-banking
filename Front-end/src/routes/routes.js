@@ -49,7 +49,7 @@ const routes = [
       {
         path: "lichsuchuyenkhoan",
         name: "Lịch Sử Chuyển Khoản",
-        component: () => import("../pages/customer/lichsuchuyenkhoan")
+        component: () => import("../pages/customer/lichSuChuyenKhoan")
       },
       {
         path: "lichsunhantien",
@@ -59,12 +59,22 @@ const routes = [
       {
         path: "chuyenkhoannoibo",
         name: "Chuyển khoản",
-        component: () => import("../pages/chuyenKhoan/chuyenKhoanNoiBo")
+        component: () => import("../pages/ChuyenKhoan/chuyenKhoanNoiBo")
       },
       {
         path: "xacnhanchuyenkhoan",
         name: "Xác nhận Chuyển khoản",
-        component: () => import("../pages/chuyenKhoan/xacNhanChuyenKhoanNoiBo")
+        component: () => import("../pages/ChuyenKhoan/xacNhanChuyenKhoanNoiBo")
+      },
+      {
+        path: "cklnh",
+        name: "Chuyển khoản liên ngân hàng",
+        component: () => import("../pages/ChuyenKhoan/chuyenKhoanLienNganHang")
+      },
+      {
+        path: "xacnhancklnh",
+        name: "Xác nhận chuyển khoản liên ngân hàng",
+        component: () => import("../pages/ChuyenKhoan/xacNhanChuyenKhoanLienNganHang")
       },
       {
         path: "nhacno",
@@ -74,13 +84,18 @@ const routes = [
       {
         path: "taonhacno",
         name: "Tạo Nhắc nợ",
-        component: () => import("../pages/NhacNo/TaoNo")
+        component: () => import("../pages/NhacNo/TaoNhacNo")
       },
       {
         path: "thietlapnguoinhan",
         name: "Thiết lập người nhận",
         component: () => import("../pages/customer/thietlapnguoinhan")
       },
+      {
+        path: "no",
+        name: "Xem nợ",
+        component: () => import("../pages/No/XemNo")
+      }
     ],
   },
   {
