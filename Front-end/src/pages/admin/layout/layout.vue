@@ -18,7 +18,7 @@
         <md-icon>content_paste</md-icon>
         <p>lịch sử giao dịch</p>
       </sidebar-link>
-      <sidebar-link to="/admin/doisoat">
+      <sidebar-link  v-if="this.isNhanVien===false" to="/admin/doisoat">
         <md-icon>content_paste</md-icon>
         <p>Đối soát</p>
       </sidebar-link>

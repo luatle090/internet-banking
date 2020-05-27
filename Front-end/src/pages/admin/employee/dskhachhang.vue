@@ -368,7 +368,7 @@ export default {
             this.showDialog = false;
             this.$swal({
               icon: "success",
-              text: "thêm thành công"
+              text: "thêm thành công mật khẩu mặc định 123456"
             })
           });
         }
