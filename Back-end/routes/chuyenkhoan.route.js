@@ -45,7 +45,9 @@ router.post('/noibo', verifyAccessToken, async (req, res, next) => {
   try{
     const rowsTaiKhoan = await taiKhoanModel.getAccValidById(userId);
     if(rowsTaiKhoan.length === 0){
-      throw createError(403, 'Tai khoan da bi khoa');
+      return res.status(403).json({
+        message: "Tai khoan da bi khoa"
+      }).end();
     }
     const rows = await chuyenKhoanModel.chuyenKhoanNoiBo(userId, req.body, ngayCK);
     var status = rows[1][0].status;

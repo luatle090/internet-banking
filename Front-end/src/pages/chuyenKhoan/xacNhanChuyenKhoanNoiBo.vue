@@ -116,6 +116,10 @@ export default {
           this.message = "Mã OTP sai";
           this.erro = true;
         }
+        else if(err.response.status === 403){
+          this.message = "Tài khoản chuyển khoản của bạn đã bị đóng"
+          this.erro = true;
+        }
         else if (err.response.status === 409){
           this.message = "Người gửi và người nhận là một. Vui lòng chọn số tài khoản khác";
           this.erro = true;
