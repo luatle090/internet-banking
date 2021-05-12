@@ -24,7 +24,7 @@
     "morgan": "^1.9.1",
     "mysql": "^2.17.1",
     "node-rsa": "^1.0.7",
-    "nodemailer": "^6.4.2",
+    "nodemailer": "^6.4.16",
     "openpgp": "^4.8.1",
     "otplib": "^12.0.1",
     "rand-token": "^0.4.0",
