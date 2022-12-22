@@ -15,7 +15,7 @@
     "core-js": "3.4.3",
     "eventsource": "^1.0.7",
     "google-maps": "3.3.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "v-money": "^0.8.1",
     "vue": "2.6.10",
     "vue-clickaway": "2.2.2",
